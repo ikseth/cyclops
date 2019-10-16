@@ -1,0 +1,15 @@
+
+====== Procedure Status (env) ======
+
+|< 100% >|
+|  @#8FD8FF:CODE  |  @#8FD8FF: DESCRIPTION  |  @#8FD8FF: PRIORITY  |  @#8FD8FF: HOST  |  @#8FD8FF: SENSORS  |  @#8FD8FF: WIKI FILE  |  @#8FD8FF: WIKI INDEX  |  @#8FD8FF: WIKI VER  |  @#8FD8FF: OPERATIVE  |  @#8FD8FF: VERIFICATED  |
+|  HRBLAV0004  |  B7xx Blade Fails  |  50  |  ALL  |  blades  |  hrblav0004.txt  |  @#A5DF00: YES (1)  |  0.1  |  @#EAFFD5: SI  |  @#EAFFD5: SI  |
+|  HRCMAV0001  |  Water Chassis Status alert  |  50  |  ALL  |  state  |  @#FA5858: NO EXIST  |  @#A5DF00: YES (1)  |    |    |    |
+|  HRCMAV0002  |  DBB Fan Alert  |  50  |  ALL  |  dbb fans  |  @#FA5858: NO EXIST  |  @#A5DF00: YES (1)  |    |    |    |
+|  HRCMAV0003  |  @#FA5858: NONE  |  20  |  ALL  |  state  |  @#FA5858: NO EXIST  |  @#FA5858: NO  |    |    |    |
+|  HRHYAV0001  |  HYC Status alert  |  50  |  ALL,ALL  |  rack,hyc  |  @#FA5858: NO EXIST  |  @#A5DF00: YES (1)  |    |    |    |
+|  HRHYAV0003  |  HYC1 Down, Refrigeration alert  |  50  |  ALL  |  hyc1 Pump Pr,hyc1 Pri Ap,hyc1 ByP Ap  |  @#FA5858: NO EXIST  |  @#A5DF00: YES (1)  |    |    |    |
+|  HRHYAV0004  |  HYC2 Down, Refrigeration alert  |  50  |  ALL  |  hyc2 Pump Pr,hyc2 Pri Ap,hyc2 ByP Ap  |  @#FA5858: NO EXIST  |  @#A5DF00: YES (1)  |    |    |    |
+|  HRHYAV0005  |  HYC Leak alert  |  50  |  ALL,ALL,ALL,ALL  |  hyc1 leak,hyc2 leak,hyc,rack  |  @#FA5858: NO EXIST  |  @#A5DF00: YES (1)  |    |    |    |
+|  HRRMAV0001  |  RMC Power Status alert  |  50  |  ALL  |  rack,power  |  @#FA5858: NO EXIST  |  @#A5DF00: YES (1)  |    |    |    |
+|  HRRMAV0002  |  RMC PDU Fails  |  50  |  ALL  |  ps status  |  @#FA5858: NO EXIST  |  @#FA5858: NO  |    |    |    |

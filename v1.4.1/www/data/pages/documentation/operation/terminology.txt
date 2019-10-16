@@ -1,0 +1,4 @@
+====== Terminology ======
+
+  * [[:documentation:operation:terminology:cmdsyntax|Command Syntax]]
+  * [[:documentation:operation:terminology:mirrornode|Nodo espejo]]

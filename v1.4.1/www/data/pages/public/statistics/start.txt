@@ -1,0 +1,12 @@
+|<100%>|
+|  @#D7F2FF:                                                                                                      |||
+|  {{ :public:statistics.png?200&nolink | }}                                                                      |||
+|  @#D7F2FF:                                                                                                      |||
+|  SYSTEM                                     |  [[.:slurm:global:start|Global]]  |  [[.:slurm:users:start|Users]]  |
+|  @#D7F2FF:                                                                                                      |||
+
+
+|<100%>|
+|  @#D7F2FF:  |
+|  {{  :public:maincyclopstitle.png?350&nolink|}}|
+|  @#D7F2FF:  |

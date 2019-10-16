@@ -1,0 +1,34 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Hardware - Nodes : Reinicio [NODE] **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >|  
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos       |  Todos            |
+
+===== Procedimiento =====
+
+  * Se ejecuta el siguiente comando desde los nodos de gestión:
+
+  * ** OPCION A: ** Reinicio Soft desde el sistema operativo<code>
+ssh node[RANGE] reboot
+</code>
+
+  * ** OPCION B: ** Reinicio Hard - Reinicio Hardware<code>
+clmctrl reset node[RANGE]
+</code>
+
+** NOTA: **
+  * ** El reinicio hardware (OPCION B) ** puede implicar la perdida de datos e incluso el daño en componentes hardware.
+  * ** Realizar solo en casos que no funcione la OPCION A **
+
+** NOTA: **
+  * Se puede confirmar el estado durante el pagado y/o arranque en el procedimiento:
+    * [[:operation:procedures:OSADBS0001| OSADBS0001 : Conexion Remota a Consola Nodo]]

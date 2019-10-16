@@ -1,0 +1,17 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - KSIS : Desplegar Imagen **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo ^  Nodos  ^  Descripción             ^  Criticidad          ^  Implicación                                     ^
+|  Todos         |  Todos  | Despliegue de imagen del sistema operativo  |  MEDIA  | Perder nodo operativo, extremadamente critico si el fallo se produce sobre un nodo de operacion  |
+
+
+===== Procedimiento =====
+
+  * Se ejecuta el siguiente comando:<code>
+ksis deploy [NOMBRE DE IMAGEN] [NOMBRE NODO]</code>
+
+  * **<fc orange>NOTA:</fc> ** Se recomienda que el nodo este en estado energetico apagado antes de lanzar el comando.

@@ -1,0 +1,38 @@
+\\
+----
+\\
+
+
+|<100%>|
+|  @#D7F2FF:  |
+|  {{  :public:maincyclopstitle.png?450&nolink  |}}  |
+|  @#D7F2FF:  |
+
+|< 100% 2% 48% 48% 2% >|
+|  @#D7F2FF:                                                                                                                                                 ||||
+|  @#7a8c5a:  |  [[:public:start|{{ :public:publicaccess.png?200&nolink |  }}]]     | [[:restricted:start|{{ :public:restrictarea.png?250 | }}]]  |  @#942724:  |
+| :::         |  [[:public:users:start|{{:public:userarea.png?150}}]]               | :::                                                         | :::         |
+| :::         |  [[:public:cluster:start|{{:public:clusterstatus.png?150}}]]        | :::                                                         | :::         |
+| :::         |  [[:public:users:statistics:start|{{:public:statistics.png?150}}]]  | :::                                                         | :::         |
+|  @#D7F2FF:                                                                                                                                                 ||||
+
+
+|<100%>|
+|  @#D7F2FF:  |
+|  {{  public:mainhomelogo.png?nolink|}}|
+|  @#D7F2FF:  |
+
+<hidden Company Disclaimer>
+</hidden>
+<hidden Cyclops License>
+|<100%>|
+|  @#92c2dc: <fc white> ** CYCLOPS LICENSE ** </fc>  |
+|//This Suit has serveral program and all of them are free software: 
+you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License  along with this program.  If not, see// [[http://www.gnu.org/licenses/|GNU Licenses]]|
+</hidden>

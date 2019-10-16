@@ -1,0 +1,2 @@
+##### SERVICE QUOTA CONFIG FILE #####
+##### [INDEX];[SERVER NAME];[QUOTA TYPE:LUSTRE|KERNEL];[FS(only lustre)]

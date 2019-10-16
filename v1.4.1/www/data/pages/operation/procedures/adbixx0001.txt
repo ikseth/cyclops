@@ -1,0 +1,49 @@
+====== Procedimientos Administrativos - Notificar a MIBAIR ======
+
+===== Notificación =====
+
+|< 50% >|
+^  Código      ^  Nombre Procedimiento  ^  Verificado                           ^  Operativo    ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+|  ADBIXX0001  |  Notificación          |  @#FA5858:@#FA5858:<fc white>NO</fc>  |  @#EAFFD5:SI  |  17/09/2015      |  24/10/2016                 |  0.4      |
+===== Procedimiento =====
+
+  * En caso de incidencia, llamar:
+    * En horario de oficina: 93.231.00.09
+    * Fuera del horario de oficina: 607.374.258
+    * <fc red> ** NOTA: ** </fc> En caso de incidencia critica llamar directamente a los técnicos de refrigeración:  ** 616.69.21.49 ** ( preguntar por tecnicos de vesair )
+
+
+<hidden Otros datos de interes>
+  * Datos de Contacto (gestion):
+    * Teléfonos: 
+      * FIJO: ** 93 231 00 09 **
+      * FIJO: ** 93 265 94 95 **
+      * MOVIL: ** 670 418 791 **
+    * Correo electronico:
+      * ** jj@mibsa.es **
+
+  * Datos de Contacto:
+  * Juan Justicia Ortega - Jefe de Mantenimiento - Departamento técnico
+  * Vesair ( empresa de mantenimiento ) - vesairclimatizacion@ono.com
+
+  * Las personas que efectuaran las labores de mantenimiento y el servicio de 24 h :
+ 
+|< 50% >|
+^  TECNICOS VESAIR  ^^
+^   Nombre       ^  DNI  ^
+| JOSE FERNANDEZ SERRANO         |  50978308 G  |
+| ALEJANDRO VEGUILLAS FERNANDEZ  |  47218904 L  |
+| MIGUEL VEGUILLAS FERNANDEZ     |  52348403 N  |
+ 
+  * Vehiculos:
+ 
+|< 25% >|
+^  Marca   ^  Matricula  ^
+| Ford     |  3224 DXH   |
+| Renault  |  7408 FJG   |
+
+  * Dirección MIBAIR<code>MIBAIR S.L.
+C/Sardenya, 429-433 bajos
+08025 Barcelona
+</code>
+</hidden>

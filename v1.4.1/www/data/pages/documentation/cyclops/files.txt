@@ -1,0 +1,17 @@
+====== Files Explanation ======
+
+  * Cyclops is develop in bash shell scripting, it is able to execute in most of linux/unix systems.
+
+===== Config File Definition =====
+
+  * Configure files, name, path and description:
+
+|< 100% >|
+^  Nombre                  ^  Directorio   ^  Función                                                                  ^
+| global.cfg               | /etc/cyclops  | Global Variable Definition                                                |
+| monitor.cfg              | /etc/cyclops  | Monitoring Configure File                                                 |
+| node.type.cfg            | /etc/cyclops  | Node Definition                                                           |
+| [FAMILY].mon.cfg         | /etc/cyclops  | Node Sensor Definition File (Family Group)                                |
+| bios.mng.cfg             | /etc/cyclops  | Ipmi capability Node Definition Config File  (BMC|ILO)                    |
+| env.devices.cfg          | /etc/cyclops  | Environment Device Configure File                                         |
+| [grupo].env.cfg          | /etc/cyclops  | Environment Device Sensor Definition File                                 |

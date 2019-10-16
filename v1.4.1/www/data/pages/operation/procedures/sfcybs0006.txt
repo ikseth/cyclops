@@ -1,0 +1,21 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Cyclops : Actualizar Firmware Blade B700 **  
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo         ^  Nodos                        ^  Descripción                                              ^  Criticidad       ^  Implicación  ^
+|  Modelos B7xx  |  nodo[4-8][1-3][0-1][0-8]   |  Nodos Refrigerados por Agua NEWSCA B7xx                  |  @#FA5858: ALTA   |  El Nodo puede quedar inoperativo  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >| 
+^  Grupo         ^  Nodos            ^  Descripción                                              ^  Criticidad      ^  Implicación  ^ 
+|  Computo       |  Computo          |                                                           |  @#EAFFD5: BAJA  |  Perdida de capacidad de calculo  |
+
+===== Procedimiento =====
+
+  - Ejecutar el siguiente comando desde una sesion **screen**:<code>
+/opt/cyclops/tools/approved/tool.update.fw.node.sh -n nodo[3210,4101-4118,4203-4218] -p -w  
+</code>

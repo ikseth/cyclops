@@ -1,0 +1,81 @@
+====== Node not available ======
+
+===== Datos Generales =====
+
+
+|< 50% >|
+^  Código      ^  Nombre Procedimiento  ^  Verificado                  ^  Operativo    ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+|  OSRHAV0006  |  Node not available    |  @#FA5858:<fc white>NO</fc>  |  @#EAFFD5:SI  |  29/07/2015      |  24/11/2015                 |  0.6     |
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 30% 10% 50%>|
+^  Grupo         ^  Nodos           ^  Descripción                                   ^  Criticidad                        ^  Implicación                                                       ^
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 30% 10% 50%>| 
+^  Grupo  ^  Nodos  ^  Descripción  ^  Criticidad                        ^  Implicación                                                                   ^
+|  Todos  |  Todos  |               |  @#FA5858:<fc white>MUY ALTA</fc>  | El apagado de un nodo puede implicar la caida completa del sistema productivo  |
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+
+  - Notificar la incidencia:
+
+==== Alcance ====
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION                   ^  HORARIO EJECUCION                                                                     ^
+
+==== Ejecución ====
+
+
+  * ** Se ejecutan los siguientes pasos: **
+  - En el interfaz web de cyclops se comprueba el estado del nodo en el sensor ** uptime ** del nodo objetivo:
+    * ** CONTENT ** , este estado indica que el nodo esta contenido por una reparación automatica, verificar el estado del nodo y en caso de mantenerse operativo tratar de cambiar su estado a **"link"** o **"repair"**:
+      * [[operation:procedures:SFCYBS0002|SFCYBS0002 : Cambiar el estado de los Nodos en Cyclops]]
+      * En caso de fallar, siempre que se mantenga el ** entorno productivo = OPERATIVO ** , cambiar el estado del nodo a **drain**
+    * ** POWER OFF / REALLY POWER OFF ** , el nodo deberia estar encendido ejecutar los siguientes pasos:
+      - Conectamos desde el exterior a un nodo de gestión [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+        - En caso de no poderse conectar realizar: [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+      - Enceder el nodo objetivo:
+        * [[:operation:procedures:HRBLBS0001|HRBLBS0001 : Encendido Nodo]]
+      - Tras esperar de 5 a 10 minutos verificar mediante la monitorizacion web el estado del nodo.
+        - En caso de encendido Notificar la incidencia:
+    * ** not send o send err.[0-9]* **, ejecutar los siguientes pasos:
+      - Verificar el estado del nodo:
+        * [[:operation:procedures:OSADBS0001|OSADBS0001 : Conexión Remota a Consola Nodo]]
+        - Comprobar el estado del nodo en la consola:
+          * Si el prompt del sistema esta por defecto esperando el login del usuario:
+            - Comprobar el estado de un nodo: [[operation:procedures:HRBLAV0005|HRBLAV0005 : Comprobacion de estado de un nodo ]]
+              - En caso de estado correcto:
+                - FINALIZAR PROCEDIMIENTO, ** IR A FASE DE NOTIFICACION FINAL. **
+              - En caso de estado NO correcto:
+                - Contener el nodo: [[operation:procedures:HRBLAV0003|HRBLAV0003 : Contención de un nodo]]
+          * Si el nodo parece estar arrancando:
+            - Esperar a que aparezca en el prompt el login de usuario
+              - Si no aparece el login de usuario:
+                - Capturar el texto que aparece en la consola
+                - Contener el nodo: [[operation:procedures:HRBLAV0003|HRBLAV0003 : Contención de un nodo]]
+              - Si aparece el login de usuario:
+                - Comprobar el estado de un nodo: [[operation:procedures:HRBLAV0005|HRBLAV0005 : Comprobacion de estado de un nodo ]]
+                  - En caso positivo:
+                    - FINALIZAR PROCEDIMIENTO, ** IR A FASE DE NOTIFICACION FINAL **
+                  - En caso negativo:
+                    - Contener el nodo: [[operation:procedures:HRBLAV0003|HRBLAV0003 : Contención de un nodo]]
+          * Si no responde la consola:
+            - ## PROCEDIMIENTO COMPROBAR ESTADO DEL NODO ##
+              - En caso de estado correcto:
+                - FINALIZAR PROCEDIMIENTO, ** IR A FASE DE NOTIFICACION FINAL **
+              - En caso de estado NO correcto:
+                - Contener el nodo: [[operation:procedures:HRBLAV0003|HRBLAV0003 : Contención de un nodo]]
+==== Notificación Final ====
+
+  - Notificar la incidencia:
+  - FINAL

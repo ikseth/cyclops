@@ -1,0 +1,4 @@
+#### MAIN DAEMON CONFIG FILE ####
+#### [index];[process type,main|detail];[source, hostname/ip];[dst data prefix];[descriptive name] ####
+
+

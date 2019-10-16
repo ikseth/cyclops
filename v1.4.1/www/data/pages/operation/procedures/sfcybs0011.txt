@@ -1,0 +1,19 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Cyclops - Tools : activación/desactivación del sistema autolink **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo ^  Nodos  ^  Descripción             ^  Criticidad          ^  Implicación                                     ^
+|  Computo         |  Todos  | Activar o desactivar la herramienta autolink  |  BAJA  | El nodo podria excluirse/incluirse en el sistema sin una configuración correcta  |
+
+
+===== Procedimiento =====
+
+  * ** ACTIVAR AUTOLINK: **<code>
+pdsh -w [NODO|RANGO NODOS] rm -f /root/disable.autolink</code>
+  * ** DESACTIVAR AUTOLINK: **<code>
+pdsh -w [NODO|RANGO NODOS] touch /root/disable.autolink</code>
+
+  * ** <fc orange>NOTA:</fc> ** la activación/desactivacion de esta herramienta solo se puede realizar con los nodos objetivos con el sistema operativo arrancado y colectividad con los nodos de gestión.

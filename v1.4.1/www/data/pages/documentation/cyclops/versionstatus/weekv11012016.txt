@@ -1,0 +1,13 @@
+====== Control de Cambios - weekv11012016 ======
+
+** Change **
+
+  - FUNCIONALIDADES:
+    - Se incorpora en la tool test.productive.env.sh la visualización //-v simple// que muestra solo el //final result//
+  - TUNING:
+  - REPARACIÓN DE ERRORES:
+    - Solucionada la generación de paginas wiki de la auditoria
+    - Solucionado el calculo de porcentaje de nivel de relevancia en la ia del hardware de entorno.
+    - Solucionado la ayuda de la tool test.productive.env.sh 
+  - DOCUMENTACIÓN:
+    - Se documenta el nuevo parámetro //-v eventlog// del comando audit.nod.sh

@@ -1,0 +1,47 @@
+FSLUAV0001;Lustre Shutdown
+FSLUAV0002;lustre MDT failure
+FSLUAV0003;lustre OST failure
+FSLUAV0004;Client lustre offline
+FSNFAV0001;NFS File System FAIL
+HRBIAV0001;BIOS Log Trace alert
+HRBLAV0002;B7xx Blade Temp alert
+HRBLAV0004;B7xx Blade Fails
+HRCPAV0001;CPU temperature exceeded
+HRHDAV0001;System disk failure
+HRHDAV0002;Smart Disk Alert
+HRHYAV0001;HYC Status alert
+HRHYAV0002;HYC Masive Error, Refrigeration alert
+HRHYAV0003;HYC1 Down, Refrigeration alert
+HRHYAV0004;HYC2 Down, Refrigeration alert
+HRRMAV0001;RMC Power Status alert
+HRRMAV0002;RMC PDU Fails
+HRCMAV0001;Water Chassis Status alert
+HRCMAV0002;DBB Fan Alert
+NTCSAV0001;Network failure
+OSADAV0001;Alert Zombie Process
+OSDAAV0001;service ssh failure
+OSDAAV0002;service httpd failure
+OSDAAV0003;service crond failure
+OSDABS0001;Daemon service failed
+OSRHAV0006;node not available
+SFFTAV0001;service vsftpd failure
+SFHBAV0001;heartbeat HA failure
+SFMUAV0001;service munge failure
+SFPMAV0001;Pacemaker service failure
+SFPMAV0002;Pacemaker failure
+SFSLAV0001;Slurm failure
+SFSLAV0002;Slurm Node Down
+SFSLAV0003;Problem slurm node
+SFSLAV0004;Slurm Node Status Alert
+SFSLAV0005;Sensor Alert Slurm sinfo Fail
+SFMYAV0001;MySQL replication problem
+OSDAAV0005;Daemon Status failure
+OSRHAV0001;Recovery SSH failure
+HRSTAV0001;External Storage Alert
+OSADAV0002;Swap Usage Alert
+OSADAV0003;Alert File System Space
+OSAUAV0001;Nis Server Alert
+OSAUAV0002;Nis Client Alert
+NTIFAV0001;Infiniband Interfaz Alert
+NTIFAV0002;Infiniband Net Check Alert
+OSADAV0005;Node Status Alert

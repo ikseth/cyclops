@@ -1,0 +1,60 @@
+/**
+ * dw2odt export_odt pagetool icon
+ */
+
+/* export icon */
+#dokuwiki__pagetools ul li a.export_odt,
+#dokuwiki__pagetools ul li a.export_odt_pdf {
+    background-position: right 0;
+}
+#dokuwiki__pagetools ul li a.export_odt:before {
+    content: url(pagetools-odtexport-sprite.png);
+    margin-top: 0;
+}
+#dokuwiki__pagetools ul li a.export_odt_pdf:before {
+    content: url(pagetools-odtpdfexport-sprite.png);
+    margin-top: 0;
+}
+#dokuwiki__pagetools:hover ul li a.export_odt,
+#dokuwiki__pagetools ul li a.export_odt:focus,
+#dokuwiki__pagetools ul li a.export_odt:active {
+    background-image: url(pagetools-odtexport-sprite.png);
+}
+#dokuwiki__pagetools:hover ul li a.export_odt_pdf,
+#dokuwiki__pagetools ul li a.export_odt_pdf:focus,
+#dokuwiki__pagetools ul li a.export_odt_pdf:active {
+    background-image: url(pagetools-odtpdfexport-sprite.png);
+}
+#dokuwiki__pagetools ul li a.export_odt:hover,
+#dokuwiki__pagetools ul li a.export_odt:active,
+#dokuwiki__pagetools ul li a.export_odt:focus,
+#dokuwiki__pagetools ul li a.export_odt_pdf:hover,
+#dokuwiki__pagetools ul li a.export_odt_pdf:active,
+#dokuwiki__pagetools ul li a.export_odt_pdf:focus {
+    background-position: right -45px;
+}
+
+/*Keep pagetool icon on left side for rtl languages*/
+[dir=rtl] #dokuwiki__pagetools ul li a.export_odt:hover,
+[dir=rtl] #dokuwiki__pagetools ul li a.export_odt:active,
+[dir=rtl] #dokuwiki__pagetools ul li a.export_odt:focus,
+[dir=rtl] #dokuwiki__pagetools ul li a.export_odt_pdf:hover,
+[dir=rtl] #dokuwiki__pagetools ul li a.export_odt_pdf:active,
+[dir=rtl] #dokuwiki__pagetools ul li a.export_odt_pdf:focus {
+    background-position: left -45px;
+}
+
+/* Style for Table of contents and chapter index preview */
+p.index_preview_odt {
+    border: 2pt dashed gray;
+    background-color: whitesmoke;
+    padding: 10pt;
+}
+
+#text.index_preview_odt {
+    color: black;
+}
+
+#reminder.index_preview_odt {
+    color: red;
+}

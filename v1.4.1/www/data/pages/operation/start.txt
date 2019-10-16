@@ -1,0 +1,6 @@
+====== Operation ======
+
+
+  * [[operation:monitoring:start|Monitoring]]
+  * [[operation:statistics:start|Statistics]]
+  * [[audit:start|Audit]]

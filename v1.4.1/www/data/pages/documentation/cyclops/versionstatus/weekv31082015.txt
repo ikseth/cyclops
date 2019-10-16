@@ -1,0 +1,16 @@
+====== Control de Cambios - weekv31082015 ======
+
+** Change **
+
+  - Arreglado error en el sensor de swap (no alertaba mas allá de 30%)
+  - Arreglado el plugin de usuarios externos (no contabilizaba correctamente)
+  - Implantado el sistema de alertas por correo electrónico, activo en la monitorización de nodos.
+  - Optimizado el tiempo de monitorizacion de nodos, de mas de 1 minuto a 15-20 segundos
+  - Mejoras Multimedia:
+    - Mejorado el interfaz web con un plugin que dinamiza y hace mas atractivo el dashboard, buscando llamar la atención del operador en caso de requerirse. {{:wiki:hb-green-medium.tr.gif|}}
+    - Incorporado plugin en dokuwiki para soportar la inclusion de sonidos mp3 en las paginas.
+    - Plugin para la alerta de procesos zombis 
+  - Filtrado de Informacion mostrada en el dashboard
+
+
+** To Change **

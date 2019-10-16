@@ -1,0 +1,7 @@
+====== Operativa: Pacemaker ======
+
+===== Restart servicio de Pacemaker =====
+
+  - <code>
+haresl restart -n [servicio] 
+</code>

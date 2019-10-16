@@ -1,0 +1,20 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Cyclops :  Registrar información en el diario de seguimiento de un nodo **  
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo         ^  Nodos            ^  Descripción                                              ^  Criticidad  ^  Implicación  ^
+|  Todos         |  Todos            |                                                           |  @#EAFFD5: BAJA        |  Ninguna  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >| 
+^  Grupo         ^  Nodos            ^  Descripción                                              ^  Criticidad      ^  Implicación  ^ 
+|  Ninguno       |  Ninguno          |                                                           |  @#EAFFD5: BAJA  |  Ninguna conocida  |
+===== Procedimiento =====
+
+  - Ejecutar el comando siguiente sobre el nodo afectado por la incidencia:<code>
+/opt/cyclops/scripts/audit.nod.sh -i bitacora -m "[numero de incidencia]: [descripción de la incidencia]" -s REPAIR -n [nombre nodo afectado]   
+</code>

@@ -1,0 +1,9 @@
+====== Control de Cambios - weekv07122015 ======
+
+** Change **
+
+  - FUNCIONALIDADES:
+    - Se desarrolla el nuevo sistema de ha para cyclops, con el fichero /etc/cyclops/ha.cfg para su configuracion.
+  - TUNING:
+  - REPARACIÓN DE ERRORES:
+  - DOCUMENTACIÓN:

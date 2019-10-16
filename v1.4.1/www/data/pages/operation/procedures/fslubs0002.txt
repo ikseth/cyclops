@@ -1,0 +1,46 @@
+====== Estado Lustre ======
+
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo Lustre     ^  Nodos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación  ^
+|  Lustre Gestión   |  node[RANGE]                  | Mantiene la configuración del sistema de Lustre                                          |  @#FA5858: MUY ALTA  |               |
+|  Lustre MDS       |  node[RANGE]                  | Mantienen un registro de transacciones de archivos y cambios en el sistema de archivos.  |  @#FAAC58: ALTA      |               |
+|  Lustre OSS       |  node[RANGE]                  | Responsables de la interconexión y operaciones con los dispositivos de almacenamiento    |  @#FAAC58: ALTA      |               |
+|  Lustre Clientes  |  node[RANGE]  | Tienen acceso al sistema de archivos                                                     |  @#EAFFD5: BAJA      |               |
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicacion  ^ 
+|  Gestión       |  MANAGEMENT NODES     |  Permiten la administración del servicio                         |  @#EAFFD5: BAJA      |  Los Administradores no pueden acceder directamente a lustre  |
+|  Login         |  LOGIN NODES (CRITICAL)     |  Acceso de los usuarios al sistema productivo                    |  @#EAFFD5: BAJA      |  Los usuarios no pueden acceder al sistema de ficheros   |
+|  Lustre        |  node[RANGE]     |  Funcionamiento del servicio                                     |  @#FA5858: MUY ALTA  |  Posibilidad de caída completa del sistema productivo    |
+|  Computo/Aire  |  node[RANGE]   |  Uso del servicio por el sistema productivo                      |  @#FFFF00: MEDIA     |  Merma en el rendimiento productivo  |
+|  Computo/Agua  |  node[RANGE]  |  Uso del servicio por el sistema productivo                      |  @#FFFF00: MEDIA     |  Merma en el rendimiento productivo  |
+
+
+===== Procedimiento =====
+
+  * Este servicio está instalado en todos los Nodos. Los pasos a seguir para chequear Lustre son:
+
+    - Se establece una conexion ssh contra la IP flotante de los nodos de gestion o en su defecto contra el nodo activo
+    - Comprobamos el servicio ejecutando el siguiente comando: <code>
+[root@[MANAGEMENT NODES] ~]# shine status
+</code> 
+<hidden Resultado>
+<code>
+= FILESYSTEM STATUS (mgs) =
+TYPE # STATUS NODES
+---- - ------ -----
+MGT  1 online [LUSTRE NODES MDS] 
+
+= FILESYSTEM STATUS (scratch) =
+TYPE  # STATUS  NODES
+----  - ------  -----
+MDT   1 online  [LUSTRE NODES MDS] 
+OST  24 online  node[RANGE]
+CLI  10 mounted node[RANGE]                                   
+</code>
+</hidden>

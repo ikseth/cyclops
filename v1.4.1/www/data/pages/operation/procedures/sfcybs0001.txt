@@ -1,0 +1,97 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Cyclops : Monitorización estado de un nodo **  
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >| 
+^  Grupo      ^  Nodos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación  ^
+|  Todos      |  Todos                  |                                           |  @#EAFFD5: BAJA               |  Ninguna Conocida  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >| 
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Ninguno       |  Ninguno         |                                                                  |  @#EAFFD5: BAJA        |  Ninguna Conocida  | 
+
+===== Procedimiento =====
+
+  * **A.** Comando para conocer el estado de los nodos de manera ** pasiva ** ** <fc green>[ METODO RECOMENDADO ]</fc> **<code>
+/opt/cyclops/scripts/cyc.status.sh -a node</code>
+
+<hidden Ejemplo de Salida>
+<code>
+NODE: STATUS
+------------
+
+LAST UPDATE: 2017-12-04 13:46:47
+CRITICAL ENV STATUS: OPERATIVE WITH WARNINGS
+
+Group            Family      Qty  Node Range                                  Mngt Cfg  Status       Slurm        Errors
+------           -------     ---  ----------                                  --------  ------       -----        ------
+ 
+compute_desa128  chasis53    18   nodo[5301-5318]                           UP        OK           idle          
+                 chasis63    16   nodo[6301-6308,6310-6317]                 DRAIN     MAINTENANCE  maintenance   
+                 chasis63    2    nodo[6309,6318]                           DRAIN     MAINTENANCE  n/a           
+                 chasis73    1    nodo7318                                  DRAIN     MAINTENANCE  maintenance   
+                 chasis73    17   nodo[7301-7317]                           UP        OK           idle          
+                 chasis83    18   nodo[8301-8318]                           UP        OK           idle          
+ 
+compute_desa64   chasis31    16   nodo[3103-3118]                           UP        OK           idle          
+                 chasis31    1    nodo3101                                  UP        OK           working       
+                 chasis32    18   nodo[3201-3218]                           UP        OK           idle          
+                 chasis33    18   nodo[3301-3318]                           UP        OK           idle          
+                 chasis41    1    nodo4108                                  DRAIN     MAINTENANCE  n/a           
+                 chasis41    9    nodo[4107,4111-4118]                      UP        OK           idle          
+                 chasis41    5    nodo[4103-4106,4109]                      UP        OK           working       
+                 chasis42    18   nodo[4201-4218]                           UP        OK           idle          
+                 chasis43    18   nodo[4301-4318]                           UP        OK           idle          
+                 chasis51    16   nodo[5102-5109,5111-5118]                 UP        OK           idle          
+                 chasis52    18   nodo[5201-5218]                           UP        OK           idle          
+ 
+compute_expl     hr_expl     35   nodo[6102-6118,6201-6218]                 DRAIN     MAINTENANCE  maintenance   
+                 hr_expl     1    nodo6101                                  DRAIN     MAINTENANCE  n/a           
+                 hr_expl     32   nodo[7102-7118,7201-7207,8211-8218]       UP        OK           idle          
+                 hr_expl     40   nodo[7101,7208-7218,8101-8118,8201-8210]  UP        OK           working       
+ 
+compute_misc     desalt      3    nodo[4110,5101,5110]                      UP        OK           idle          
+                 desalt      1    nodo4101                                  UP        OK           working       
+                 mocage      2    nodo[3102,4102]                           UP        OK           idle          
+ 
+operation        dev         2    nodo[4-5]                                 UP        OK           n/a           
+                 login       2    nodo[2-3]                                 UP        OK           n/a           
+                 ls_mds      2    nodo[6-7]                                 UP        OK           n/a           
+                 ls_oss      2    nodo[8-9]                                 UP        OK           n/a           
+                 management  2    nodo[0-1]                                 UP        OK           n/a           
+                 nfs_srv     2    nodo[10,12]                               UP        OK           n/a
+</code>
+</hidden>
+
+|< 100% >|
+^  Explicación Salida  ^^^
+^  Nombre  ^  Descripcion  ^  Comentarios  ^
+|  Group   |  Nombre del grupo de nodos  |  Agrupacion de los nodos por caracteristicas logicas como funcionalidad, unidad operativa, departamento y/u otras   |
+|  Family  |  Tipo de nodos  |  Agrupacion de nodos generalmente por caracteristicas compartidas fisicas como hardware, ubicacion y/u otras  |
+|  Qty     |  Cantidad  |  Numero de nodos agrupados en funcion de sus diferentes estados y errores.  |
+|  Node Range  |  Rango de nodos agrupados  |  La agrupacion es en el siguiente orden: group,family,[Mngt Cfg,Status,Slurm]  |
+|  Mngt Cfg    |  Estado Configurado de los nodos   |  Estado en el que esta configurado el nodo en ese momento.  |
+|  Status      |  Estado actual de los nodos en la monitorizacion  |  Este estado puede ser diferente del Mngt Cfg, ya que el cambio de estado en la configuracion es inmediato y la monitorizacion depende de los periodos de ejecucion de la misma  |
+|  Slurm       |  Estado del servicio slurm  |  **<fc red>NOTA:</fc>** Para que un nodo este completamente en mantenimiento han de estar Mngt Cfg en **DRAIN**, Status en **MAINTENANCE** y Slurm en **maintenace**  |
+|  Errors      |  Muestra los sensores con alertas activas  |  |
+
+
+  * **B.** Comando para monitorizar el sistema de forma ** activa **, donde pone [nodo|grupo|type] especificar el nombre de host, grupo o tipo deseado:<code>
+/opt/cyclops/scripts/sensors.nodes.mon.sh -v human -i -m [nodo|grupo|tipo]
+</code>
+
+<hidden Ejemplo de Salida>
+<code>
+/opt/cyclops/scripts/sensors.nodes.mon.sh -v human -i -m login
+
+OK NODE STATUS - OPERATIVE
+
+family  hostname    mon_time  uptime       cpu    cpu_temp  swap  disk_space  bios_log  lsidisk  network  daemon_status  lustre    heartbeat  munge  vsftpd  crond  z
+login   UP [LOGIN NODES]  12.00.46  CHECKING 3d  UP 1%  UP 33%    UP    UP          UP        UP       UP       UP/36/36/      UP mount  UP         UP     UP      UP     UP 
+login   UP [LOGIN NODES]  12.00.46  CHECKING 3d  UP 1%  UP 36%    UP    UP          UP        UP       UP       UP/36/36/      UP mount  UP         UP     UP      UP     UP
+</code>
+</hidden>

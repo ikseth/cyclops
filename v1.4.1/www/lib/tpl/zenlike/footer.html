@@ -1,0 +1,17 @@
+<?php
+    if (tpl_getConf("headerPicture") != "") {
+    ?>
+    <script type="text/javascript">
+
+        // Exchange header logo
+
+        jQuery("#headerpic").css(
+                "background-image",
+                "url('<?php echo tpl_getConf("headerPicture"); ?>')"
+        );
+
+    </script>
+
+    <?php
+    }
+?>

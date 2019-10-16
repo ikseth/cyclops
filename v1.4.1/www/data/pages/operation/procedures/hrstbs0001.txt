@@ -1,0 +1,186 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Hardware - Almacenamiento : Chequear Cabinas **  
+
+===== Sistemas Objetivo =====
+
+|< 100% 15% 15% 20% 15% 25% >| 
+^  Grupo     ^  Nodos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación  ^
+|  Todos     |  Todos                      |                                                                                          |  @#EAFFD5: BAJA      |  Información de las cabinas  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 15% 15% 20% 15% 25% >| 
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Depende         |                                                                  |  @#EAFFD5: BAJA       |  Ninguno Conocido  |
+
+===== Procedimiento =====
+
+  * ** Paso 1: ** Obtenemos toda la información del estado de las cabinas con <code> storadm check --all
+</code>
+<hidden Ejemplo de salida>
+<code>
+------------------------------------- disk_array -------------------------------------
+Name Vendor Model   FType Location                mode_status nagios_status io_status 
+--------------------------------------------------------------------------------------
+da0  LSI    CE2700  mngt  SERVICE-RACK-1 (A,4,M)  ready       up            ok        
+da1  LSI    CE2700  oss   LUSTRE-RACK-2 (A,5,A)   ready       up            ok        
+da2  LSI    CE2700  oss   LUSTRE-RACK-2 (A,5,E)   ready       up            ok        
+da3  LSI    CE2700  oss   LUSTRE-RACK-2 (A,5,I)   ready       up            ok        
+da4  LSI    CE2700  oss   LUSTRE-RACK-2 (A,5,M)   ready       up            ok        
+da5  LSI    CE2700  mds   LUSTRE-RACK-2 (A,5,V)   ready       up            ok        
+(6 elements)
+</code>
+</hidden>
+  * ** Paso 2: ** En caso de aparecer un error ejecutar el siguiente comando sobre la cabina o cabinas afectadas:<code>
+storadm show hw -da [nombre cabina]
+</code>
+<hidden Ejemplo de Salida>
+<code>
+------------------------------------------------------------ Storage -------------------------------------------------------------
+Vendor Model  Name Serial                           SW                                                               State Status 
+----------------------------------------------------------------------------------------------------------------------------------
+LSI    CE2700 da1  600A098000602D3200000000543CE441 Firmware:NVSRAM:AMW=08.10.03.00:N2701-810834-DB2:11.10.0G00.0012 N/A   NONE   
+
+----------------------------------------------- Enclosure ------------------------------------------------
+Index Type        Name Serial         State Status Controller PowerSupply Fan Temperature Drawer DiskSlot 
+----------------------------------------------------------------------------------------------------------
+99    CONTROLLER  99   SN SV43323767  N/A   NONE   (0)        (0)         (0) (0)         (0)    (0)      
+(1 element)
+
+------------------------------------------------------------------ Enclosure/Controller ------------------------------------------------------------------
+Enclosure(*) Index CtrlRank Name FW                                                                                     Serial        State   Status Port 
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+(0)          0     1        A    Firmware:Appware:Bootware:NVSRAM=08.10.03.00:08.10.03.00:08.10.03.00:N2701-810834-DB2  021435000353  Online  OK     (0)  
+(0)          1     2        B    Firmware:Appware:Bootware:NVSRAM=08.10.03.00:08.10.03.00:08.10.03.00:N2701-810834-DB2  021435000188  Online  OK     (1)  
+(2 elements)
+
+-------------------------------------------------------- Controller/Port ---------------------------------------------------------
+Controller(*) Index Number PortRank Techno Speed          Link  HWAddr                                 IP            State Status 
+----------------------------------------------------------------------------------------------------------------------------------
+(0)           0     1      1        ETH    1000 Mbps      Up    00:a0:98:60:20:8a                      172.30.0.203  N/A   OK     
+(0)           1     2      2        ETH    Unknown        Down  00:a0:98:60:20:8b                      0.0.0.0       N/A   NONE   
+(0)           4     1      1        SAS    6 Gbps         Up    0xFFFFFFFFFFFFFFFF:0x500a09860208a014                N/A   OK     
+(0)           5     2      2        SAS    Not available  Down  0xFFFFFFFFFFFFFFFF:0x500a09860208a010                N/A   NONE   
+(1)           2     1      1        ETH    1000 Mbps      Up    00:a0:98:60:2d:32                      172.30.0.204  N/A   OK     
+(1)           3     2      2        ETH    Unknown        Down  00:a0:98:60:2d:33                      0.0.0.0       N/A   NONE   
+(1)           6     1      1        SAS    6 Gbps         Up    0xFFFFFFFFFFFFFFFF:0x500a098602d32014                N/A   OK     
+(1)           7     2      2        SAS    Not available  Down  0xFFFFFFFFFFFFFFFF:0x500a098602d32010                N/A   NONE   
+(8 elements)
+
+------------------------ Enclosure/PowerSupply ------------------------
+Enclosure(*) Index Type Location      Serial           State    Status 
+-----------------------------------------------------------------------
+(0)          0     PS   Top           SN AAXT14290180  Optimal  OK     
+(0)          1     PS   Bottom        SN AAXT14290130  Optimal  OK     
+(0)          2     UPS  Controller A  SN SY42140644SO  Optimal  OK     
+(0)          3     UPS  Controller B  SN SY42140632SO  Optimal  OK     
+(4 elements)
+
+---------------------- Enclosure/Fan ----------------------
+Enclosure(*) Index Location Serial         State    Status 
+-----------------------------------------------------------
+(0)          0     Left     SN SV43401332  Optimal  OK     
+(0)          1     Left     SN SV43401332  Optimal  OK     
+(0)          2     Right    SN SV43402569  Optimal  OK     
+(0)          3     Right    SN SV43402569  Optimal  OK     
+(4 elements)
+
+------------------------- Enclosure/Temperature --------------------------
+Enclosure(*) Index Location                        Serial State    Status 
+--------------------------------------------------------------------------
+(0)          0     Controller A, Slot 2                   Optimal  OK     
+(0)          1     Controller A, Slot 1                   Optimal  OK     
+(0)          2     Controller B, Slot 2                   Optimal  OK     
+(0)          3     Controller B, Slot 1                   Optimal  OK     
+(0)          4     Power supply canister (Top)            Optimal  OK     
+(0)          5     Power supply canister (Bottom)         Optimal  OK     
+(0)          6     Drawer 1 Left                          Optimal  OK     
+(0)          7     Drawer 1 Right                         Optimal  OK     
+(0)          8     Drawer 2 Left                          Optimal  OK     
+(0)          9     Drawer 2 Right                         Optimal  OK     
+(0)          10    Drawer 3 Left                          Optimal  OK     
+(0)          11    Drawer 3 Right                         Optimal  OK     
+(0)          12    Drawer 4 Left                          Optimal  OK     
+(0)          13    Drawer 4 Right                         Optimal  OK     
+(0)          14    Drawer 5 Left                          Optimal  OK     
+(0)          15    Drawer 5 Right                         Optimal  OK     
+(16 elements)
+
+---------------------------- Enclosure/Drawer ----------------------------
+Enclosure(*) Index Name           Position Serial         State    Status 
+--------------------------------------------------------------------------
+(0)          0     Tray99Drawer1  1        SN SV43517840  Optimal  OK     
+(0)          1     Tray99Drawer2  2        SN SV43517787  Optimal  OK     
+(0)          2     Tray99Drawer3  3        SN SV43512688  Optimal  OK     
+(0)          3     Tray99Drawer4  4        SN SV43512713  Optimal  OK     
+(0)          4     Tray99Drawer5  5        SN SV43517260  Optimal  OK     
+(5 elements)
+
+----------------------------------------------------------------- Enclosure/DiskSlot -----------------------------------------------------------------
+Enclosure(*) Index Drawer Position Name     Vendor Model            Serial    FW    Techno Capacity      Rotation   Speed   Mode      State    Status 
+------------------------------------------------------------------------------------------------------------------------------------------------------
+(0)          0     1      1,1      99:1,1   HGST   HUS724020ALS640  P6HXXP3V  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          1     1      1,2      99:1,2   HGST   HUS724020ALS640  P6HYU0YV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          2     1      1,3      99:1,3   HGST   HUS724020ALS640  P6HYU0SV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          3     1      1,4      99:1,4   HGST   HUS724020ALS640  P6HYMJAV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          4     1      1,5      99:1,5   HGST   HUS724020ALS640  P6HYMK2V  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          5     1      1,6      99:1,6   HGST   HUS724020ALS640  P6HYTS0V  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          6     1      1,7      99:1,7   HGST   HUS724020ALS640  P6HXXDVV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          7     1      1,8      99:1,8   HGST   HUS724020ALS640  P6HYTGXV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          8     1      1,9      99:1,9   HGST   HUS724020ALS640  P6HYLWZV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          9     1      1,10     99:1,10  HGST   HUS724020ALS640  P6HYMM7V  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          10    1      1,11     99:1,11  HGST   HUS724020ALS640  P6HHD41U  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          11    1      1,12     99:1,12  HGST   HUS724020ALS640  P6HYNLRV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          12    2      2,1      99:2,1   HGST   HUS724020ALS640  P6HTV25V  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          13    2      2,2      99:2,2   HGST   HUS724020ALS640  P6HYU08V  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          14    2      2,3      99:2,3   HGST   HUS724020ALS640  P6HHD3RU  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          15    2      2,4      99:2,4   HGST   HUS724020ALS640  P6HYTPMV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          16    2      2,5      99:2,5   HGST   HUS724020ALS640  P6HYT9DV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          17    2      2,6      99:2,6   HGST   HUS724020ALS640  P6HXU5VV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          18    2      2,7      99:2,7   HGST   HUS724020ALS640  P6HYTZUV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          19    2      2,8      99:2,8   HGST   HUS724020ALS640  P6HYLLUV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          20    2      2,9      99:2,9   HGST   HUS724020ALS640  P6HYTRSV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          21    2      2,10     99:2,10  HGST   HUS724020ALS640  P6HYTBTV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          22    2      2,11     99:2,11  HGST   HUS724020ALS640  P6HYU6EV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          23    2      2,12     99:2,12  HGST   HUS724020ALS640  P6HYL19V  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          24    3      3,1      99:3,1   HGST   HUS724020ALS640  P6HXYJ0V  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          25    3      3,2      99:3,2   HGST   HUS724020ALS640  P6HXSKLV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          26    3      3,3      99:3,3   HGST   HUS724020ALS640  P6HYNM0V  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          27    3      3,4      99:3,4   HGST   HUS724020ALS640  P6HYNMBV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          28    3      3,5      99:3,5   HGST   HUS724020ALS640  P6HYT2PV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          29    3      3,6      99:3,6   HGST   HUS724020ALS640  P6HYN02V  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          30    3      3,7      99:3,7   HGST   HUS724020ALS640  P6HXU49V  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          31    3      3,8      99:3,8   HGST   HUS724020ALS640  P6HYSZKV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          32    3      3,9      99:3,9   HGST   HUS724020ALS640  P6HYNM3V  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          33    3      3,10     99:3,10  HGST   HUS724020ALS640  P6HXU56V  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          34    3      3,11     99:3,11  HGST   HUS724020ALS640  P6HYNM7V  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          35    3      3,12     99:3,12  HGST   HUS724020ALS640  P6HYN96V  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          36    4      4,1      99:4,1   HGST   HUS724020ALS640  P6HYM98V  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          37    4      4,2      99:4,2   HGST   HUS724020ALS640  P6HYM6MV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          38    4      4,3      99:4,3   HGST   HUS724020ALS640  P6HYMDNV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          39    4      4,4      99:4,4   HGST   HUS724020ALS640  P6HYTRRV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          40    4      4,5      99:4,5   HGST   HUS724020ALS640  P6HXXUSV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          41    4      4,6      99:4,6   HGST   HUS724020ALS640  P6HYN7AV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          42    4      4,7      99:4,7   HGST   HUS724020ALS640  P6HXYGTV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          43    4      4,8      99:4,8   HGST   HUS724020ALS640  P6HYU09V  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          44    4      4,9      99:4,9   HGST   HUS724020ALS640  P6HYLGJV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          45    4      4,10     99:4,10  HGST   HUS724020ALS640  P6HYSZVV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          46    4      4,11     99:4,11  HGST   HUS724020ALS640  P6HYMN2V  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          47    4      4,12     99:4,12  HGST   HUS724020ALS640  P6HYJ5EV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          48    5      5,1      99:5,1   HGST   HUS724020ALS640  P6HYLWHV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          49    5      5,2      99:5,2   HGST   HUS724020ALS640  P6HYT6ZV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          50    5      5,3      99:5,3   HGST   HUS724020ALS640  P6HYTH2V  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          51    5      5,4      99:5,4   HGST   HUS724020ALS640  P6HU7SBV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          52    5      5,5      99:5,5   HGST   HUS724020ALS640  P6HYNNVV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          53    5      5,6      99:5,6   HGST   HUS724020ALS640  P6HYT2GV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          54    5      5,7      99:5,7   HGST   HUS724020ALS640  P6HYTPLV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          55    5      5,8      99:5,8   HGST   HUS724020ALS640  P6HW5UUU  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          56    5      5,9      99:5,9   HGST   HUS724020ALS640  P6HYJ3KV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          57    5      5,10     99:5,10  HGST   HUS724020ALS640  P6HYTHJV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          58    5      5,11     99:5,11  HGST   HUS724020ALS640  P6HYHYPV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK     
+(0)          59    5      5,12     99:5,12  HGST   HUS724020ALS640  P6HXU4KV  MS02  SAS    1,862.516 GB  7,200 RPM  6 Gbps  Assigned  Optimal  OK
+</code>
+</hidden>
+
+  * En la seccion ** Enclosure/DiskSlot **, se muestran todos los discos, su estado y su numero de serie.

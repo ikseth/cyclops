@@ -1,0 +1,49 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - HA Pacemaker: Start ** 
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo    ^  Nodos        ^  Descripción                                   ^  Criticidad         ^  Implicacion                                             ^
+|  Gestión  |  MANAGEMENT NODES  |  Acceso de los usuarios al sistema productivo  |  @#FAAC58:ALTA  |  Caida en el nivel de integridad del sistema productivo  |
+|  Lustre   |  node[RANGE]  |  Funcionamiento del servicio                   |  @#FAAC58: ALTA  |  Posibilidad de caida completa del sistema productivo    |
+
+
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo    ^  Nodos        ^  Descripción  ^  Criticidad  ^  Implicacion                                             ^
+|  Gestión  |  MANAGEMENT NODES  |               |   @#FAAC58:ALTA    |  Caida en el nivel de integridad del sistema productivo  |
+|  Lustre   |  LUSTRE MDS NODES  |               |   @#FAAC58: ALTA    |  Posibilidad de caida completa del sistema productivo    |
+| :::       |  node[RANGE]  |               |  @#FAAC58:  ALTA    |  Posibilidad de caida completa del sistema productivo    |
+===== Procedimiento =====
+
+  -Conectarse al nodo de gestión: [[:operation:procedures:SPXXXX0002| SPXXXX0002 : Establecer Conexión SSH]].
+  -Ejecutar: <code>
+haadm start [nombre del nodo caído]
+</code>
+<hidden Resultado>
+<code>
+[root@[MANAGEMENT NODES] ~]# haadm start [NODE]X
+Do you want to start Pacemaker on this node ? [y/N] : 
+y
+Pacemaker successfully started (but check with "show" or "showloop" action until node [MANAGEMENT NODES] becomes "Online").
+Done
+</code>
+</hidden>
+    * También se puede arrancar Pacemaker desde el mismo  nodo donde no está corriendo con el siguiente comando:
+<code>
+haadml start 
+</code>
+<hidden Resultado>
+<code>
+[root@[MANAGEMENT NODES] ~]# haadml start
+Do you want to start Pacemaker on this node ? [y/N] : 
+y
+Pacemaker successfully started (but check with "show" or "showloop" action until node [MANAGEMENT NODES] becomes "Online").
+Done
+</code>
+</hidden>
+  

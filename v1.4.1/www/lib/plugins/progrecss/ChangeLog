@@ -1,0 +1,57 @@
+==== Progrecss Plugin Changelog ====
+
+2010-12-08  Luis Machuca Bezzaza <luis [dot] machuca [at] gulix [dot] cl>
+
+    * Version: 1.8RC
+    * syntax.php: reindented.
+    * syntax.php: Added support for configuration options: fraction separator 
+    ("/") and percentage format via sprintf(). Thanks to Gunnar Gorges
+    for suggestions.
+    * syntax.php: empty caption no longer generates a caption <span>, thanks to 
+    suggestion by Gunnar Gorges and Otto Vanio (from sortablejs plugin).
+    * syntax.php: Override i18n'd description in preparation for potential 
+    localizations in plugin descriptions (see plugin.info.txt).
+    * conf/: Added configuration files (metadata.php and default.php).
+    * lang/: Added folder with translation strings.
+    * lang/en/*: Added translation by Luis Machuca Bezzaza.
+    * lang/es/*: Added translation by Luis Machuca Bezzaza.
+    * lang/de/*: Added translation by Gunnar Gorges.
+    * lang/ru/*: Added translation by Ksenia Glushak.
+    * lang/common.php: Added file with formatted link to PHP manual.
+    * style.css: Improved default style with CSS3 round borders.
+    * print.css: Added file.
+    * plugin.info.txt: Added file. Description strings can be 
+    superseded by $lang['plugin_desc'] as per mailinglist conversation 
+    (http://www.freelists.org/post/dokuwiki/Internationalization-in-plugin-descriptions-via-plugininfotxt).
+    * Plugin Page: Updated to point to new demo page.
+
+2010-02-08  Luis Machuca Bezzaza <luis [dot] machuca [at] gulix [dot] cl>
+
+    * Version: 1.6
+    * syntax.php: Support for x/y progress syntax (eg.: 2/5).
+    * syntax.php: Partially improved the regex.
+    * ChangeLog: added.
+
+
+2008-12-25  Luis Machuca Bezzaza <luis [dot] machuca [at] gulix [dot] cl>
+
+    * Version: 1.4
+    * Christmas Release.
+    * syntax.php: Add limited support for the text renderer.
+    * syntax.php: Add limited support for parsing wikitext in caption.
+
+2008-06-01  Luis Machuca Bezzaza <luis [dot] machuca [at] gulix [dot] cl>
+
+    * Version: 1.2
+    * style.css: Using colo macros to better integrate with templates.
+    * style.css: Removed vendor-specific CSS.
+    * Archive for Plugin Manager.
+    * Demo Page.
+
+2008-02-01  Luis Machuca Bezzaza <luis [dot] machuca [at] gulix [dot] cl>
+
+    * Version: 1.0
+    * First documented release.
+    * DokuWiki page: (add) created.
+
+

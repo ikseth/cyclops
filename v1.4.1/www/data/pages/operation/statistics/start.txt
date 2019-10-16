@@ -1,0 +1,5 @@
+====== Statistics ======
+
+  * [[operation:statistics:main|Main]]
+  * [[operation:statistics:slurm|Slurm]]
+  * [[operation:statistics:cyclops|Cyclops]]

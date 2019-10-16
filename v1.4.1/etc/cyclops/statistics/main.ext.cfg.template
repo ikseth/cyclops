@@ -1,0 +1,4 @@
+#### MAIN STAT CONFIG FILE ####
+#### [index];[type];[cfg file name];[data dir]
+
+#### EXAMPLE #### 0001;slurm;main.slurm.ext.cfg;slurm

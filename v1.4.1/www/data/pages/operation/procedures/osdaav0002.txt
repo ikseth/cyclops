@@ -1,0 +1,50 @@
+====== Service http failure ======
+
+===== Notificación Inicial =====
+
+|< 50% >|
+^  Código      ^  Nombre Procedimiento  ^  Verificado                  ^  Operativo    ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+|  OSDAAV0002  |  Service http failure  |  @#FA5858:<fc white>NO</fc>  |  @#EAFFD5:SI  |  28/07/2015      |  30/09/2015                 |  0.3      |
+
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 30% 10% 50%>|
+^  Grupo         ^  Nodos    ^  Descripción         ^  Criticidad  ^  Implicación  ^
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 30% 10% 50%>| 
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Todos          |                                                                  |  @#EAFFD5: BAJA        |  Problemas para actualizar e instalar software  |
+
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+  - Notificar la incidencia:
+
+==== Alcance ====
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION                   ^  HORARIO EJECUCION                                                                     ^
+
+==== Ejecución ====
+
+  * ** Se ejecutan los siguientes pasos: **
+
+  - Conectamos desde el exterior a un nodo de gestión [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+    - En caso de no poderse conectar realizar: [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+  - Comprobamos el estado del servicio HTTP -> [[operation:procedures:OSDABS0003|OSDABS0003 :Chequear servicio]]
+    - Si obtenemos que el servicio es ** stopped ** :
+      * Arrancamos el servicio[[:operation:procedures:OSDABS0004|OSDABS0004 : Start servicio]]
+    - Verificar de nuevo el estado del servicio
+        * [[:operation:procedures:OSDABS0003|OSDABS0003: Chequear servicio]]
+        
+==== Notificación Final ====
+
+  - Notificar la incidencia:
+  - FINAL

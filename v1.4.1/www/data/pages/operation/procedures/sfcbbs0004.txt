@@ -1,0 +1,17 @@
+====== Procedimientos Técnicos - Básicos ======
+
+<fc red>### MODIFICAR CODIGO Y ASIGNACION A SERVICIOS ###</fc>
+
+** Software - ClusterDB : Extract DHCP **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo   ^  Nodos  ^  Descripción             ^  Criticidad          ^  Implicación                                     ^
+|  Todos         |  Todos  |  |  BAJA | El sistema necesita la asignación de IPs a Host  |
+
+
+===== Procedimiento =====
+
+  - Chequear la configuracion del servicio DHCP, siempre antes de su reincio, sobre todo si se ha modificado algun dato de la configuacion.<code>
+/usr/sbin/dhcpd -t -cf /etc/dhcpd.conf</code>

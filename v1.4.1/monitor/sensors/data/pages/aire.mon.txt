@@ -1,0 +1,11 @@
+<html>
+<meta http-equiv="refresh" content="120">
+</html>
+===== Nodos aire =====
+
+|< 100% 6% 4%>|
+|  @#DEE6FF:11:25:20  |  @#C9D6FF:Uptime  |  @#C9D6FF:monitor  |  @#C9D6FF:squeue  |  @#C9D6FF:bios_log  |  @#C9D6FF:cpu  |  @#C9D6FF:df_space  |  @#C9D6FF:swap  |  @#C9D6FF:lsidisk  |  @#C9D6FF:network  |  @#C9D6FF:slurm  |  @#C9D6FF:lustre  |  @#C9D6FF:munge  |  @#C9D6FF:collectd  |  @#C9D6FF:openibd  |  @#C9D6FF:ntpd  |  @#C9D6FF:syslog-ng  |
+|  @#F2F2F2:nimbus10  |  @#F2F2F2:off  |
+|  @#F2F2F2:nimbus11  |  @#F2F2F2:off  |
+|  @#F2F2F2:nimbus12  |  @#F2F2F2:off  |
+|  @#F2F2F2:nimbus13  |  @#F2F2F2:off  |

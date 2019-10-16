@@ -1,0 +1,22 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Hardware : Almacenamiento : Enceder una Cabina **  
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo         ^  Nodos            ^  Descripción                                              ^  Criticidad      ^  Implicación  ^
+|  gestion       |  MANAGEMENT NODES      |                                                           |  @#EAFFD5: BAJA  |  Ninguna      |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >| 
+^  Grupo         ^  Nodos            ^  Descripción                                              ^  Criticidad      ^  Implicación  ^ 
+|  Ninguno       |  Ninguno          |                                                           |  @#EAFFD5: BAJA  |  Ninguna conocida  |
+
+===== Procedimiento =====
+
+  * ** Paso 1: ** se ejecuta el siguiente comanda<code>
+storeadm poweron -da [nombre cabina]
+</code>
+

@@ -1,0 +1,34 @@
+#totd_plugin {
+    margin-bottom: 31px;
+}
+
+#totd_plugin .totd-footer a {
+
+    float: left;
+
+    background: #49473E;
+    color: #fff !important;
+    text-decoration: none;
+
+    width: 15px;
+    height: 15px;
+
+    font-size: 9px;
+    text-align: center;
+
+    padding: 0px;
+    margin: 0px;
+
+    list-style: none;
+
+    cursor: pointer;
+}
+
+#totd_plugin .totd-footer a:hover {
+    background-color: #577B5D;
+    text-decoration: none !important;
+}
+
+#totd_plugin .totd-footer a.active {
+    background: #716D60;
+}

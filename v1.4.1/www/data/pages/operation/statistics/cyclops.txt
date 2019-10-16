@@ -1,0 +1,9 @@
+====== Cyclops Statistics ======
+
+
+===== Audit Totals =====
+ 
+  * [[operation:statistics:cyclops:audit:main|Main]] , Group by date. 
+  * [[operation:statistics:cyclops:audit:activity|Activity]] , Group by date. 
+  * [[operation:statistics:cyclops:audit:bitacora|Bitacora]] , Group by date. 
+  * [[operation:statistics:cyclops:audit:issues|Issues]] , Group by date. 

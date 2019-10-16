@@ -1,0 +1,22 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Hardware - BIOS : Forzar Carga de la BIOS durante el arranque **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo     ^  Nodos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación  ^
+|  Todos     |  Todos                      |                                                                                          |  @#EAFFD5: BAJA      |  Cambios en la configuración de la BMC  |
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Depende         |                                                                  |  @#EAFFD5: BAJA       |  Ninguno Conocido  |
+
+===== Procedimiento =====
+
+  - Desde un nodo de gestión:<code>
+ipmitool -H [NOMBRE BMC NODO] -U [USUARIO] -P [CLAVE] chassis bootdev bios
+</code>
+

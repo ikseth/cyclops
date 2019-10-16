@@ -1,0 +1,12 @@
+====== Control de Cambios - weekv28092015 ======
+
+** Change **
+
+  - FUNCIONALIDADES:
+    - Se crea un script para conocer resumir el estado del entorno productivo
+  - TUNING:
+    - Se cambia el plugin //full operative nodes// para que solo genere warnings (tipo amarillo) que no activen procedimientos o alertas en el sistema y operadores.
+    - Se cambia el plugin //health// para que solo genere warnings (tipo amarillo) que no activen procedimientos o alertas en el sistema y operadores.
+  - REPARACION DE ERRORES:
+    - Se repara la opción del script cyclops.sh para la gestión de procedimientos.
+    - Se reparan diversos errores del script audit.sh (aun esta en version alpha)

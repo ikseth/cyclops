@@ -1,0 +1,15 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Operating System - Administration : Sincronizar Manualmente Servidor Master NIS con el Slave ** 
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo ^  Nodos  ^  Descripción             ^  Criticidad          ^  Implicación                                     ^
+|  management  |  nodo0  |  Forzar la sincronizacion entre los servidores NIS   |  BAJA  |  Ninguna conocida  |
+
+
+===== Procedimiento =====
+
+  * Ejecutar el siguiente comando:<code>
+ssh nodo1 "/usr/lib64/yp/ypxfr_1perhour ; /usr/lib64/yp/ypxfr_1perday ; /usr/lib64/yp/ypxfr_2perday"</code>

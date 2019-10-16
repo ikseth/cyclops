@@ -1,0 +1,959 @@
+====== Manual de Usuario ======
+
+===== Configurar o modificar la configuración de los nodos =====
+
+  * Para crear y/o cambiar la configuracion de los nodos se dispone del comando<code>
+cyclops.sh -y config</code>
+
+  * Este comando preguntara los datos necesarios para la configuración y definición de los nodos accesibles por cyclops
+  * Se podrán revisar los cambios antes de crearlos
+  * Es necesario definir familias y grupos para todos los nodos, estas definiciones habrán de hacerse por separado.
+  * Los grupos son necesarios para asignar los nodos a la monitorio
+  * Las familias definen los grupos de sensores sobre nodos homogéneos para su monitorización
+
+
+===== Gestión de la Monitorización =====
+
+==== Estados de Cyclops ====
+
+  * Existen diversos modos en el sistema de monitorización:
+    * ** enable ** , Activar el sistema de monitorización, el cambio a este estado reseteara las alertas existentes y pondrá a cero el contador de ciclos.
+    * ** disable ** , La monitorización estará completamente parada, tan solo el script de monitorización ejecutara una comprobación sobre si ha cambiado el estado.
+    * ** drain ** , Este modo mantendrá activo el script de monitorización, pero no ejecutara ninguna de las secciones configuradas.
+    * ** testing ** , Este modo realizara una monitorización completa pero no generara alertas por email, este estado es el recomendado cuando se esten realizando pruebas sobre el entorno monitorizado.
+      * Los siguientes modos realizan las mismas acciones que el modo ** testing ** , pero su nombre es distinto para hacer referencia a actuaciones concretas sobre el sistema por parte de los técnicos:
+        * ** repair ** , los técnicos están realizando tareas de reparación de uno o varios componentes hardware o software del sistema monitorizado
+        * ** intervention ** , se esta realizando una intervención por parte de los técnicos sobre el sistema
+
+  * Comando: <code>/opt/cyclops/cyclops.sh -y [ACCION]</code> Activa, desactiva y muestra el estado de la monitorización.
+
+   * Comprobar el estado general:<code>
+/opt/cyclops/scripts/cyclops.sh -y status
+</code>
+   * ** <fc red> NOTA: </fc> Actualmente se recomienda el uso del comando cyc.status.sh para conocer el estado de cyclops, sus recursos, opciones y componentes. **
+
+<hidden ejemplo de salida>
+<code>
+Cyclops Monitoring System MODE IS: TESTING
+Options Status:
+-----------------------------------
+
+Monitor Status
+Monitor Cycles                   Cyclops Status
+1400                             TESTING
+
+Uptime Control Plugin
+Uptime Record Host               Days            Code Description
+nodo5                          99              UPTIME_RECORD
+
+Audit Status Option
+Code Description                 Status
+AUDIT                            ENABLED
+
+Mail Status Option
+Code Description                 Status
+MAIL                             ENABLED
+
+Web Sound Alerts Status Option
+Code Description                 Status
+SOUND                            ENABLED
+
+HA Status
+Code Description                 Status          Master Host
+HA                               ENABLED         nodo0
+</code>
+</hidden>
+  * Activar la monitorizacion:<code>
+/opt/cyclops/scripts/cyclops.sh -y enable
+</code>
+  * Desactivar la monitorizacion:<code>
+/opt/cyclops/scripts/cyclops.sh -y disable
+</code>
+  * Poner la monitorizacion en mantenimiento:<code>
+/opt/cyclops/scripts/cyclops.sh -y drain
+</code>
+  * Poner la monitorizacion en pruebas:<code>
+/opt/cyclops/scripts/cyclops.sh -y testing
+</code>
+
+  * ** Sera requerido el parámetro -c para aplicar los cambios **
+  * Usar el parámetro ** -h ** para ayuda en caso de duda
+
+==== Activar/Desactivar modulos de cyclops ====
+
+  * Los modulos actualmente disponibles son:
+    * ** AUDIT: ** Modulo de auditoria, permite el registro de acciones y estados de la monitorizacion, ademas de añadir un diario para los nodos y otro general.
+    * ** MAIL: ** Modulo de envio de correos electronicos, tanto mensajes de alertas como mensajes generados por la auditoria o los administradores del sistema.
+    * ** SOUND: ** Modulo de sonido en el interfaz web, permite alarmas sonoras en la monitorizacion web.
+    * ** HA: ** Modulo de Alta disponibilidad de cyclops.
+    * ** REACTIVE: ** Modulo reactivo, depende del modulo razor, es necesario que este activo para su correcto funcionamiento, proporciona una automatizacion de acciones ante fallos en los nodos.
+    * ** SCREENCTL: ** Modulo de seguridad para el control de acceso, genera un registro de lo mostrado por pantalla en los nodos donde cyclops hace de servidor. 
+    * ** WELCOMESYS: ** Modulo para el anuncio de mensakes en el login, actualmente solo operativo en los nodos donde cyclops hace de servidor.
+    * ** MON_SRV: ** Modulo de monitorizacion de servicios, actualmente no se puede desactivar.
+    * ** MON_SEC: ** Modulo de monitorizacion de seguridad, actualmente no se puede desactivar. 
+    * ** MON_NOD: ** Modulo de monitorizacion de nodos/hosts, actualmente no se puede desactivar.
+    * ** MON_ENV: ** Modulo de monitorizacion del entorno, actualmente no se puede desactivar. 
+    * ** RAZOR: ** Modulo de gestion de nodos.
+
+  * El comando para la activacion/desactivacion de los modulos:<code>/opt/cyclops/scripts/cyclops.sh -y NO[MODULO]</code>
+  * El NO que precede al nombre del modulo desactiva este.
+
+==== Integridad de Cyclops ====
+
+  * En ocasiones y por distintas causas, como modificacion de los scripts y ficheros de configuracion cyclops puede quedar dañado, para comprobar el estado hay que realizar las siguientes acciones:
+
+  - Comprobar el estado de cyclops:<code>
+cyclops -y status</code>
+    * Verficar que la monitorizacion y los servicios deseados no estan en ** DISABLE ** , usar el comando ** cyclops -y [OPCION] ** para activarlas //( opción -h para ver la ayuda y opciones disponibles )//
+  - Comprobar la integridad de los principales ficheros de cyclops:<code>
+cyclops -y sum</code>
+    * En caso de detectar fallos en los ficheros "SLAVE SUM" lanzar el comando anterior con la opción -c. Puede que sea necesario realizarlo varias veces para aplicar los cambios. 
+  - Comprobar los logs de errores y monitorizacion:<code>
+tail -f /opt/cyclops/logs/[HOSTNAME].mon.log  | awk -F\; '{ if ( $1 ~ "^[0-9]" ) { $1=strftime("%Y-%m-%d %H:%M",$1)}  print $0 }'
+</code>
+    * El comando anterior habría que ejecutarlo en los nodos "MASTER" y "SLAVE" en caso de estar activa la opcion de ** HA **
+==== Administrar Nodos ====
+
+  * Comando /opt/cyclops/scripts/cyclops.sh, permite especificar con el parámetro -n familia, grupo, nodo o conjunto de nodos ( a partir de expresiones regulares).
+  * ** <fc red> NOTA: </fc> Se recomienda probar los cambios antes de realizaros. **
+
+  * Comprobar los cambios de estado de un nodo:<code>
+/opt/cyclops/scripts/cyclops.sh   -a [acción] -n [nodo o rango de nodos|@[familia|grupo]]
+</code>
+  * Cambiar el estado de un nodo:<code>
+/opt/cyclops/scripts/cyclops.sh   -a [acción] -n [nodo o rango de nodos|@[familia|grupo]] -c
+</code>
+
+  * Los estados disponibles para un nodo son:
+    * ** up **: estado activo, estado normal de un nodo, se monitoriza, se generan alertas en caso de estar apagado.
+    * ** drain **: estado mantenimiento, la monitorización excluye el nodo y no se muestran alertas.
+    * ** diagnose **: estado diagnostico, el nodo se monitoriza pero no genera alertas.
+    * ** content **: estado contención, el nodo genera una alerta pero no se monitoriza.
+    * ** repair **: estado reparación, el nodo no genera alertas y no se monitoriza, pendiente de reparación.
+    * ** status **: consultar el estado actual de monitorización de uno o varios nodos de manera pasiva
+
+  * Los estados de cyclops son pro-activos si se activa el modulo ** <fc red>RAZOR</fc> **, con este modulo activado los estados realizan las siguientes acciones:
+    * ** up: ** pone los recursos definidos para esa familia de nodo en up, si se activa esta función el nodo generara probablemente errores de aquellos recursos que no estén operativos, se recomienda utilizar ** link **
+    * ** link: ** enlaza los nodos al cluster, por lo que comprueba el estado de los recursos configurados y si su activación es correcta el sistema cambia el estado de ** link ** a ** up **
+    * ** drain: ** pone en mantenimiento los recursos definidos, se recomienda utilizar el estado ** unlink ** en vez de ** drain **
+    * ** content: ** estado que realizara acciones de contención de un nodo. ** NOTA: ** solo utilizar en caso de que el modulo ** REACTIVE ** no este activado.
+    * ** repair: ** estado que el modulo ** <fc red>RAZOR</fc> ** utilizara para arreglar los recursos definidos en la familia del nodo
+
+  * Estos estados se pueden automatizar en parte activando el modulo ** REACTIVE **, este modulo realiza acciones en función del estado de los nodos:
+    - Si se detecta un fallo en el sensor de un nodo, se pasara al estado ** REPAIR **, donde el modulo ** RAZOR ** realizara las tareas definidas para los nodos incluidos en su familia.
+    - Si el estado ** REPAIR ** falla, el modulo ** REACTIVE ** pasara el nodo a estado ** CONTENT **
+    - Si el estado ** REPAIR ** corrige los problemas, el modulo ** REACTIVE ** pasara el nodo al estado ** UP ** , siempre y cuando no siga existiendo un sensor en fallo no definido en los recursos ** RAZOR ** de la familia del nodo en cuyo caso pondra el nodo en estado ** DIAGNOSE **.
+
+  * Usar el parámetro ** -h ** para ayuda en caso de duda.
+
+==== Conocer el Estado de los recursos controlados y gestionados por cyclops  ====
+
+  * El comando:<code>/opt/cyclops/scripts/cyc.status.sh</code>Permite conocer diversos estados del sistema cyclops y de los recursos gestionados por el.
+    * ** -a [recurso] **: selecciona el recurso a mostrar, por defecto es ** all **, se pueden indicar varios recursos separados por comas.
+      * ** cyclops **: recurso cyclops, muestra información de cyclops.
+      * ** audit ** : modulo audit de cyclops, muestra información gestionada en este modulo.
+      * ** node ** : muestra información de los nodos/hosts
+      * ** slurm ** : muestra información sobre el entorno slurm.
+        * ** -t [tipo información] ** : Selecciona el tipo de información a mostrar, por defecto es ** status **.
+          * ** status ** : Actividad de Global de slurm en el cluster.
+          * ** use ** : //(experimental)//, utilización del cluster en función del tiempo máximo de computo disponible .
+          * ** stats ** : Estadisticas de jobs de slurm, adminte diferentes filtros, consultar ayuda //(fuente: base de datos de slurm)//.
+          * ** watt ** : //(experimental)//, muestra estadísticas de consumo de los jobs de slurm. //(Obligatorio que slurm este configurado con la opción de registro de consumo)//
+    * ** -d [ámbito de tiempo] :** determinados recursos se puede filtrar su información por un rango de fechas definido, el valor por defecto varia según el recurso.
+      * ** critical ** : muestra información sobre el plugin ** critical environment, ** donde están definidos los recursos mínimos para considerar el sistema operativo.
+      * ** system ** : muestra información especifica sobre el sistema.
+        * ** -t [tipo información] ** : Selecciona el tipo de información a mostrar, por defecto es ** status **.
+          * ** use ** : información sobre el uso cpu global del sistema.
+    * ** -d [ámbito de tiempo] :** determinados recursos se puede filtrar su información por un rango de fechas definido, el valor por defecto varia según el recurso.
+      * ** day ** : ultimas 24h
+      * ** week ** : últimos 7 dias
+      * ** month ** : ultimos 30 dias
+      * ** year ** : últimos 365 dias
+    * ** -n [nodo o rango de nodos] ** : filtrado de la información por nodo o rango, no todos los recursos poseen este filtro.
+    * ** -o [opción] ** : Opciones especificas de recursos y tipos de información concretos.
+      * Recurso: ** slurm ** : Tipo : ** stats ** : Opcion : ** user ** : activa las estadísticas agrupadas por usuario, por defecto están agrupadas por fecha.
+    * ** -h : ** Ayuda
+
+<hidden Ejemplo salida: Estado nodos>
+<code>
+[2017-04-27T11:07:06][root@nodo0][~]# cyc.status.sh -a node
+HA CHECK: ENABLED : MASTER CYCLOPS: [nodo0] : BACKUP : [nodo1] : ME=[nodo0] ROL : [MASTER] : LOCAL EXEC : [nodo0]
+
+NODE: STATUS
+------------
+
+LAST UPDATE: 2017-04-27 11:12:45
+
+Group            Family        Qty  Node Range                                       Mngt Cfg  Status  Slurm    Errors
+------           -------       ---  ----------                                       --------  ------  -----    ------
+ 
+compute_desa128  chasis62      18   nodo[6201-6218]                                UP        OK      idle      
+                 chasis63      18   nodo[6301-6318]                                UP        OK      idle      
+                 chasis72      18   nodo[7201-7218]                                UP        OK      idle      
+                 chasis73      18   nodo[7301-7318]                                UP        OK      idle      
+                 chasis82      18   nodo[8201-8218]                                UP        OK      idle      
+                 chasis83      18   nodo[8301-8318]                                UP        OK      idle      
+ 
+compute_desa64   chasis31      9    nodo[3103-3109,3111-3112]                      UP        OK      idle      
+                 chasis31      6    nodo[3113-3118]                                UP        OK      working   
+                 chasis32      16   nodo[3202-3209,3211-3218]                      UP        OK      working   
+                 chasis33      1    nodo[3318]                                     UP        OK      idle      
+                 chasis33      17   nodo[3301-3317]                                UP        OK      working   
+                 chasis41      7    nodo[4103-4109]                                UP        OK      idle      
+                 chasis41      8    nodo[4111-4118]                                UP        OK      working   
+                 chasis42      16   nodo[4202-4209,4211-4218]                      UP        OK      working   
+                 chasis43      6    nodo[4313-4318]                                UP        OK      idle      
+                 chasis43      12   nodo[4301-4312]                                UP        OK      working   
+                 chasis51      8    nodo[5102-5109]                                UP        OK      idle      
+                 chasis51      8    nodo[5111-5118]                                UP        OK      working   
+                 chasis52      2    nodo[5217-5218]                                UP        OK      idle      
+                 chasis52      14   nodo[5202-5209,5211-5216]                      UP        OK      working   
+ 
+compute_expl     hi_expl       8    nodo[3101,3110,3201,3210,4201,4210,5201,5210]  UP        OK      idle      
+                 hr_expl       72   nodo[5301-5318,6101-6118,7101-7118,8101-8118]  UP        OK      idle      
+ 
+compute_misc     desalt        2    nodo[5101,5110]                                UP        OK      idle      
+                 desalt        2    nodo[4101,4110]                                UP        OK      working   
+                 mocage        2    nodo[3102,4102]                                UP        OK      idle      
+ 
+operation        dev           2    nodo[4-5]                                      UP        OK      n/a       
+                 login         2    nodo[2-3]                                      UP        OK      n/a       
+                 ls_mds        2    nodo[6-7]                                      UP        OK      n/a       
+                 ls_oss        2    nodo[8-9]                                      UP        OK      n/a       
+                 management    2    nodo[0-1]                                      UP        OK      n/a       
+                 nfs_srv       2    nodo[10,12]                                    UP        OK      n/a       
+                 virtualizers  2    nodo[11,13]                                    UP        OK      n/a
+</code>
+</hidden>
+<hidden Ejemplo salida: Estado cyclops>
+<code>
+[2017-04-27T11:03:34][root@nodo0][~]# cyc.status.sh -a cyclops
+HA CHECK: ENABLED : MASTER CYCLOPS: [nodo0] : BACKUP : [nodo1] : ME=[nodo0] ROL : [MASTER] : LOCAL EXEC : [nodo0]
+
+CYCLOPS: STATUS
+---------------
+
+Monitor Status                      ENABLED
+Audit Status Option                 ENABLED
+Mail Status Option                  ENABLED
+Web Sound Alerts Status Option      ENABLED
+Master Host                         ENABLED
+Reactive System Option              ENABLED
+User Screen Monitoring              ENABLED
+Cyclops Wellcome Profile            ENABLED
+Security Monitor Module             ENABLED
+Services Monitor Module             ENABLED
+Node Monitor Module                 ENABLED
+Environment Devices Monitor Module  ENABLED
+Host Control Razor Management       ENABLED
+</code>
+</hidden>
+
+<hidden Ejemplo salida: Uso Slurm>
+<code> 
+[2017-04-27T11:03:28][root@nodo0][~]# cyc.status.sh -a slurm -t status
+HA CHECK: ENABLED : MASTER CYCLOPS: [nodo0] : BACKUP : [nodo1] : ME=[nodo0] ROL : [MASTER] : LOCAL EXEC : [nodo0]
+
+SLURM CLUSTER: ACTIVE NODES
+---------------------------
+
+        FILTER: DATE: day
+
+2017-04-26   11h::#################### 19%
+             12h::###################### 21%
+             13h::######################## 23%
+             14h::################### 18%
+             15h::####### 6%
+             16h::############ 11%
+             17h::########## 9%
+             18h::########### 10%
+             19h::################# 16%
+             20h::################ 15%
+             21h::####### 6%
+             22h::############ 11%
+             23h::###### 5%
+2017-04-27   00h::####### 6%
+             01h::################# 16%
+             02h::################ 15%
+             03h::####### 6%
+             04h::############ 11%
+             05h::####### 6%
+             06h::########### 10%
+             07h::###################### 21%
+             08h::########################## 25%
+             09h::####################### 22%
+             10h::####################### 22%
+             11h::################### 18%
+</code>
+</hidden>
+==== Mensajes Dashboard ====
+
+  * Comando /opt/cyclops/scripts/cyclops.sh , permite gestionar los mensajes que se mostraran en la pantalla inicial o "dashboard" de la monitorizacion.
+
+  * Los mensajes constan de las siguientes caracteristicas:
+    * Prioridad: Importancia del mensaje (info,low,medium,high) , segun la importancia se mostrara un color para realzar el mensaje
+    * Birth: Fecha de alta del mensaje
+    * Death: Fecha de caducidad del mensaje, pasada esa fecha este no se mostrara mas (aunque seguirá almacenado hasta su purgado)
+    * Mensaje: Contenido del mensaje (este no debe comenzar nunca por las palabras //"list"//, //"death"// o //Numeros// ya que son parametros dentro del comando de gestion.
+
+  * Listar mensajes:<code>
+/opt/cyclops/scripts/cyclops.sh -m list
+</code>
+  * Crear mensaje:<code>
+/opt/cyclops/scripts/cyclops.sh -m "[[mensaje]]" [ -p [info|low|medium|high]] [ -d "[YYYYMMDD [HHMM]]" ]
+</code>
+    * La prioridad es opcional ( -p ) , en caso de no indicarse se creara el mensaje con prioridad info.
+    * La fecha de caducidad es opcional ( -d ) , en caso de no indicarse el mensaje caducara a las 23:59 del dia que se creo.
+  * Purgar mensajes caducados:<code>
+/opt/cyclops/scripts/cyclops.sh -m death
+</code>
+    * Usar el parámetro ** -h ** para ayuda en caso de duda.
+    * Se borraran todos los mensajes que listados aparezcan como "DEATH"
+  * Borrar un mensaje:<code>
+/opt/cyclops/scripts/cyclops.sh -m [indice mensaje] -c
+</code>
+    * Si no se explicita el parametro -c solo mostrara los mensajes que borraria.
+    * [0-9] es el //ID// del mensaje
+
+  * Usar el parámetro ** -h ** para ayuda en caso de duda.
+==== Conocer el estado de los procedimientos ====
+
+  * Con el comando /opt/cyclops/script/cyclops se puede conocer parcialmente el estado de los procedimientos existentes en el sistema.
+
+  * Comando:<code>
+/opt/cyclops/scripts/cyclops.sh -v procedures
+</code>
+  * Comando:<code>
+/opt/cyclops/scripts/procedures.sh -t [node|env] -v [human|commas|wiki]
+</code>
+
+<hidden Ejemplo de Salida>
+<code>
+NODE MONITORING IA PROCEDURES
+CODE        DESCRIPTION                              PRIORITY  HOST                             SENSORS                             WIKI FILE       WIKI INDEX  WIKI VER  OPERATIVE  VERIFICATED
+
+FSLUAV0001  Lustre Shutdown                          20        nodo6,nodo7,nodo8,nodo9  lustre,lustre,lustre,lustre         fsluav0001.txt  YES (1)     0.2       SI         NO
+FSLUAV0002  lustre MDT failure                       40        nodo6,ALL                      uptime,lustre,lustre                fsluav0002.txt  YES (1)     0.3       SI         NO
+FSLUAV0003  lustre OST failure                       40        nodo8,nodo9,ALL              update,lustre,update,lustre,lustre  fsluav0003.txt  YES (1)     0.2       SI         NO
+FSLUAV0004  Client lustre offline                    20        ALL                              lustre                              fsluav0004.txt  YES (1)     0.2       SI         NO
+HRBIAV0001  BIOS Log Trace alert                     50        ALL                              bios_log                            hrbiav0001.txt  YES (1)     0.1       SI         NO
+HRBLAV0002  B7xx Blade Temp alert                    30        ALL                              bld_temp_b7                         hrblav0002.txt  YES (1)     0.2       NO         NO
+HRCPAV0001  CPU Temp alert CPU temperature exceeded  30        ALL                              cpu_temp                            hrcpav0001.txt  YES (1)     0.2       SI         NO
+HRHDAV0001  System disk failure                      10        ALL,ALL                          bios_log,lsidisk                    hrhdav0001.txt  YES (1)     0.1       NO         NO
+HRHDAV0002  Smart Disk Alert                         10        ALL,ALL                          bios_log,smart_disk                 hrhdav0002.txt  YES (1)     0.1       NO         NO
+HRSTAV0001  External Storage Alert                   50        ALL                              external_storage                    hrstav0001.txt  YES (1)     0.1       NO         NO
+NTCSAV0001  Network failure                          20        ALL                              network                             ntcsav0001.txt  YES (1)     0.1       NO         NO
+OSADAV0001  Alert Zombie Process                     40        ALL                              z                                   osadav0001.txt  YES (1)     0.1       NO         NO
+OSADAV0002  Swap Usage Alert                         30        ALL                              swap                                osadav0002.txt  YES (1)     0.1       NO         NO
+OSADAV0003  Alert File System Space                  30        ALL                              disk_space                          osadav0003.txt  YES (1)     0.1       NO         NO
+OSDAAV0002  service httpd failure                    40        ALL                              httpd                               osdaav0002.txt  YES (1)     0.2       SI         NO
+OSDAAV0003  service crond failure                    40        ALL                              crond                               osdaav0003.txt  YES (1)     0.2       SI         NO
+OSDAAV0005  Daemon Status failure                    40        ALL                              daemon_status                       osdaav0005.txt  YES (1)     0.2       SI         NO
+OSRHAV0001  Recovery SSH failure                     40        ALL                              sshd                                osrhav0001.txt  YES (1)     0.2       SI         NO
+OSRHAV0006  node not available                       60        ALL                              uptime                              osrhav0006.txt  YES (1)     0.2       SI         NO
+SFFTAV0001  service vsftpd failure                   30        ALL                              vsftpd                              sfftav0001.txt  YES (1)     0.1       SI         NO
+SFHBAV0001  heartbeat HA failure                     80        ALL,ALL                          daemon_status,heartbeat             sfhbav0001.txt  YES (1)     0.1       NO         NO
+SFMUAV0001  service munge failure                    20        ALL,ALL                          daemon_status,munge                 sfmuav0001.txt  YES (1)     0.1       SI         NO
+SFPMAV0001  Pacemaker service failure                20        ALL                              pacemaker                           sfpmav0001.txt  YES (1)     0.2       SI         NO
+SFPMAV0002  Pacemaker failure                        20        ALL                              corosync                            sfpmav0002.txt  YES (1)     0.2       SI         NO
+SFSLAV0001  Slurm failure                            20        ALL,ALL                          daemon_status,slurm                 sfslav0001.txt  YES (1)     0.1       SI         NO
+SFSLAV0003  Problem slurm node                       18        ALL,ALL                          slurm,slurm_node_status             sfslav0003.txt  YES (1)     0.1       SI         NO
+
+ENVIRONMENT MONITORING IA PROCEDURES
+CODE        DESCRIPTION                 PRIORITY  HOST  SENSORS  WIKI FILE       WIKI INDEX  WIKI VER  OPERATIVE  VERIFICATED
+
+HRCMAV0001  Water Chassis Status alert  50        ALL   state    hrcmav0001.txt  YES (1)     0.1       NO         NO
+HRHYAV0001  HYC Status alert            50        ALL   hyc      hrhyav0001.txt  YES (1)     0.1       NO         NO
+HRRMAV0001  RMC Power Status alert      50        ALL   power    hrrmav0001.txt  YES (1)     0.1       NO         NO</code>
+</hidden>
+
+  * El campo ** CODE ** indica el codigo correspondiente a un fichero rule existente en el directorio de reglas de la monitorizacion de nodos.
+  * El campo ** DESCRIPTION ** indica la descripción existente o no (NONE) que se mostrara en caso de detectar una incidencia con procedimiento asociado, el fichero se encuentra en /etc/cyclops
+  * El campo ** PRIORITY ** indica la prioridad del procedimiento
+  * El campo ** HOST ** indica los nodos/dispositivos sobre los que se aplica
+  * El campo ** SENSORS ** muestra los sensores activos en la regla
+  * El campo ** WIKI FILE ** indica si existe un documento wiki asociado a la regla y en caso afirmativo muestra el nombre del fichero wiki
+  * El campo ** WIKI INDEX ** muestra si esta indexado el procedimiento en el listado de procedimientos existentes en la wiki y si cuantos enlaces al procedimiento existen
+  * El campo ** WIKI VER ** muestra la versión del procedimiento wiki asociado
+  * El campo ** OPERATIVE ** indica si el procedimiento es operativo
+  * El campo ** VERIFICATED ** indica si el procedimiento esta verificado
+
+  * Con la siguiente ejecucion se muestra que sensores tienen un procedimiento asociado activo en cyclops.
+  * Comando:<code>
+/opt/cyclops/scripts/procedures.sh -t rules -v [human|commas]</code>
+
+<hidden Ejemplo de Salida>
+<code>
+SENSOR             LINK
+bios_log           exist
+bld_temp_b7        exist
+cpu                exist
+cpu_temp_b7        Not exist
+cpu_temp           exist
+daemon_generic     Generic Sensor, Show Specific Config
+daemon_status      exist
+disk_space         exist
+external_storage   exist
+hostname           exist
+ib_if              Not exist
+ib_net             Not exist
+lsidisk            exist
+lustre             exist
+lustre_fs1         Not exist
+lustre_fs2         Not exist
+mon_time           Not exist
+network            exist
+none               Not exist
+orphanps           Not exist
+pacemaker          exist
+sensor             exist
+sensor             exist
+slurm_node_status  exist
+slurm_queue        Not exist
+smart_disk         exist
+swap               exist
+uptime             exist
+z                  exist
+</code>
+</hidden>
+
+  * Usar el parámetro ** -h ** para ayuda en caso de duda.
+===== Monitorización Manual =====
+
+
+==== Nodos ====
+
+  * ** <fc red> NOTA: </fc>  Actualmente se recomienda el uso del comando cyc.status.sh, para conocer el estado de los nodos. **
+
+  * Con el comando /opt/cyclops/script/sensors.node.mon.sh se puede conocer el estado de los nodos a través de consola de texto.
+    * Parametro -v , permite formatear la salida del comando
+    * Parametro -i , activa la IA de la monitorizacion vinculando los errores existentes a procedimientos asociados a reglas de correlacion
+    * Parametro -m , especifica el nodo, grupo de nodos o tipos de nodos sobre los que se quiere obtener su estado
+
+  * Comando:<code>
+/opt/cyclops/scripts/sensors.nodes.mon.sh -v human -i -m [nodo|familia|grupo]
+</code>
+
+<hidden Ejemplo de Salida>
+<code>
+/opt/cyclops/scripts/sensors.nodes.mon.sh -v human -i -m login
+
+OK NODE STATUS - OPERATIVE
+
+family  hostname    mon_time  uptime       cpu    cpu_temp  swap  disk_space  bios_log  lsidisk  network  daemon_status  lustre    heartbeat  munge  vsftpd  crond  z
+login   UP nodo2  12.00.46  CHECKING 3d  UP 1%  UP 33%    UP    UP          UP        UP       UP       UP/36/36/      UP mount  UP         UP     UP      UP     UP 
+login   UP nodo3  12.00.46  CHECKING 3d  UP 1%  UP 36%    UP    UP          UP        UP       UP       UP/36/36/      UP mount  UP         UP     UP      UP     UP
+</code>
+</hidden>
+
+  * Usar el parámetro ** -h ** para ayuda en caso de duda.
+==== Dispositivos de Entorno ====
+
+  * Con el comando /opt/cyclops/script/sensors.envhard.mon.sh se puede conocer el estado de los nodos a través de consola de texto.
+    * Parametro -v , permite formatear la salida del comando
+    * Parametro -i , activa la IA de la monitorizacion vinculando los errores existentes a procedimientos asociados a reglas de correlacion
+    * Parametro -m , especifica el dispositivo, grupo o tipos de dispostivos sobre los que se quiere obtener su estado
+
+  * Comando:<code>
+/opt/cyclops/scripts/sensors.envhard.mon.sh -v human -i -m [[dispositivo]|[grupo]|[tipo]]
+</code>
+
+<hidden Ejemplo de Salida>
+<code>
+family  name   state  leak  blades  dbb fans  fbb fans  cmb temp  fp temp  ib sw1  ib sw1 temp                                       
+cmc     cmc31  UP     UP    UP      UP        UP        OK 73%    OK 65%   UP      OK 68%                                            
+cmc     cmc32  UP     UP    UP      UP        UP        OK 73%    OK 65%   UP      OK 68%                                            
+cmc     cmc33  UP     UP    UP      UP        UP        OK 78%    OK 69%   UP      OK 68%                                            
+cmc     cmc41  UP     UP    UP      UP        UP        OK 73%    OK 67%   UP      OK 68%                                            
+cmc     cmc42  UP     UP    UP      UP        UP        OK 73%    OK 67%   UP      OK 68%          
+
+  * Usar el parámetro ** -h ** para ayuda en caso de duda.                                  
+cmc     cmc43  UP     UP    UP      UP        UP        OK 76%    OK 69%   UP      OK 70%                                            
+cmc     cmc51  UP     UP    UP      UP        UP        OK 75%    OK 67%   UP      OK 68%                                            
+cmc     cmc52  UP     UP    UP      UP        UP        OK 73%    OK 67%   UP      OK 68%
+
+
+
+family  name   state  hyc    hyc main  hyc bkp       hyc1 temp 0  hyc1 temp 1  hyc1 temp 2  hyc1 temp 3  hyc2 temp 0  hyc2 temp 1  hyc2 temp 2  hyc2 temp 3  hyc1 Pump Pr  hyc2 Pump Pr  hyc1 leak  hyc2 leak  power  temperature  shelf  shelf temps Av  PS temps Av
+rmc     rmc30  UP     OK ok  OK hyc1   UP hyc2       UP 64%       UP 64%       UP 66%       UP 68%       UP 64%       UP 64%       UP 66%       UP 68%       OK 78%        UP 37%        UP         UP         OK ok  UP 54%       OK ok  UP 47%          UP 43%
+rmc     rmc40  UP     OK ok  OK hyc1   UP hyc2       UP 66%       UP 65%       UP 65%       UP 68%       UP 66%       UP 65%       UP 65%       UP 68%       OK 80%        UP 38%        UP         UP         OK ok  UP 54%       OK ok  UP 49%          UP 45%
+rmc     rmc50  UP     OK ok  OK hyc1   UP hyc2       UP 64%       UP 64%       UP 64%       UP 67%       UP 64%       UP 64%       UP 64%       UP 67%       OK 84%        UP 34%        UP         UP         OK ok  UP 65%       OK ok  UP 49%          UP 45%
+</code>
+</hidden>
+
+  * Usar el parámetro ** -h ** para ayuda en caso de duda.
+
+===== Auditoria de Nodos =====
+
+
+==== Consultar Información de Auditoria de Nodos ====
+
+  * Con el comando audit.nod.sh se puede conocer la informacion hardware/software y el registro automatico de incidencias de monitorizacion asi como la bitacora especifica incluida por los administradores sobre un nodo concreto.
+    * Parametro -v [human|commas] , permite visualizar la informacion
+      * human: formato amigable, permite tambien usar la opcion -f para filtrar la información
+      * commas: formato para exportar, la informacion esta separada por //punto y coma//
+      * eventlog: formato de log de todos los eventos de tipo activity/bitacora en todos los nodos, separados por comas.
+    * Parametro -f [resume,settings,activity,bitacora], filtra la informacion mostrada, solo disponible en //-v human// actualmente.
+      * resume: muestra la informacion general del nodo
+      * settings: muestra la informacion hardware/software del nodo
+      * activiy: muestra el registro de actividad del nodo
+      * bitacora: muestra el registro de entradas proporcionadas por los administradores y/o tecnicos del sistema.
+      * main: muestra la bitacora principal, se ignora el parametro -n
+    * Parametro -n [nodo], obligatorio, se indica el nodo que se desea consultar.
+
+  * Comando:<code>
+/opt/cyclops/scripts/audit.nod.sh -v human -n [nodo]</code>
+
+<hidden Ejemplo de Salida (sin filtro)>
+<code>
+[root@nodo0 scripts]# audit.nod.sh -n nodo4 -v human 
+
+INFO: nodo4
+===================================
+
+host name  host type  host group  host os  host mng status
+nodo4    io         operation   redhat6  drain
+
+SETTINGS INFO:
+-----------------------------------
+System Information      Manufacturer      Bull SAS
+System Information      Product Name      bullx
+System Information      Serial Number     XAN-SMY-00581
+System Information      Version           R423-E3
+Base Board Information  Manufacturer      Supermicro
+Base Board Information  Product Name      X9DRH-7TF/7F/iTF/iF
+Base Board Information  Serial Number     VM145S016164
+Base Board Information  Version           1234567890
+BIOS Information        BIOS Revision     1.0
+BIOS Information        Release Date      02/27/2014
+BIOS Information        Vendor            American Megatrends Inc.
+BIOS Information        Version           3.1 
+Memory Device           Module P1_DIMMA1  Size                                       16384 MB
+Memory Device           Module P1_DIMMA1  Bank Locator                               Node0_Bank0
+Memory Device           Module P1_DIMMA1  Type                                       DDR3
+Memory Device           Module P1_DIMMA1  Type Detail                                Registered (Buffered)
+Memory Device           Module P1_DIMMA1  Speed                                      1866 MHz
+Memory Device           Module P1_DIMMA1  Manufacturer                               Hynix Semiconducto
+Memory Device           Module P1_DIMMA1  Serial Number                              5059B929
+Memory Device           Module P1_DIMMA1  Part Number                                HMT42GR7AFR4C
+Memory Device           Module P1_DIMMA1  Configured Clock Speed                     1866 MHz
+Memory Device           Module P1_DIMMA2  Size                                       No Module Installed
+Memory Device           Module P1_DIMMA2  Bank Locator                               Node0_Bank0
+Memory Device           Module P1_DIMMA2  Type Detail                                Synchronous
+Memory Device           Module P1_DIMMA2  Manufacturer                               Dimm1_Manufacturer
+Memory Device           Module P1_DIMMA2  Serial Number                              Dimm1_SerNum
+Memory Device           Module P1_DIMMA2  Part Number                                Dimm1_PartNum
+Memory Device           Module P1_DIMMB1  Size                                       16384 MB
+Memory Device           Module P1_DIMMB1  Bank Locator                               Node0_Bank0
+Memory Device           Module P1_DIMMB1  Type                                       DDR3
+Memory Device           Module P1_DIMMB1  Type Detail                                Registered (Buffered)
+Memory Device           Module P1_DIMMB1  Speed                                      1866 MHz
+Memory Device           Module P1_DIMMB1  Manufacturer                               Hynix Semiconducto
+Memory Device           Module P1_DIMMB1  Serial Number                              5059B431
+Memory Device           Module P1_DIMMB1  Part Number                                HMT42GR7AFR4C
+Memory Device           Module P1_DIMMB1  Configured Clock Speed                     1866 MHz
+Memory Device           Module P1_DIMMB2  Size                                       No Module Installed
+Memory Device           Module P1_DIMMB2  Bank Locator                               Node0_Bank0
+Memory Device           Module P1_DIMMB2  Type Detail                                Synchronous
+Memory Device           Module P1_DIMMB2  Manufacturer                               Dimm4_Manufacturer
+Memory Device           Module P1_DIMMB2  Serial Number                              Dimm4_SerNum
+Memory Device           Module P1_DIMMB2  Part Number                                Dimm4_PartNum
+Memory Device           Module P1_DIMMC1  Size                                       16384 MB
+Memory Device           Module P1_DIMMC1  Bank Locator                               Node0_Bank0
+Memory Device           Module P1_DIMMC1  Type                                       DDR3
+Memory Device           Module P1_DIMMC1  Type Detail                                Registered (Buffered)
+Memory Device           Module P1_DIMMC1  Speed                                      1866 MHz
+Memory Device           Module P1_DIMMC1  Manufacturer                               Hynix Semiconducto
+Memory Device           Module P1_DIMMC1  Serial Number                              5059432E
+Memory Device           Module P1_DIMMC1  Part Number                                HMT42GR7AFR4C
+Memory Device           Module P1_DIMMC1  Configured Clock Speed                     1866 MHz
+Memory Device           Module P1_DIMMC2  Size                                       No Module Installed
+Memory Device           Module P1_DIMMC2  Bank Locator                               Node0_Bank0
+Memory Device           Module P1_DIMMC2  Type Detail                                Synchronous
+Memory Device           Module P1_DIMMC2  Manufacturer                               Dimm7_Manufacturer
+Memory Device           Module P1_DIMMC2  Serial Number                              Dimm7_SerNum
+Memory Device           Module P1_DIMMC2  Part Number                                Dimm7_PartNum
+Memory Device           Module P1_DIMMD1  Size                                       16384 MB
+Memory Device           Module P1_DIMMD1  Bank Locator                               Node0_Bank0
+Memory Device           Module P1_DIMMD1  Type                                       DDR3
+Memory Device           Module P1_DIMMD1  Type Detail                                Registered (Buffered)
+Memory Device           Module P1_DIMMD1  Speed                                      1866 MHz
+Memory Device           Module P1_DIMMD1  Manufacturer                               Hynix Semiconducto
+Memory Device           Module P1_DIMMD1  Serial Number                              5059B407
+Memory Device           Module P1_DIMMD1  Part Number                                HMT42GR7AFR4C
+Memory Device           Module P1_DIMMD1  Configured Clock Speed                     1866 MHz
+Memory Device           Module P1_DIMMD2  Size                                       No Module Installed
+Memory Device           Module P1_DIMMD2  Bank Locator                               Node0_Bank0
+Memory Device           Module P1_DIMMD2  Type Detail                                Synchronous
+Memory Device           Module P1_DIMMD2  Manufacturer                               Dimm10_Manufacturer
+Memory Device           Module P1_DIMMD2  Serial Number                              Dimm10_SerNum
+Memory Device           Module P1_DIMMD2  Part Number                                Dimm10_PartNum
+Memory Device           Module P2_DIMME1  Size                                       16384 MB
+Memory Device           Module P2_DIMME1  Bank Locator                               Node1_Bank0
+Memory Device           Module P2_DIMME1  Type                                       DDR3
+Memory Device           Module P2_DIMME1  Type Detail                                Registered (Buffered)
+Memory Device           Module P2_DIMME1  Speed                                      1866 MHz
+Memory Device           Module P2_DIMME1  Manufacturer                               Hynix Semiconducto
+Memory Device           Module P2_DIMME1  Serial Number                              5059B43F
+Memory Device           Module P2_DIMME1  Part Number                                HMT42GR7AFR4C
+Memory Device           Module P2_DIMME1  Configured Clock Speed                     1866 MHz
+Memory Device           Module P2_DIMME2  Size                                       No Module Installed
+Memory Device           Module P2_DIMME2  Bank Locator                               Node1_Bank0
+Memory Device           Module P2_DIMME2  Type Detail                                Synchronous
+Memory Device           Module P2_DIMME2  Manufacturer                               Dimm1_Manufacturer
+Memory Device           Module P2_DIMME2  Serial Number                              Dimm1_SerNum
+Memory Device           Module P2_DIMME2  Part Number                                Dimm1_PartNum
+Memory Device           Module P2_DIMMF1  Size                                       16384 MB
+Memory Device           Module P2_DIMMF1  Bank Locator                               Node1_Bank0
+Memory Device           Module P2_DIMMF1  Type                                       DDR3
+Memory Device           Module P2_DIMMF1  Type Detail                                Registered (Buffered)
+Memory Device           Module P2_DIMMF1  Speed                                      1866 MHz
+Memory Device           Module P2_DIMMF1  Manufacturer                               Hynix Semiconducto
+Memory Device           Module P2_DIMMF1  Serial Number                              5059B513
+Memory Device           Module P2_DIMMF1  Part Number                                HMT42GR7AFR4C
+Memory Device           Module P2_DIMMF1  Configured Clock Speed                     1866 MHz
+Memory Device           Module P2_DIMMF2  Size                                       No Module Installed
+Memory Device           Module P2_DIMMF2  Bank Locator                               Node1_Bank0
+Memory Device           Module P2_DIMMF2  Type Detail                                Synchronous
+Memory Device           Module P2_DIMMF2  Manufacturer                               Dimm4_Manufacturer
+Memory Device           Module P2_DIMMF2  Serial Number                              Dimm4_SerNum
+Memory Device           Module P2_DIMMF2  Part Number                                Dimm4_PartNum
+Memory Device           Module P2_DIMMG1  Size                                       16384 MB
+Memory Device           Module P2_DIMMG1  Bank Locator                               Node1_Bank0
+Memory Device           Module P2_DIMMG1  Type                                       DDR3
+Memory Device           Module P2_DIMMG1  Type Detail                                Registered (Buffered)
+Memory Device           Module P2_DIMMG1  Speed                                      1866 MHz
+Memory Device           Module P2_DIMMG1  Manufacturer                               Hynix Semiconducto
+Memory Device           Module P2_DIMMG1  Serial Number                              9044DB9D
+Memory Device           Module P2_DIMMG1  Part Number                                HMT42GR7AFR4C
+Memory Device           Module P2_DIMMG1  Configured Clock Speed                     1866 MHz
+Memory Device           Module P2_DIMMG2  Size                                       No Module Installed
+Memory Device           Module P2_DIMMG2  Bank Locator                               Node1_Bank0
+Memory Device           Module P2_DIMMG2  Type Detail                                Synchronous
+Memory Device           Module P2_DIMMG2  Manufacturer                               Dimm7_Manufacturer
+Memory Device           Module P2_DIMMG2  Serial Number                              Dimm7_SerNum
+Memory Device           Module P2_DIMMG2  Part Number                                Dimm7_PartNum
+Memory Device           Module P2_DIMMH1  Size                                       16384 MB
+Memory Device           Module P2_DIMMH1  Bank Locator                               Node1_Bank0
+Memory Device           Module P2_DIMMH1  Type                                       DDR3
+Memory Device           Module P2_DIMMH1  Type Detail                                Registered (Buffered)
+Memory Device           Module P2_DIMMH1  Speed                                      1866 MHz
+Memory Device           Module P2_DIMMH1  Manufacturer                               Hynix Semiconducto
+Memory Device           Module P2_DIMMH1  Serial Number                              5059B5EE
+Memory Device           Module P2_DIMMH1  Part Number                                HMT42GR7AFR4C
+Memory Device           Module P2_DIMMH1  Configured Clock Speed                     1866 MHz
+Memory Device           Module P2_DIMMH2  Size                                       No Module Installed
+Memory Device           Module P2_DIMMH2  Bank Locator                               Node1_Bank0
+Memory Device           Module P2_DIMMH2  Type Detail                                Synchronous
+Memory Device           Module P2_DIMMH2  Manufacturer                               Dimm10_Manufacturer
+Memory Device           Module P2_DIMMH2  Serial Number                              Dimm10_SerNum
+Memory Device           Module P2_DIMMH2  Part Number                                Dimm10_PartNum
+cpu info                vendor            GenuineIntel
+cpu info                model             Intel(R) Xeon(R) CPU E5-2650 v2 @ 2.60GHz
+cpu info                cores             32
+local disk              sda               Product                                    SMC2208         
+local disk              sda               Revision                                   3.40
+local disk              sda               Serial number                              00f03e6a55f9b5bc1b00c89f18800403
+local disk              sda               User Capacity                              298,999,349,248 bytes [298 GB]
+local disk              sda               Vendor                                     SMC     
+packages                total install     1398
+
+ACTIVITY INFO:
+-----------------------------------
+DATE        TIME      EVENT   ACTIVITY       STATUS
+12-11-2015  08:25:42  STATUS  mon status     drain
+12-11-2015  08:28:04  STATUS  mon status     up
+12-11-2015  08:30:15  ALERT   daemon_status  FAIL
+12-11-2015  08:30:15  ALERT   heartbeat      FAIL
+12-11-2015  08:53:11  STATUS  mon status     drain
+12-11-2015  10:56:29  STATUS  mon status     drain
+
+BITACORA INFO:
+-----------------------------------
+DATE        TIME      EVENT  ACTIVITY                                   STATUS
+12-11-2015  11:47:51  INFO   PRUEBA DE INSERCION DE EVENTO DE BITACORA  INFO
+</code>
+</hidden>
+
+  * Comando con filtro (se pueden añadir distintos filtros separados por comas):<code>
+/opt/cyclops/scripts/audit.nod.sh -v human -n [nodo] -f activity</code>
+
+<hidden Ejemplo de Salida (con filtro de actividad)>
+<code>
+[root@nodo0 scripts]# audit.nod.sh -n nodo4 -v human -f activity
+
+INFO: nodo4
+===================================
+
+ACTIVITY INFO:
+-----------------------------------
+DATE        TIME      EVENT   ACTIVITY       STATUS
+12-11-2015  08:25:42  STATUS  mon status     drain
+12-11-2015  08:28:04  STATUS  mon status     up
+12-11-2015  08:30:15  ALERT   daemon_status  FAIL
+12-11-2015  08:30:15  ALERT   heartbeat      FAIL
+12-11-2015  08:53:11  STATUS  mon status     drain
+12-11-2015  10:56:29  STATUS  mon status     drain
+</code>
+</hidden>
+
+  * Comando para ver todos los eventos en modo log de todos los nodos si no se especifica uno concreto:<code>
+/opt/cyclops/scripts/audit.nod.sh -v eventlog | awk -F\; 'BEGIN { OFS=";" } { $1=strftime("%Y-%m-%d;%H:%M:%S",$1); print $0}' | sort -n</code>
+
+<hidden Ejemplo de Salida>
+<code>
+2015-12-21;00:00:22;NOD;nodo4106;ALERT;z;FAIL
+2015-12-21;00:00:22;NOD;nodo4115;ALERT;z;FAIL
+2015-12-21;00:00:24;NOD;nodo3203;ALERT;z;FAIL
+2015-12-28;11:53:24;NOD;nodo4113;INFO;Aplicada Pasta Termica;INFO
+2015-12-28;11:55:29;NOD;nodo4113;STATUS;mon status;DIAGNOSE
+2015-12-28;11:55:40;NOD;nodo4104;STATUS;mon status;DIAGNOSE
+2015-12-30;11:43:06;NOD;nodo4104;STATUS;mon status;UP
+2015-12-30;22:00:15;NOD;nodo0;ALERT;z;FAIL
+2015-12-31;19:51:32;NOD;nodo4308;ALERT;bld_temp_b7;DOWN
+2016-01-01;02:12:26;NOD;nodo4308;ALERT;bld_temp_b7;DOWN
+2016-01-02;20:33:24;NOD;nodo4308;ALERT;bld_temp_b7;DOWN
+2016-01-03;08:27:22;NOD;nodo4308;ALERT;bld_temp_b7;DOWN
+2016-01-03;14:33:23;NOD;nodo4308;ALERT;bld_temp_b7;DOWN
+2016-01-03;20:21:25;NOD;nodo4308;ALERT;bld_temp_b7;DOWN
+2016-01-03;20:42:22;NOD;nodo4308;ALERT;bios_log;FAIL
+2016-01-04;01:30:18;NOD;nodo4308;STATUS;mon status;CONTENT
+2016-01-04;01:44:28;NOD;nodo4308;STATUS;mon status;UP
+2016-01-04;01:45:22;NOD;nodo4308;ALERT;slurm_node_status;FAIL
+2016-01-04;01:52:02;NOD;nodo4308;STATUS;mon status;CONTENT
+2016-01-04;07:28:24;NOD;nodo4113;STATUS;mon status;UP
+2016-01-04;07:53:03;NOD;nodo4308;STATUS;mon status;DIAGNOSE
+2016-01-04;08:24:23;NOD;nodo5111;ALERT;z;FAIL
+2016-01-04;11:21:26;NOD;nodo4113;ALERT;bios_log;FAIL
+2016-01-04;11:26:51;NOD;nodo4113;STATUS;mon status;DIAGNOSE
+2016-01-05;00:00:37;NOD;nodo3118;ALERT;z;FAIL
+2016-01-05;09:19:58;NOD;nodo4113;STATUS;mon status;REPAIR
+2016-01-05;09:20:10;NOD;nodo4308;STATUS;mon status;REPAIR
+2016-01-05;09:29:05;NOD;nodo4317;STATUS;mon status;DRAIN
+2016-01-05;10:14:59;NOD;nodo4317;STATUS;mon status;UP
+2016-01-05;10:15:04;NOD;nodo4308;STATUS;mon status;UP
+2016-01-05;13:00:28;NOD;nodo4308;STATUS;mon status;DIAGNOSE
+2016-01-06;00:00:27;NOD;nodo4115;ALERT;z;FAIL
+2016-01-07;07:25:56;NOD;nodo4308;STATUS;mon status;UP
+2016-01-07;16:18:42;NOD;nodo4113;STATUS;mon status;DIAGNOSE
+2016-01-08;12:12:41;NOD;nodo4113;STATUS;mon status;REPAIR
+2016-01-11;00:00:27;NOD;nodo4101;ALERT;z;FAIL
+</code>
+</hidden>
+
+  * Usar el parametro ** -h ** para acceder a la ayuda
+==== Insertar Información de Bitácora en la Auditoria de Nodos ====
+
+  * Con el comando audit.nod.sh se puede información especifica sobre aquellas tareas, eventos o notas que afecten a un nodo.
+  * Con el parametro -i //bitacora// se inserta un mensaje en el diario del nodo, aparte se requieren los siguientes parámetros:
+    * ** -m [ información ] ** , se incluye con esta opción el mensaje o información que se quiera insertar en el diario, usar comillas para el contenido del mensaje
+    * ** -n [ nodo/host o rango ] ** , nombre del nodo/host o rango de nodos sobre el/los que se quiere hacer la inserción de información. <fc orange>Si no se indica se incorpora a la bitacora central</fc>
+  * También se puede incluir con los siguientes parámetros un mayor detalle sobre la información insertada (opcionales):
+    * ** -s [ Estado ] ** , se detalla el estado en que se encuentra el nodo cuando se inserta la información (UP/OK/DOWN/FAIL/...), //el valor por defecto en caso de no incluirse es INFO//.
+    * ** -e [ Tipo de Evento ] ** , se detalla el tipo de evento de bitácora insertado ( INFO/WARNING/STATUS/...), //el valor por defecto en caso de no incluirse es INFO//.
+
+  * ** <fc orange> NOTA: </fc> ** Con el parametro //**-i issue**// (exclusivo) , el registro del evento se realizara de forma interactiva con el usuario, de tal forma que le preguntara la información requerida.
+
+<hidden ejemplo de salida>
+<code>
+audit.nod.sh -i bitacora -m "MENSAJE: prueba de inserción de evento de bitácora" -e INFO -s OK
+
+- Se inserta un evento de bitácora con el siguiente texto ~MENSAJE: prueba de inserción de evento de bitácora~ de tipo INFO y con estado del host/nodo OK.
+</code>
+</hidden>
+
+===== Generación de Informes y Estadísticas Cyclops =====
+
+==== Informes y Estadísticas en el Interfaz web ====
+
+  * El comando para la generación de informes y estadísticas es ** cyc.stats.sh ** <code>
+cyc.stats.sh -t [TIPO[cyclops|users|daemon|mix|...]] -b [FECHA DE COMIENZO] -f [FECHA FINAL] -n [RANGO DE NODOS|NODO] -i [NOMBRE DEL INFORME] -d '[DESCRIPCION]'</code>
+  * <fc orange> ** NOTA: ** </fc> Actualmente esta en fase de desarrollo y puede que aun no disponga de todas las funcionalidades presentadas.
+  * ** -t [TIPO[cyclops|users|daemon|mix|...]] ** : Actualmente solo están implementada los tipos:
+    * ** cyclops ** Este tipo calcula las estadísticas con los datos que genera y almacena la herramienta de monitorizacion.
+    * ** slurm ** Genera un informe a partir de la información extraída del gestor de tareas //slurm//.
+    * ** index ** Regenera el indice de informes disponibles.
+  * ** -b [YYYY|mmm-YYYY|YYYY-mm-dd] ** : Fecha de inicio sobre la que generar el informe, si no se especifica usa el año actual
+  * ** -f [YYYY|mmm-YYYY|YYYY-mm-dd] ** : Fecha de final sobre la que generar el informe, si no se especifica usa el día de ejecución como fecha de nacionalización.
+  * ** -n [RANGO DE NODOS|NODO] ** : Parámetros opcional, filtra las estadísticas con los nodos especificados.
+  * ** -k ** : opcional, se incluyen los enlaces a la información del modulo de auditoria de los nodos.
+  * ** -r ** : opcional, se crean sub-informes de los grupos/familias incluidas en la consulta "padre"
+  * ** -i [NOMBRE] ** : Nombre que se asignara al informe en el interfaz web, opcional, pero recomendado para poder acceder a la información. 
+    * Por defecto las estadísticas se muestran por pantalla en formato wiki
+    * La sección donde se indexan los informes estadísticos es: 
+      * cyclops: [[:operation:statistics:cyclops:start|Informes Cyclops]]
+      * slurm: [[:operation:statistics:slurm:start|Informes Slurm]]
+  * ** -d '[DESCRIPCION]' ** : Descripción para añadir al informe, ha de incluirse entre comillas simples
+  * El comando dispone de la posibilidad de automatizar informes recursivos, han de ser definidas en el fichero de configuración: ** /etc/cyclops/statistics/global.stat.report.cfg **
+    * Los campos disponibles son:
+      * ** Indice: ** Numero de prioridad del informe
+      * ** Tipo de Informe: ** Actualmente solo disponible el tipo "cyclops", para información referente a la monitorizacion. //(en desarrollo el tipo slurm, para datos referentes a este servicio)//
+      * ** Fecha de Comienzo: ** Desde que fecha se quiere iniciar el informe ( no admite fecha fin aun ), se pueden indicar rangos, como ultimo año (year), ultimo mes ( month )
+      * ** Rango de Nodos: ** Ámbito de nodos sobre los que se desea generar el informe, si se deja en blanco se presupone un "all" ( todos los nodos )
+      * ** Añadir Enlaces: ** Si se desea añadir enlaces a la información de auditoria de los nodos, las opciones son [yes|no]
+      * ** Recursivo: ** Si se desea un informe recursivo que genere sub-informes de los grupos/familias incluidos en el informe principal, las opciones son [yes|no]
+      * ** Nombre: ** Nombre del informe, se recomienda no usar caracteres especiales, ni mayúsculas, ni espacios.
+      * ** Descripción: ** Descripción del informe, se recomienda no usar caracteres especiales.
+    * Por defecto cyclops trae pre-configurado un informe completo de los últimos doce meses y es mostrado en el menú principal en el siguiente enlace: [[:operation:statistics:cyclops:start|Estadisticas Cyclops]]
+
+==== Estadísticas Cyclops, Fuente Auditoria ====
+
+  * El comando //stats.cyclops.audit.totals.sh// genera estadisticas a partir de la informacion registrada en la auditoria de cyclops.
+    * ** Filtros: **
+      * Fecha, Admite fecha de inicio fin y tiene predefinidos rangos como mes del año en curso o filtrar por un año en concreto.
+      * Nodos, Se puede especificar un nodo o rango de nodos para conocer los datos.
+      * Tipo de fuente, se puede filtrar por fuente de eventos "activity" ( registro de eventos de cyclops ) o "bitacora" ( registro de eventos introducidos por los administradores del sistema )
+      * Tipo de Evento, se puede filtrar por cualquier tipo de evento registrado por cyclops.
+    * ** Procesamiento: **
+      * Media, genera medias de los datos consultados.
+    * ** Agrupacion: **
+      * Fecha, Agrupa por fechas (Año/mes/dia)
+      * Nodos, Agrupa por nodos
+      * Evento, Agrupa por tipo de eventos
+    * ** Formato de Salida: **
+      * Legible "Humano" , formato facilmente visualizable por usuarios/administradores.
+      * Separado por comas, formato exportable a hojas de calculo y procesable por comandos. //(por defecto)//
+      * Web, Graficos en formato legible solo por el interfaz web de cyclops //(dokuwiki)//
+        * Se dispone de diversas opciones para el formato web, consultar ayuda.
+
+<hidden Ejemplo salida>
+<code>
+[2017-04-27T11:19:38][root@nodo0][~]# stats.cyclops.audit.totals.sh -b Jan  -s bitacora  -v human
+SOURCE: bitacora
+DATE RANGE FROM 2017-01-01 TO 2017-01-31
+TOTAL REGISTER PROCESSED: 583
+ACTIVE FILTERS:
+ NONE
+GROUP BY: day
+
+DAY         NUM REG
+--------    ---------
+2017-01-01  0
+2017-01-02  4
+2017-01-03  5
+2017-01-04  2
+2017-01-05  6
+2017-01-06  6
+2017-01-07  2
+2017-01-08  0
+2017-01-09  4
+2017-01-10  0
+2017-01-11  0
+2017-01-12  1
+2017-01-13  2
+2017-01-14  0
+2017-01-15  0
+2017-01-16  0
+2017-01-17  1
+2017-01-18  2
+2017-01-19  0
+2017-01-20  4
+2017-01-21  0
+2017-01-22  0
+2017-01-23  4
+2017-01-24  1
+2017-01-25  2
+2017-01-26  0
+2017-01-27  0
+2017-01-28  0
+2017-01-29  0
+2017-01-30  1
+2017-01-31  0
+</code>
+</hidden>
+==== Estadisticas Cyclops, Fuente Logs ====
+
+  * El comando //stats.cyclops.logs.sh// permite obtener informacion de los logs generados por la monitorizacion cuyos sensores almacenen informacion de tipo numerico.
+  * Los modulos de monitorizacion que generan logs, son el de estado de nodos y el de estado de entorno.
+  * Las opciones disponibles:
+    * Nodo/Dispositivo: Sobre el que se quiere obtener la estadistica.
+    * Sensor: Sensores disponibles, se dispone de una opcion de ayuda para conocer el tipo de sensores disponibles y los posibles procesamientos sobre esos sensores.
+    * Procesamiento: Tipo de procesamientos disponibles para cada tipo de sensor:
+      * Porcentual, media sobre datos porcentuales.
+      * Media, media sobre datos numericos no porcentuales.
+      * Acumulable, acumulable sobre datos numericos, incluidos porcentuales.
+      * Valores Maximos, sobre datos numericos, incluidos porcentuales.
+    * Filtros: Se dispone de filtros por fecha, incluyendo rango pre-establecidos como (Año, mes, semana, dia, hora y otros )
+    * Formato de Salida: Existen varios formatos para la informacion.
+      * Grafico en entorno texto, se dispone de un formato grafico solo disponible para datos de tipo porcentual.
+      * Legible humano, formato para consola de facil interpretacion.
+      * Separado por comas, exportable a otras aplicaciones y facilmente procesable por comandos.
+      * Interfaz web, formato para graficos en el interfaz web de cyclops, dispone de opciones especificas.
+
+<hidden Ejemplo de salida>
+<code>
+[2017-04-27T11:29:58][root@nodo0][~]# stats.cyclops.logs.sh -n nodo4202 -r cpu -d hour
+2017-04-27   10:30::################################################### 51%
+             10:33::# 1%
+             10:36::# 1%
+             10:40::# 1%
+             10:42::# 1%
+             10:45::# 1%
+             10:49::# 1%
+             10:51::# 1%
+             10:54::# 1%
+             10:57::# 1%
+             11:00::# 1%
+             11:03::# 1%
+             11:06::# 1%
+             11:09::################################################### 51%
+             11:12::################################################### 51%
+             11:15::################################################## 50%
+             11:18::################################################## 50%
+             11:21::################################################## 50%
+             11:24::################################################## 50%
+             11:27::################################################## 50%
+</code>
+</hidden>
+
+==== Estadisticas Slurm, Fuente Extraccion Base de Datos Slurm ====
+
+  * El comando //stats.slurm.total.jobs.sh// genera estadisticas a partir de la informacion extraida de la base de datos de slurm.
+  * Es imprescindible que este configurado el demonio para extraccion de informacion de slurm de cyclops //( referirse a las notas de instalacion de cyclops )//
+    * ** Origen de datos: ** Imprescindible indicar la fuente de datos de slurm a consultar //(cyclops permite la gestion de multiples clusters de slurm)//
+    * ** Filtros: **
+      * Fecha, Admite fecha de inicio fin y tiene predefinidos rangos como mes del año en curso o filtrar por un año en concreto.
+      * Usuarios, permite consultar los datos por un usuario especifico
+      * Estado de //Job//, se puede consultar por un estado de job concreto, excepto aquellos que impliquen que el job este aun operativo.
+      * Particion de slurm, se puede filtrar por una particion de slurm.
+    * ** Agrupacion: **
+      * Fecha, Agrupa por fechas (Año/mes/dia)
+      * Usuarios, Agrupa por usuarios dentro de la fecha consultada.
+      * Particion, Agrupa por las particiones de slurm.
+      * Estado, Agrupa por los estados de slurm.
+    * ** Formato de Salida: **
+      * Legible "Humano" , formato fácilmente visualizable por usuarios/administradores.//(por defecto)//
+      * Separado por comas, formato exportable a hojas de calculo y procesable por comandos. 
+      * Web, Gráficos en formato legible solo por el interfaz web de cyclops //(dokuwiki)//
+        * Se dispone de diversas opciones para el formato web, consultar ayuda.
+
+<hidden Ejemplo salida>
+<code>
+[2017-04-27T11:31:17][root@nodo0][~]# stats.slurm.total.jobs.sh -s dev -b Jan-2017 -g user 
+SOURCE: dev
+DATE RANGE FROM 2017-01-01 TO 2017-01-31 
+TOTAL REGISTER PROCESSED: 4369840
+ACTIVE FILTERS:
+ NONE
+GROUP BY: user
+
+USER      NUM JOBS  KJULIUS   KWATT/h      NODES     EXP TIME (h)
+--------  -------   --------  --------     --------  --------
+harmonie  99011     710500    197.361      129535    6891.22
+pnl       97578     203912    56.6421      97578     885.775
+pne       24397     19219.5   5.33874      32820     660.286
+pn17      4374      44237.8   12.2883      20276     437.699
+pnj       3262      27533.1   7.64809      4079      408.765
+pny       1800      5927.15   1.64643      2533      43.9294
+pn19      1642      15661.8   4.3505       2587      78.5328
+png       1045      177885    49.4124      8246      1114.55
+pnn       110       0         0            110       0.685
+pn13      106       4946.07   1.37391      631       40.3944
+bsc1      33        7726.64   2.14629      396       45.9397
+clk       28        843.411   0.234281     31        3.89056
+pn6       21        0         0            27        0.0822222
+pn1       12        404.298   0.112305     96        1.72889
+pn26      4         0.156     4.33333e-05  4         0.00222222
+pri       4         154.999   0.0430553    13        0.497778
+</code>
+</hidden>

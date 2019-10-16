@@ -1,0 +1,74 @@
+====== Comprobar Entorno Productivo ======
+
+===== Datos Generales =====
+
+
+|< 50% >|
+^  Código       ^  Nombre Procedimiento          ^  Verificado    ^  Operativo    ^  Fecha Creación   ^  Fecha Ultima Modificación  ^  Versión  ^
+|  SFCYAV0001   |  Comprobar Entorno Productivo  |  @#EAFFD5:SI   |  @#EAFFD5:SI  |  23/09/2015       |  26/03/2018                 |    0.5    | 
+
+
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >| 
+^  Grupo       ^  Nodos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación       ^
+|  Management  |  nodo[0-1]                |  Nodos de Gestión y mantenimiento del sistema                                             |  @#EAFFD5: BAJA      |  Ninguna Conocida  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >| 
+^  Grupo         ^  Nodos    ^  Descripción              ^  Criticidad          ^  Implicación       ^ 
+|  Ninguno       |  Ninguno  |                           |  @#EAFFD5: BAJA      |  Ninguna Conocida  |
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+  * ** Procedimiento de comprobación dependiente de otros procedimientos que han de incorporar los pasos correspondientes para la notificación **
+
+==== Alcance ====
+
+  * ** Proceso de comprobación dependiente de otro procedimiento padre que defina el alcance de las acciones a realizar **
+
+
+==== Ejecución ====
+
+  * El entorno productivo se puede comprobar de dos maneras:
+<hidden COMPROBACION A: Por consola>
+      - Conectarse externamente a un nodo de gestion nodo[0-1] [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+        - En  caso de no poder conectarse externamente, ejecutar [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+      - Ejecutar:<code>
+/opt/cyclops/scripts/cyc.status.sh -a critical
+</code>
+        * Se mostrara una salida similar a la siguiente:<code>
+HA CHECK: ENABLED : MASTER CYCLOPS: [nodo0] : BACKUP : [nodo1] : ME=[nodo0] ROL : [MASTER] : LOCAL EXEC : [nodo0]
+
+CRITICAL ENVIRONMENT: STATUS
+----------------------------
+
+management    OPERATIVE
+login         OPERATIVE
+ls_mds        OPERATIVE
+ls_oss        OPERATIVE
+nfs_srv       OPERATIVE
+hr_expl       OPERATIVE WITH WARNINGS
+final result  OPERATIVE WITH WARNINGS
+</code>
+
+  * El campo a tener en cuenta es ** FINAL RESULT **, sus estados posibles son:
+    * Siempre que aparezca como ** <fc green> OPERATIVE </fc> ** , el sistema sera funcional, en ocasiones puede que algún sistema no este operativo o tenga alertas, por lo que el mensaje podrá añadir algún detalle mas.
+    * Si existe un fallo en un elemento critico pero sin afectar a los elementos de backup, aparecera como ** <fc orange> OPERATIVE WITH WARNINGS </fc> ** , se recomienda referirse a la parte de detalle para ver la familia de sistemas afectados y localizar con la monitorizacion web o el comando el sensor especifico que esta generando la alerta ( [[operation:procedures:SFCYBS0001|SFCYBS0001 : Monitorizar el estado de los Nodos]] ).
+    * En caso de existir algún problema en un sistema critico para el entorno productivo este mensaje final sera del tipo ** <fc red> NO OPERATIVE </fc> **
+</hidden>
+
+<hidden COMPROBACION B: Mediante el interfaz web>
+    - Verificar en el interfaz web ( [[:operation:monitoring:dashboard|DashBoard]] ) que el indicador ** Productive Status ** esta en verde, los posibles estados son:
+      - ** <fc orange> NARANAJA: </fc> **  se mostrara el mensaje de operativo pero significara que alguno de los elementos requeridos esta caído pero su //backup// sigue funcional.
+      - ** <fc red> ROJO: </fc> ** Algun elemento critico esta caido y su //backup// tambien.
+      - ** <fc green> VERDE: </fc> ** Todos los elementos criticos definidos estan operativos.
+</hidden>
+
+==== Notificación Final ====
+
+  * ** Procedimiento de comprobación dependiente de otros procedimientos que han de incorporar los pasos correspondientes para la notificación **

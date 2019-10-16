@@ -1,0 +1,4 @@
+#### FILE CONFIG WITH CRITICAL RESOURCES ####
+##   [index];[ family|type|node ];[resource/sensor];[resource/sensor];[...]
+## EXAMPLE ## 10;2;1;management;uptime;heartbeat;slurm;slurmdb
+## EXAMPLE ## 50;4;2;compute;uptime;slurm;slurm_node_status

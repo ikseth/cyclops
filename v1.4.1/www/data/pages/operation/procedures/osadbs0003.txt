@@ -1,0 +1,34 @@
+====== Procedimientos Básicos ======
+
+===== HTOP  =====  
+
+===== Sistemas Vinculados =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción  ^  Criticidad  ^  Implicacion  ^ 
+|  Gestión       |  MANAGEMENT NODES    |  Permiten la administracion del servicio|  MUY ALTA        |        |
+|  Login         |  LOGIN NODES (CRITICAL)    |  Acceso de los usuarios al sistemaproductivo                    |  ALTA        |    |
+|  Computo/Aire  |  node[RANGE]  |  Uso del servicio por el sistemaproductivo                      |  ALTA        |  Merma en el rendimiento productivo  |
+|  Computo/Agua  |  node[RANGE]      |  Uso del servicio por el sistema productivo                      |  ALTA        |  Merma en el rendimiento productivo  |
+
+===== Sistemas Sobre los que aplicar el procedimiento =====
+
+|< 100% >| 
+^  Grupo  ^  Nodos  ^  Descripción
+^  Criticidad  ^  Implicacion  ^
+|  Todos  |  Todos  | Muestra la lista completa de los procesos en ejecución
+|              |               |
+
+===== Procedimiento =====
+
+
+    - Se establece una conexion ssh contra el nodo activo. 
+    - Htop es una aplicación interactiva y real de la supervisión de procesos de tiempo para Linux . Se muestra la lista completa de los procesos en ejecución
+    - Ejecutamos en  el nodo el siguiente comando: <code>
+[root@[MANAGEMENT NODES] ~]#  htop
+</code>
+
+
+
+
+

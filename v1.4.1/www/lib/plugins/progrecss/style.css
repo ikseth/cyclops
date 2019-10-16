@@ -1,0 +1,211 @@
+/** @file     progrecss/style.css
+ *  @brief    Default stylesheets for progrecss plugin
+ *  @author   Luis Machuca Bezzaza <luis [dot] machuca [at] gulix [dot] cl>
+ *  @version  1.8
+ *  @license  GPL v2
+ */
+/** This file provides three (3) default styles for the "progrecss"
+ *  (CSS-based progress bars) plugin for Dokuwiki.
+ */
+
+/** 
+ * -------------------------------------------------------
+ *   PROGRECSS_DEFAULT: default bar model
+ * -------------------------------------------------------
+ *
+ * Features a block box themed with the link and background colors 
+ * defined by the current theme; the gauge uses the color for 
+ * existing links, and the caption is shown in small size font.
+ * Support : pretty much all browsers since 2005 should 
+ *      display this correctly.
+ */
+
+.progrecss_default {
+	display: inline-block; 
+	margin-right: 10px;
+	margin-bottom: 5px;
+	}
+
+.progrecss_default .border {
+	display: block;
+	height: 1.2em;
+	background-color: __text_alt__;
+	padding: 0;
+	border: 2px solid __text__;
+	border-radius: 4px;
+	}
+
+.progrecss_default .border .bar {
+	display: block;
+	height: 0.8em;
+	margin: 0;
+	padding: 0;
+    vertical-align: text-top;
+	background-color: __existing__;
+	border: 1px transparent __existing__;
+	border-bottom: 2px solid __existing__; 
+	border-radius: 0 2px 2px 0 / 0 50% 50% 0;
+	color: #ffffff;
+	font-size: 66%;
+	}
+
+.progrecss_default .border .bar.inside {
+    text-align: center;
+    vertical-align: top;
+    }
+
+.progrecss_default .border .bar.before {
+    text-align: left;
+    padding-left: 1em;
+    }
+
+.progrecss_default .border .bar.after {
+    text-align: right;
+    padding-right: 1em;
+    }
+
+.progrecss_default .caption {
+	display: inline-block;
+	margin-left: 4px;
+	margin-right: 4px;
+	font-family: Helvetica, Arial;
+	font-size: 75%;
+	text-align: center;
+	}
+
+/**
+ * -------------------------------------------------------
+ *   PROGRECSS_GAUGE: rounder bar with label model
+ * -------------------------------------------------------
+ *
+ * Features a rounded box using the "missing link" colors for 
+ * the current theme, plus a black background and white face.
+ * The caption is shown as a popup under the gauge when it is focused.
+ *
+ * Support : Firefox will support this flawlessly at least from
+ *     version 2.0 onwards. Other browsers (except IE) may have 
+ *     minor presentation variances, such as Opera not supporting
+ *     "rounded" or IE displaying the caption below the gauge 
+ *     and in a block of its own.
+ */
+
+.progrecss_gauge {
+    position: relative;
+	display: block; 
+	margin-top: 0;
+	margin-bottom: 0;
+	border: 2px solid __missing__;
+	padding-left: 4px;
+	padding-right: 4px;
+	background-color: #eeeeee;
+	}
+
+.progrecss_gauge .border {
+	display: inline-block;
+	height: 1.2em;
+	margin: 0;
+	padding: 2px;
+	background-color: #ffffff;
+	}
+
+.progrecss_gauge .border .bar {
+	display: block;
+	height: 1.4em;
+	margin-top: -0.2em;
+	padding: 0;
+	background-color: #222222;
+	text-align: center;
+	font-size: 0.75em;
+	color: white;
+	}
+
+.progrecss_gauge .caption {
+    display: none;
+	}
+
+.progrecss_gauge:hover .caption {
+    position: inline-block;
+	display: block;
+	z-index: 99;
+	left: 0;
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 75%;
+	text-align: center;
+	margin-left: 1em;
+	margin-right: 1em;
+	background-color: __background_alt__;
+	border: 1px dotted black;
+	}
+
+
+/**
+ * -------------------------------------------------------
+ *   PROGRECSS_INLINE: inline bar model
+ * -------------------------------------------------------
+ *
+ * Features a bar running inline (thanks to "inline-block"), with the 
+ * gauge located "on top" of the text using the combination of colors 
+ * for existing/missing links, percentage is shown below.
+ * Caption is not displayed with this mode.
+ *
+ * Support : Opera 9.2 and later seem to be OK with this style, albeit 
+ *     breaking lines strangely when an inline-block is last element of 
+ *     the line. Firefox prior to 2.0 require a CSS fix but otherwise 
+ *     seem to be OK. IE's support is untested but we all _know_ it is 
+ *     completely broken (if any), and it is unsupported anyways.
+ */
+ 
+.progrecss_inline {
+  position: relative;
+  display: inline-block;
+  margin-top: 0;
+  margin-left: 1px;
+  margin-right: 1px;
+  line-height: 1.3em;
+  }
+
+.progrecss_inline .border {
+  display: inline-block;
+  height: 0.3em;
+  margin-top: 0em; /* this will break with very packed paragraphs */
+  margin-bottom: 0;
+  background-color: __missing__;
+  border: 0px solid inherit;
+  border-radius: 2px;
+  }
+
+.progrecss_inline .border .bar {
+  display: inline-block;
+  height: 0.1em;
+  background-color: __existing__;
+  border: 0;
+  text-align: center;
+  font-size: 75%;
+  color: gray;
+  }
+
+.progrecss_inline .caption {
+  display: block;
+  height: 1em;
+  visibility: hidden;
+  }
+
+.progrecss_inline:hover .caption {
+  display: block;
+  visibility: visible;
+  left: 0;
+  top: 0;
+  height: 100%;
+  padding: 4px;
+  padding-bottom: 0;
+  background-color: __background_alt__ !important;
+  border: 1px dotted __missing__;
+  color: __existing__ !important;
+  line-height: 1.1em;
+  font-size: 75%;
+  }
+
+
+/**
+ * end file
+ */

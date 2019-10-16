@@ -1,0 +1,9 @@
+base   progrecss
+author Luis Machuca Bezzaza
+email  luis [dot] machuca [at] gulix [dot] cl
+date   2018-03-27
+name   Progrecss plugin
+desc   Prints CSS-based progress bars with <progrecss x% /> or <progrecss x/y />
+url    http://www.dokuwiki.org/plugin:progrecss
+lang   desc
+

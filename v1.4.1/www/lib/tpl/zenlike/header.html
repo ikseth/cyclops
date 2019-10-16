@@ -1,0 +1,110 @@
+<?php
+    global $conf;
+    global $INFO;
+    $showTools = !tpl_getConf('hideTools') || ( tpl_getConf('hideTools') && $_SERVER['REMOTE_USER'] );
+    global $_SERVER;
+?>
+<div id="zenlikeheader">
+    <div class="headings">
+        <div id="headercontent">
+            <h1><?php echo $conf['title']; ?></h1>
+            <?php /* how to insert logo instead (if no CSS image replacement technique is used):
+                                upload your logo into the data/media folder (root of the media manager) and replace 'logo.png' accordingly:
+                                tpl_link(wl(),'<img src="'.ml('logo.png').'" alt="'.$conf['title'].'" />','id="dokuwiki__top" accesskey="h" title="[H]"') */ ?>
+            <?php if ($conf['tagline']): ?>
+            <p class="claim"><?php echo $conf['tagline'] ?></p>
+            <?php endif ?>
+        </div>
+
+        <div id="search">
+            <?php tpl_searchform() ?>
+        </div>
+
+    </div>
+
+    <div id="headerpic"></div>
+
+    <ul class="a11y skip">
+        <li><a href="#dokuwiki__content"><?php echo $lang['skip_to_content'] ?></a></li>
+    </ul>
+    <div class="clearer"></div>
+</div>
+
+<div id="menu">
+
+    <?php
+        tpl_include_page(tpl_getConf('menuid'));
+    ?>
+
+    <div id="rightmenu">
+
+        <?php
+
+        if ($INFO['ismobile']) {
+
+            tpl_actiondropdown($lang['tools']);
+
+        } else {
+
+            print '<ul>';
+
+            tpl_action('recent', 1, 'li');
+            tpl_action('media', 1, 'li');
+            tpl_action('index', 1, 'li');
+
+            if ($conf['useacl'] && $showTools) {
+
+                echo '<li class="menusplit">';
+
+                echo '<img src="' . tpl_basedir() .
+                    'images/icon-user.png" ' .
+                    'id="toggle_usertools" ';
+
+                if ($_SERVER['REMOTE_USER']) {
+                    echo 'title="';
+                    tpl_userinfo();
+                    echo '" ';
+                }
+
+                echo 'width="32" height="16" alt="' .
+                    $lang['user_tools'] .
+                    '" />';
+
+                echo '</li>';
+
+            }
+
+            print '</ul>';
+
+        }
+
+    ?>
+
+    </div>
+</div>
+
+<div id="usertools" style="display:none">
+    <ul>
+
+<?php
+
+    tpl_action('admin', 1, 'li');
+    _tpl_action('userpage', 1, 'li');
+    tpl_action('profile', 1, 'li');
+    tpl_action('register', 1, 'li');
+    tpl_action('login', 1, 'li');
+
+?>
+    </ul>
+</div>
+
+<div id="menubottom"></div>
+
+<!-- BREADCRUMBS -->
+<?php if($conf['breadcrumbs']){ ?>
+    <div class="breadcrumbs"><?php tpl_breadcrumbs() ?></div>
+<?php } ?>
+<?php if($conf['youarehere']){ ?>
+    <div class="breadcrumbs"><?php tpl_youarehere() ?></div>
+<?php } ?>
+

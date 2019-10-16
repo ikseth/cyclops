@@ -1,0 +1,36 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Slurm : Start **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos           ^  Descripción                                            ^  Criticidad          ^  Implicación                                                       ^
+|  Gestión       |  MANAGEMENT NODES     |  **slurmctld**:Permiten la administración del servicio  |  @#FA5858: MUY ALTA  | Puede llegar a generar un parón total del sistema y la producción  |
+|  Login         |  LOGIN NODES (CRITICAL)     |  Acceso de los usuarios al sistema productivo           |  @#FFFF00: MEDIA     | Puede dejar sin acceso a los usuarios                              |
+|  Lustre        |  LOGIN NODES     |  Servidores de Lustre (sistema de ficheros)             |  @#EAFFD5: BAJA      |                                                                    |
+|  Computo/Aire  |  node[RANGE]   |  **slurmd**:Uso del servicio por el sistema productivo  |  @#FAAC58: ALTA      | Merma en el rendimiento productivo                                 |
+|  Computo/Agua  |  node[RANGE]  |  **slurmd**:Uso del servicio por el sistema productivo  |  @#FAAC58: ALTA      | Merma en el rendimiento productivo                                 |
+
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción            ^  Criticidad          ^  Implicación  ^ 
+|  Todos        |  Todos           |                         |  @#FA5858: MUY ALTA  |El fallo de slurm puede implicar la caida completa del sistema productivo  |
+
+===== Procedimiento =====
+
+  - Conectarse al nodo de gestión:
+    * [[:operation:procedures:SPXXXX0002| SPXXXX0002 : Establecer Conexión SSH]]
+    * Desde el nodo de gestión: Establecer conexión SSH con el nodo. 
+    
+  * NODOS GESTION:
+          *  En estos nodos, **slurm**   es getionado por HA, por lo que debemos ejecutar el comando desde cualquiera de los nodods de gestión.<code>
+haresl start -n slurm 
+</code>
+  * NODOS LOGIN Y COMPUTO:
+            * En estos nodos arrancaremos el servicio desde el nodo de gestión utilizando:<code>
+ ssh [nodo afectado] /etc/int.d/slurm start
+
+</code>

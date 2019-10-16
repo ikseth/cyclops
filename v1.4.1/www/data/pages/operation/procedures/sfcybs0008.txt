@@ -1,0 +1,15 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Cyclops - Tools : configurar Acceso remoto BMC compatibles ipmitool **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo ^  Nodos  ^  Descripción             ^  Criticidad          ^  Implicación                                     ^
+|  Todos         |  Todos  | Configurar el acceso remoto  |  BAJA  | El sistema necesita la asignación de host a IPs  |
+
+
+===== Procedimiento =====
+
+  * Se ejecuta el siguiente comando:<code>
+/opt/cyclops/tools/approved/tool.configure.bmc.sh -n [nombre de bmc/ilo|nombre de bmc[rango]]</code>

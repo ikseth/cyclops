@@ -1,0 +1,5 @@
+#### WIKI/APACHE/PHP VARIABLES FOR CYCLOPS ####
+#!/bin/bash
+
+_apache_usr=apache
+_apache_grp=cyclops

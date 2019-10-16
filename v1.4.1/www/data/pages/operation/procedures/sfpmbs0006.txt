@@ -1,0 +1,33 @@
+====== Operacion ======
+
+===== Recolocar recursos Pacemaker =====
+
+  - Para recolocar recursos en el nodo preferido ejecutamos el siguiente comando desde el nodo activo:
+<code>
+ haresl relocatorigin
+</code>
+
+<hidden Resultado>
+<code>
+[root@[MANAGEMENT NODES] ~]# haresl relocatorigin
+Do you want to relocate at origin ALL group resources on this HA group ? [y/N] : 
+y
+Please wait a few seconds ...
+Resource dns will be relocated on its prefered node : [MANAGEMENT NODES]
+Resource fs-ibms will be relocated on its prefered node : [MANAGEMENT NODES]
+Resource ibms-database will be relocated on its prefered node : [MANAGEMENT NODES]
+Resource ibms-devmgr will be relocated on its prefered node : [MANAGEMENT NODES]
+Resource ibms-perfmgr will be relocated on its prefered node : [MANAGEMENT NODES]
+Resource mysql will be relocated on its prefered node : [MANAGEMENT NODES]
+Resource postfix will be relocated on its prefered node : [MANAGEMENT NODES]
+Resource postgresql will be relocated on its prefered node : [MANAGEMENT NODES]
+Resource slurm will be relocated on its prefered node : [MANAGEMENT NODES]
+Resource slurmdbd will be relocated on its prefered node : [MANAGEMENT NODES]
+
+All needed relocate requests (for running resources) have been issued to Pacemaker.
+But it could take a while (between 5 and 300s) for relocations to be completed.
+Therefore, check in the next minutes that the resources have successfully been relocated with the command :
+"haresl listprefs" or "haadml show"
+Done
+</code>
+</hidden>

@@ -1,0 +1,29 @@
+====== Procedimientos Básicos ======
+
+===== Localizar Zombies  =====  
+
+===== Sistemas Vinculados =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción  ^  Criticidad  ^  Implicacion  ^ 
+|  Gestión       |  MANAGEMENT NODES    |  Permiten la administracion del servicio|  MUY ALTA        |        |
+|  Login         |  LOGIN NODES (CRITICAL)    |  Acceso de los usuarios al sistemaproductivo                    |  ALTA        |    |
+|  Computo/Aire  |  node[RANGE]  |  Uso del servicio por el sistemaproductivo                      |  ALTA        |  Merma en el rendimiento productivo  |
+|  Computo/Agua  |  node[RANGE]      |  Uso del servicio por el sistema productivo                      |  ALTA        |  Merma en el rendimiento productivo  |
+ 
+
+===== Procedimiento =====
+
+
+    - PS es un comando que permite informar sobre el estado de los procesos, lo utilizaremos con la opción aux y buscaremos los procesos "zombies" con el siguiente comando: <code>
+  ps aux | grep Z</code>
+ <hidden Elemplo>
+<code>USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+root      8011  0.0  0.0 103256   868 pts/1    Z   10:23   0:00 bash
+</code></hidden>
+
+
+
+
+
+

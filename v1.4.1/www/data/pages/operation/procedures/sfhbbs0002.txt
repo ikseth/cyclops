@@ -1,0 +1,28 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Heartbeat : Start **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad  ^  Implicacion  ^ 
+
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo  ^  Nodos              ^  Descripción                                                                                ^  Criticidad  ^  Implicacion  ^
+
+
+===== Procedimiento =====
+
+
+  *  Los pasos a seguir  son:
+    - Conectarse al nodo de gestión: [[:operation:procedures:SPXXXX0002| SPXXXX0002 : Establecer Conexión SSH]]
+    - Ejecutamos desde el [NODE] con el servicio parado el siguiente comando:
+
+<code>
+/etc/init.d/heartbeat start
+#o
+service heartbeat start
+</code>

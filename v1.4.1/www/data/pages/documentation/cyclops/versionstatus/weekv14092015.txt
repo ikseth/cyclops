@@ -1,0 +1,11 @@
+====== Control de Cambios - weekv14092015 ======
+
+** Change **
+
+  - FUNCIONALIDADES: 
+    - Sistema de Auditoria de nodos, registro de actividad y cuaderno de bitacora para los host
+    - Control del estado del sistema mediante el fichero general "sot", se añaden dos nuevos estados "testing" y "drain", mantienen operatividad pero desactivan modulos
+    - Se define el parametro para la futura incorporacion de activacion y desactivacion de los efectos sonoros.
+    - Se crea una nueva opcion en el comando cyclops, que permite conocer el estado de los procedimientos, ficheros .rule existentes, descripcion creada y si existen documento wiki asociado y esta en la tabla de indexacion
+  - TUNNING:
+    - Se cambian los resultados de los plugins de //health// y //full operative nodes// para que no muestren alertas en rojo (DOWN) o NARANJA (FAIL)

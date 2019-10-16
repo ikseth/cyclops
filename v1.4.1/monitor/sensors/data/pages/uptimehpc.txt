@@ -1,0 +1,22 @@
+
+
+==== NODOS: UPTIME (dias)====
+
+
+=== Sistema HPC ===
+
+<gchart 700x350 hbar #3FC5EB #ffffff left values>
+H0=166
+H11=26
+H12=86
+H13=86
+H14=6
+H15=86
+H16=86
+H17=86
+H18=19
+H19=86
+H20=86
+H21=26
+H22=20
+</gchart>

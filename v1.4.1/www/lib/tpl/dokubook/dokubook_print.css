@@ -1,0 +1,10 @@
+/**
+ * Print - additional CSS for the DokuBook Template
+ *
+ * @author:     Michael Klier <chi@chimeric.de>
+ * @homepage:   http://www.chimeric.de
+ */
+
+div.dokuwiki header.stylehead { display: none; }
+div.dokuwiki div.sidebar { display: none; }
+div.dokuwiki a.action { display: none; }

@@ -1,0 +1,10 @@
+#### HA SERVICES CONTROL ####
+## [ TYPE OF SERVICE ] ; [ STRING TO CHECK ]
+## TYPE OF SERVICE:
+##	IP: control an ip
+##	FS: file system to control
+##	SV: Daemon to control
+##	ND: HA Nodes
+#IP;192.168.5.200
+#ND;nodo1
+#ND;nodo2

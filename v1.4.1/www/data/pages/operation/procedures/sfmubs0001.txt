@@ -1,0 +1,37 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Munge : Chequeo **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos           ^  Descripción                                            ^  Criticidad          ^  Implicación                                                       ^
+|  Gestión       |  MANAGEMENT NODES     |  Permiten la administración del servicio  |  @#FA5858: MUY ALTA  | Puede llegar a generar un parón total del sistema y la producción  |
+|  Login         |  LOGIN NODES (CRITICAL)     |  Acceso de los usuarios al sistema productivo           |  @#FFFF00: MEDIA     | Puede dejar sin acceso a los usuarios                              |
+|  Lustre        |  LOGIN NODES     |  Servidores de Lustre (sistema de ficheros)             |  @#FFFF00: MEDIA     | Puede llegar a generar un parón de la producción                   |
+|  Computo/Aire  |  node[RANGE]   |  Uso del servicio por el sistema productivo  |  @#FAAC58: ALTA      | Merma en el rendimiento productivo                                 |
+|  Computo/Agua  |  node[RANGE]  |  Uso del servicio por el sistema productivo  |  @#FAAC58: ALTA      | Merma en el rendimiento productivo                                 |
+
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción            ^  Criticidad          ^  Implicación  ^ 
+|  Todos        |  Todos           |                         |  @#FA5858: MUY ALTA  |El fallo de munge puede implicar la caida completa del sistema productivo  |
+
+===== Procedimiento =====
+
+
+  * Este servicio debemos chequearlo en los nodos [MANAGEMENT NODE], [MANAGEMENT NODE] y  Nodos de computo. Los pasos a seguir para chequear lustre son:
+    - Conectarse al nodo de gestión: [[:operation:procedures:SPXXXX0002| SPXXXX0002 : Establecer Conexión SSH]]
+    - Comprobamos el servicio ejecutando el siguiente comando desde el nodo  <code>
+/etc/init.d/munge status
+</code>
+    - Los posibles resultados serian:
+      * Todo esta **CORRECTO**:  =) <code>
+
+munged(pid 14719) is running...
+</code>
+      * Si obtenemos que el servicio esta  **STOPPED**: :-/ <code>
+munged is stopped
+</code>

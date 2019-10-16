@@ -1,0 +1,27 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Hardware - CMC : Cambiar Exclusión nodos - interfaz web **  
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo     ^  Dispositivos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación  ^
+|  Dispositivos Hardware     |  RMC/CNC                      |    Dispositivos de control del hardware NEWSCA                                |  @#EAFFD5: BAJA      |  Ninguna  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Depende         |                                                                  |  @#EAFFD5: BAJA       |  Ninguno Conocido  |
+
+===== Procedimiento =====
+
+  * ** Usando el navegador del sistema ( firefox ): **
+  - Pulsar sobre la opción ** Maintenance **, ubicada en el menú superior.
+  - Pulsar sobre la opción ** Hardware Exclusion **, dentro de la sección ** Manteinance Operations **, situada en el menú lateral izquierdo.
+  - ** [ Seleccionar | Des-seleccionar ] ** el nodo deseado para ** [ Excluir | Incluir ] ** este, la casilla se encuentra en la sub-seccion ** Blade Exclusion ** dentro de ** Hardware Exclusion ** en la parte central del interfaz web.
+    * ** <fc red> NOTA: </fc> ** solo se puede seleccionar un nodo por vez, habrá que repetir el procedimiento desde el punto anterior por cada nodo a excluir.
+  - Pulsar sobre el Botón ** Apply ** para **Aplicar** el cambio en el nodo deseado.
+
+
+

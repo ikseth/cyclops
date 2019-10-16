@@ -1,0 +1,5 @@
+====== Configuración ======
+
+===== Instalar Cyclops =====
+
+  * Remitirse a las notas de las versiones disponibles: [[documentation:cyclops:software|Cyclops software]]

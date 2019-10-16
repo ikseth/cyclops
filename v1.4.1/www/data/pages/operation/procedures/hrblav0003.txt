@@ -1,0 +1,70 @@
+====== Procedimientos Técnicos - Avanzados ======
+
+===== Datos Generales =====
+ 
+|< 50% >|
+^  Código      ^  Nombre Procedimiento  ^  Verificado                  ^  Operativo    ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+|  HRBLAV0001  |  Contención de Nodo    |  @#EAFFD5:SI  |  @#EAFFD5:SI  |  21/09/2015      |  28/03/2016                 |  0.4      |
+
+  * ** <fc red> IMPORTANTE: </fc> INFORMACION DEL ENTORNO : ** {{popup>:documentation:cyclops:architecture?[keepOpen]|HPC Architecture and Risk Definitions}}
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 30% 10% 50%>| 
+^  Grupo              ^  Nodos                      ^  Descripción  ^  Criticidad                        ^  Implicación                                                                      ^
+|  Nodos de servicio  |  {{popup>:documentation:cyclops:architecture?[keepOpen]|System}}  |               |  @#FA5858:<fc white>MUY ALTA</fc>  |  La contención de un nodo puede implicar la caida completa del sistema productivo  |
+|  Nodos de Computo   |  {{popup>:documentation:cyclops:architecture?[keepOpen]|System}}  |               |  @#EAFFD5: BAJA                    |                                                                                   |
+
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 30% 10% 50%>| 
+^  Grupo              ^  Nodos                      ^  Descripción  ^  Criticidad                        ^  Implicación                                                                      ^
+|  Nodos de servicio  |  {{popup>:documentation:cyclops:architecture?[keepOpen]|System}}                |               |  @#FA5858:<fc white>MUY ALTA</fc>  |  La contención de un nodo puede implicar la caida completa del sistema productivo  |
+|  Nodos de Computo   |  {{popup>:documentation:cyclops:architecture?[keepOpen]|System}}  |               |  @#EAFFD5: BAJA                    |                                                                                   |
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+  * Procedimiento Dependiente //El procedimiento Padre es el responsable de la notificación//
+
+==== Alcance ====
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION                   ^  HORARIO EJECUCION                                                                     ^
+
+==== Ejecución ====
+
+  * ** Se ejecutan los siguientes pasos: **
+
+  - Conectarse externamente a un nodo de gestión: [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+    - En caso de no poder conectarse: [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+    - Dependiendo del tipo de nodo:
+      - Si es un **nodo de cómputo**:
+        - Comprobar si existen trabajos en ejecución: [[operation:procedures:SFCYBS0001|SFCYBS0001 : Monitorizar el estado de los Nodos]] , comprobar que la columna slurm este en ** maintenance ** 
+        - En caso de estar en ** maintenance ** : 
+          - **Apagado soft** nodo afectado. -> [[operation:procedures:HRBLBS0003|HRBLBS0003 : Apagar Nodo ]]  
+            - Si el resultado es **negativo**:
+              - **Apagado hard** nodo afectado. -> [[operation:procedures:HRBLBS0003|HRBLBS0003 : Apagar Nodo ]]
+        - En caso de no estar en ** maintenance **:
+          - Cambiar al estado **drain** en la monitorización si el nodo se encuentra en **content**. -> [[operation:procedures:SFCYBS0002|SFCYBS0002 : Cambiar estado nodo en monitorización]]
+          - Mantener el nodo monitorizado hasta que cambie el estado de la columna a ** maintenance ** , en ese momento ejecutar el punto anterior.
+        - ** IR A NOTIFICACION FINAL **
+      - Si en un **nodo de Servicio**:
+        - Comprobar estado de su {{popup>:documentation:operation:terminology:mirrornode?[%100x700%]&[keepOpen]|Nodo espejo}}  -> [[operation:procedures:SFCYBS0001|SFCYBS0001 : Monitorización estado de un nodo ]] 
+          - En caso de estar correcto:
+            - **Apagado soft** nodo afectado. -> [[operation:procedures:HRBLBS0003|HRBLBS0003 : Apagar Nodo ]] 
+              - Si el resultado es **negativo**:
+                - **Apagado hard** nodo afectado. -> [[operation:procedures:HRBLBS0003|HRBLBS0003 : Apagar Nodo ]]
+            - ** IR A NOTIFICACION FINAL **
+          - Si el {{popup>documentation:operation:terminology:mirrornode|nodo espejo}} NO está correcto:
+            - Solicitar la intervención de un Técnico de guard
+
+
+ 
+==== Notificación Final ====
+
+  * Procedimiento Dependiente //El procedimiento Padre es el responsable de la notificación//

@@ -1,0 +1,7 @@
+base     Daily
+author   SongYang Fan
+email    fansongy@gmail.com
+date     2015-06-21
+name     Daily
+desc     Make a better looking from default theme
+url      http://github/fansongy/daily

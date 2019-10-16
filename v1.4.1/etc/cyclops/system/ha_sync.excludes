@@ -1,0 +1,15 @@
+temp
+updates
+lock
+*.swp
+^\.*
+monitor/sensors/status/data
+www/data/meta
+www/data/index
+www/data/locks
+www/data/cache
+www/data/attic
+*.changes
+*.index
+*.meta
+*.idx

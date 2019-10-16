@@ -1,0 +1,59 @@
+====== Temperatura CPU ======
+
+===== Datos Generales =====
+
+|< 50% >|
+^  Código      ^  Nombre Procedimiento                     ^  Verificado                  ^  Operativo  ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+|  HRCPAV0002  |  Temperatura CPU  |  @#FA5858:<fc white>NO</fc>  |  @#EAFFD5: SI         |  07/06/2017      |  21/11/2017                 |  0.2      |
+
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >|  
+^  Grupo  ^  Nodos  ^  Descripción  ^  Criticidad                    ^  Implicación                                                                                                ^
+|  Computo    |  nodo[3-8][1-3][0-1][0-9]    |               |  @#FA5858:<fc white>ALTA</fc>  |  Dependiendo del numero de nodos afectado las implicaciones podrían llegar a producir la caída del entorno productivo  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >|  
+^  Grupo  ^  Nodos  ^  Descripción  ^  Criticidad                    ^  Implicación                ^
+|  N/A  |  N/A  |               |   |  N/A  |
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+  - Notificar la incidencia:
+
+==== Alcance ====
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION                   ^  HORARIO EJECUCION                                                                     ^
+
+==== Ejecución ====
+
+  - Conectarse externamente a un nodo de gestión: [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+    - En caso de no poder conectarse: [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+  - Conectarse internamente al nodo afectado: [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+    - Comprobar el sensor de temperatura del nodo [[operation:procedures:HRBMBS0001|HRBMBS0001 : BMC Comprobar sensores]]
+      - En caso de seguir la alerta de temperatura activa: 
+        - desde el nodo de gestión comprobar que el nodo espejo del afectado esta operativo: [[operation:procedures:SFCYBS0001|SFCYBS0001 : Monitorizar el estado de los Nodos]]
+          - Si esta operativo:
+            - En el nodo afectado por la alerta, realizar un apagado ** soft ** [[operation:procedures:HRBLBS0003|HRBLBS0003 : Apagado Nodo]]
+          - En caso de que no este 100% operativo:
+            - Reparar las incidencias existentes en el nodo espejo con sus procedimientos asociados.
+              - Una vez reparadas 
+                - volver a ejecutar este procedimiento si la alerta persista.
+              - En caso contrario
+                - Notificar a un tecnico de guardia el problema
+                - Cambiar el estado de monitorizacion del nodo a ** content ** [[operation:procedures:SFCYBS0002|SFCYBS0002 : Cambiar el estado de los Nodos en Cyclops]]
+                - Si es un nodo de computo, poner a ** DRAIN ** el nodo afectado en slurm [[operation:procedures:SFSLBS0004|SFSLBS0004 : Estado de un nodo en Slurm]] 
+      - Si no sigue la alerta: 
+        - FINAL 
+
+==== Notificación Final ====
+
+  - Notificar la incidencia:
+  - FINAL

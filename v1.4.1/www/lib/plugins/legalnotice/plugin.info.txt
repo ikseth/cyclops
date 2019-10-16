@@ -1,0 +1,7 @@
+base	legalnotice
+author	Christian Marg
+email	marg@rz.tu-clausthal.de
+date	2016-01-20
+name	legal notice
+desc	adds a legal (or other) notice below the login form
+url	http://www.dokuwiki.org/plugin:legalnotice

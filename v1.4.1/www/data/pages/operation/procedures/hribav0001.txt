@@ -1,0 +1,63 @@
+====== Cambio de Nodo (Blade) B7xx ======
+
+===== Datos Generales =====
+ 
+|< 50% >|
+^  Código      ^  Nombre Procedimiento         ^  Verificado                  ^  Operativo    ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+|  HRIBAV0001  |  Actualización Infiniband (flint)  |  @#EAFFD5:SI  |  @#EAFFD5:SI  |  23/08/2016     |  06/02/2017                 |  0.2      |
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 30% 10% 50%>| 
+^  Grupo    ^  Nodos  ^  Descripción                                                ^  Criticidad   ^  Implicación                                         ^
+|  Todos    |  Todos  |  Actualización de firmware de tarjetas de red infiniband    |  MEDIA        |  Perdida de red infiniband y de todos los servicios asociados a esta red dentro del nodo afectado              |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 30% 10% 50%>| 
+^  Grupo  ^  Nodos  ^  Descripción                          ^  Criticidad              ^  Implicación                                                                  ^
+|  Todo   |  Todos  |  Si el nodo afectado es de operación  |  ALTA                    |  Los servicios publicados por el nodo dejaran de servirse                     |
+
+===== Procedimiento =====
+
+==== Descripción ====
+ 
+** <fc red>NOTA:</fc> PROCEDIMIENTO __ÚNICAMENTE__ PARA ADMINISTRADORES DEL SISTEMA ** 
+
+==== Alcance ====
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION                   ^  HORARIO EJECUCION                                                ^
+
+==== Ejecución ====
+
+  * ** <fc red>NOTA:</fc>** El procedimiento ha de realizarse con el nodo excluido del sistema o sobre un nodo nuevo que aun no se ha incluido
+
+  * ** Se ejecutan los siguientes pasos: **
+  - Conectamos desde el exterior a un nodo de gestión [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+    - En caso de no poderse conectar realizar: [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+  - Se obtiene la informacion del fichero con la actualizacion especifica del nodo en los siguientes pasos:
+    - Se obtiene el interfaz del nodo afectado:<code>
+ibview firmware --node | awk -F\| '$1 ~ "[NOMBRE NODO]" { print $7 }'</code>
+    - Se obtiene el nombre del fichero mas nuevo que el sistema dispone:<code>
+ibview firmware --reference | grep [SALIDA DEL ANTERIOR COMANDO]</code>
+    - Busqueda del fichero en el disco duro:<code>
+find /usr/share/ibms/firmware -name [SALIDA DEL ANTERIOR COMANDO]</code>
+  - Se copia el fichero al nodo objetivo:<code>
+scp [SALIDA DEL ANTERIOR COMANDO] [NODO DESTINO]:/root</code>
+  - Conectamos al nodo afectado:
+    * [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+  - Se ejecutan las siguientes tareas en dicho nodo:
+    - Inicio del servicio MST:<code>
+mst start</code>
+    - Verificación del servicio MST:<code>
+flint -d /dev/mst/mt4099_pci_cr0 q</code>
+    - Actualizacion del firmware:<code>
+flint -d /dev/mst/mt4099_pci_cr0 -i /root/[NOMBRE DEL FICHERO COPIADO] burn</code>
+  - Una vez acabado el ultimo punto reiniciar el nodo
+    * [[operation:procedures:HRBLBS0002|HRBLBS0002 : Reinicio Nodo]]
+
+  
+  

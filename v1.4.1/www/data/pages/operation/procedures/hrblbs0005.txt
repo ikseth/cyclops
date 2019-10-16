@@ -1,0 +1,26 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Hardware - Nodes : Estado Energetico de un Nodo **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >|  
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^
+|  Todos         |  Todos           |                                                                  |  @#EAFFD5: BAJA        |  Ninguna Conocida  |
+
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Ninguno       |  Ninguna              |                                                           |  @#EAFFD5: BAJA           |  Ninguna Conocida             |
+
+===== Procedimiento =====
+
+  * Se ejecuta el siguiente comando desde los nodos de gestión: <code>
+clmctrl status [nombre de nodo|rango de nodos]
+</code>
+  * Un ejemplo de salida:<code>
+nodo5114#compute@node/cmd: Blade Power is on
+nodo5105#compute@node/cmd: Blade Power is on
+</code>

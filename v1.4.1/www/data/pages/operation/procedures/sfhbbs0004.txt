@@ -1,0 +1,11 @@
+====== Operativa: HA ======
+
+===== Stop HA =====
+
+  - Ejecutamos el comando:
+
+<code>
+/etc/init.d/heartbeat stop
+# o
+service heartbeat stop
+</code>

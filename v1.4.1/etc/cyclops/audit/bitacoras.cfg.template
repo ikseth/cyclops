@@ -1,0 +1,7 @@
+##### SPECIFIC BITACORAS ######
+##### [NAME];[DESCRIPTION] ####
+main;global bitacora, register all non specific information
+users;events and information relevant for cluster users
+dev;bitacora for storage events links with development environment, tools, compile, etc.
+security;bitacora for security events, like users logins, etc.
+cyclops;information about cyclops, like updates, modifications, problems, etc.

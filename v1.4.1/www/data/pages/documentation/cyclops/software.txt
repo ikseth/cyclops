@@ -1,0 +1,77 @@
+====== Cyclops Software ======
+
+===== Cyclops License =====
+ 
+<box|CYCLOPS LICENSE>
+This Suit has serveral program and all of them are free software: 
+you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License  along with this program.  If not, see <http://www.gnu.org/licenses/>. </box>
+===== Cyclops Items =====
+ 
+Actually the suit are compose by this programs:
+
+<hidden Main Scripts/Programs>
+|< 100% 20% 10% >|
+^  Script Name             ^  Module      ^  Description                                                                 ^
+|  cyclops.sh              |  CYCLOPS     | Main script for cyclops management                                           |
+|  historic.mon.sh         |  CYCLOPS     | Cyclops monitoring repository                                                |
+|  backup.cyc.sh           |  CYCLOPS     | Own backup tool for cyclops                                                  |
+|  cyc.status.sh           |  CYCLOPS     | Cyclops Global Status Tool                                                   |
+|  audit.nod.sh            |  AUDIT       | Main script for management audit cyclops module, insert and show events      |
+|  cyc.stats.sh            |  STATISTICS  | Script to generate and show cyclops and other module statistics and reports  |
+|  monitoring.sh           |  MONITOR     | Main Monitoring Script engine                                                |
+|  procedures.sh           |  MONITOR     | Procedures control status script                                             |
+|  sensors.envhard.mon.sh  |  MONITOR     | Environment device monitor script                                            |
+|  sensors.envhard.ia.sh   |  MONITOR     | IA for environment device monitor script                                     |
+|  sensors.nodes.mon.sh    |  MONITOR     | Host/Nodes monitor script                                                    |
+|  sensors.nodes.ia.sh     |  MONITOR     | IA for Host/Nodes monitor script                                             |
+|  service.slurm.sh        |  MONITOR     | Slurm Monitor script                                                         |
+|  sensors.slurm.ia.sh     |  MONITOR     | IA for Slurm monitor script                                                  |
+|  sensors.users.mon.sh    |  MONITOR     | System Users Activity Monitor Script                                         |
+|  sensors.users.ia.sh     |  MONITOR     | IA for user monitor script                                                   |
+</hidden>
+<hidden Statistics Module Scripts>
+|< 100% 20% 10% >|
+^  Script Name                    ^  MODULE      ^  Description                                      ^    
+|  extract.main.slurm.sh          |  STATISTICS  | Slurm DB extractor                               |
+|  stats.slurm.total.jobs.sh      |  STATISTICS  | Slurm Statistics generator                       |
+|  stats.cyclops.audit.totals.sh  |  STATISTICS  | Cyclops Statistics generator, from audit module  |
+</hidden>
+<hidden Razor Module Scripts>
+|< 100% 20% 10% >|
+^  Script Name       ^  MODULE  ^  Description                   ^
+|  cyc.host.ctrl.sh  |  RAZOR   | Main host/node control script  |
+|  rzr.ctrl.sh       |  RAZOR   | Resource control script        |
+</hidden>
+<hidden Tool Scripts/Programs>
+|< 100% 20% 10% >|
+^  Script Name             ^  MODULE   ^  Description  ^
+|  test.productive.env.sh  |  CYCLOPS  | Tool for test critical enviroment defined hosts/nodes and resources                             |
+|  tool.configure.bmc.sh   |  TOOLS    | Tool for configure bmc access                                                                   |
+|  tool.mac.extract.sh     |  TOOLS    | Tool for extract macs from dhcp log, bull scs4 compatible, need changes for other environments  |
+|  tool.update.fw.node.sh  |  TOOLS    | Tool for update Bull B7xx Nodes                                                                 |
+|  zombie.restore.sh       |  TOOLS    | Tool for clean nodes, zombie and slurm unwanted process                                         |
+</hidden>
+\\
+  * ** <fc red> NOTE: </fc> ** ** Dokuwiki ** is a diferent software that cyclops use to show information in web format. Dokuwiki, its plugins and other elements has its own license, show it in https://www.dokuwiki.org/faq:license
+
+===== Source Code =====
+
+  * You can get directly source code in https://github.com/ikseth/cyclops
+
+  * ** <fc red> NOTE: </fc> ** Actually this storage site source is not update frequenly.
+
+==== Version 1.x ====
+
+  * This version are operatives and if maybe have any bug, are stable
+
+|< 100% >|
+^  Version                                               ^  Name   ^  Description                                        ^  Notes File                        ^  Date        ^  Last update  ^  Support contact                ^
+|  1.3      |  Tabby  | First installable version                           |  {{popup>.:version13notes?[keepOpen]|Notes 1.3}}    |  28-10-2016  |  19-12-2016   |  ignaciogarciahoyos@gmail.com  |
+|  1.4      |  Razor  | Adding Auto Repair and Host Management Integration  |  {{popup>.:version14notes?[keepOpen]|Notes 1.4}}    |  16-12-2016  |  19-12-2016   |  ignaciogarciahoyos@gmail.com  |
+|  1.4.1    |  Razor  | Cyclops Status Tool And Bug Fixed         |  {{popup>.:version141notes?[keepOpen]|Notes 1.4.1}}  |  11-01-2017  |  06-03-2017   |  ignaciogarciahoyos@gmail.com  |

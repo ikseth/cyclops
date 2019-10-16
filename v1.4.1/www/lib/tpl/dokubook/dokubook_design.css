@@ -1,0 +1,334 @@
+/**
+ * Design elements for DokuBook Template
+ * 
+ * @author:     Michael Klier <chi@chimeric.de>
+ * @homepage:   http://www.chimeric.de
+ */
+
+body {
+  background: __white__ url(images/dwbg.jpg) repeat-x top left;
+}
+
+div.dokuwiki a.urlextern:visited,
+div.dokuwiki a.windows:visited,
+div.dokuwiki a.interwiki:visited {
+  color: __visited__;
+}
+
+div.dokuwiki {
+  font-family: "Lucida Grande", Arial, Verdana, sans-serif;
+}
+
+body.media div.dokuwiki div#dokubook_container_left {
+  left: 10px;
+  right: 10px;
+}
+div.dokuwiki div#dokubook_container_left {
+  padding-bottom: 0.8em;
+  position: absolute;
+  left: 170px;
+  right: 10px;
+}
+
+body.media div.dokuwiki div#dokubook_container_right {
+  right: 10px;
+}
+div.dokuwiki div#dokubook_container_right {
+  padding-bottom: 0.8em;
+  position: absolute;
+  right: 170px;
+  left: 10px;
+}
+
+/* -------------- notifications ------------------- */
+body.media div.dokuwiki div.info,
+body.media div.dokuwiki div.success,
+body.media div.dokuwiki div.error {
+    margin-left: 100px;
+}
+div.dokuwiki div.info,
+div.dokuwiki div.success,
+div.dokuwiki div.error {
+    margin-left: 170px;
+}
+
+/* -------------- navigation ---------------------- */
+div.dokuwiki ul#top__nav {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 10px;
+  position: absolute;
+  top: 34px;
+}
+
+div.dokuwiki ul#top__nav li {
+  margin: 0 0.5em 0 0;
+  float: left;
+  padding: 0;
+}
+
+div.dokuwiki ul#top__nav li a {
+  border: 1px solid __border__;
+  border-bottom: none;
+  padding: 0 0.3em 0 0.3em;
+  margin: 0;
+  height: 18px;
+  float: left;
+  text-decoration: none;
+}
+
+div.dokuwiki ul#top__nav a.create,
+div.dokuwiki ul#top__nav a.edit,
+div.dokuwiki ul#top__nav a.npd {
+  background: __background__ url(images/tool-edit.png) 2px 1px no-repeat;
+  padding-left: 20px;
+}
+
+div.dokuwiki ul#top__nav a.revs {
+  background: __background__ url(images/tool-revisions.png) 2px 1px no-repeat;
+  padding-left:20px;
+}
+
+div.dokuwiki ul#top__nav a.subscribe,
+div.dokuwiki ul#top__nav a.subscribens,
+div.dokuwiki ul#top__nav a.unsubscribe,
+div.dokuwiki ul#top__nav a.unsubscribens {
+  background: __background__ url(images/tool-subscribe.png) 2px 2px no-repeat;
+  padding-left: 20px;
+}
+
+div.dokuwiki ul#top__nav a.source,
+div.dokuwiki ul#top__nav a.show {
+  background: __background__ url(images/tool-source.png) 2px 2px no-repeat;
+  padding-left: 20px;
+}
+
+div.dokuwiki ul#top__nav a.revert {
+  background: __background__ url(images/tool-revert.png) 2px 2px no-repeat;
+  padding-left: 20px;
+}
+
+/* -------------- sidebar ------------------------- */
+body.media div.dokuwiki div#sidebar_left {
+    display: none;
+}
+div.dokuwiki div#sidebar_left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 160px;
+}
+
+body.media div.dokuwiki div#sidebar_right {
+    display: none;
+}
+div.dokuwiki div#sidebar_right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 160px;
+}
+
+div.dokuwiki div.sidebar .sidebar_box {
+  border: 1px solid __border__;
+  margin-bottom: 0.5em;
+  padding: 0.3em 0 0 0.3em;
+  background: __background__;
+}
+
+div.dokuwiki div.sidebar .sidebar_box ul,
+div.dokuwiki div.sidebar .sidebar_box ol {
+  margin-left: 1.5em;
+}
+
+div.dokuwiki div#sidebar_left .sidebar_box {
+  border-left: none;
+}
+
+div.dokuwiki div#sidebar_right .sidebar_box {
+  border-right: none;
+}
+
+div.dokuwiki div.sidebar img.logo {
+  padding:0;
+  float: none;
+  margin: 10px;
+}
+
+div.dokuwiki div.sidebar .sb_label {
+  padding-left: 0.4em;
+  font-size: 90%;
+  clear: both;
+}
+
+div.dokuwiki div.sidebar div#search {
+  font-size: 100%;
+  border: 1px solid __border__;
+  margin-bottom: 0.5em;
+  background: __background__;
+  padding-left: 0.4em;
+}
+
+div.dokuwiki div#sidebar_left div#search {
+  border-left: none;
+}
+
+div.dokuwiki div#sidebar_right div#search {
+  border-right: none;
+}
+div.dokuwiki div.sidebar div#login div.user {
+  font-size: 40%;
+}
+
+div.dokuwiki div.sidebar a.action {
+  display: block;
+  background: url(images/bullet.gif) no-repeat;
+  margin-left: 0.4em;
+}
+
+div.dokuwiki div.sidebar .button {
+  float: none;
+  margin: -0.3em 0.2em 0.1em 0.1em !important;
+}
+
+div.dokuwiki div.sidebar h1,
+div.dokuwiki div.sidebar h2,
+div.dokuwiki div.sidebar h3,
+div.dokuwiki div.sidebar h4,
+div.dokuwiki div.sidebar h5 {
+  font-size: 80%;
+  border: none;
+}
+
+/* Translation Plugin support */
+div.dokuwiki div.sidebar div.plugin_translation {
+    border: 1px solid __border__;
+    margin-bottom: 0.5em;
+    padding: 0.3em 0 0 0.3em;
+    background: __background__;
+    overflow: auto;
+    float: none;
+    text-align: left;
+}
+div.dokuwiki div#sidebar_left div.plugin_translation {
+    border-left: none;
+}
+div.dokuwiki div#sidebar_right div.plugin_translation {
+    border-right: none;
+}
+
+/* -------------- document ---------------------- */
+div.dokuwiki main.page {
+  line-height: 160%;
+  margin: 0;
+  border: 1px solid __border__;
+  padding: 1em; 
+  background: __background__;
+}
+
+div.dokuwiki h3 {
+  font-weight: normal;
+}
+
+div.dokuwiki div.breadcrumbs {
+  margin-bottom: 10px;
+  clear: both;
+}
+
+div.dokuwiki pre.code,
+div.dokuwiki pre.file {
+  margin-right: 0.1em;
+}
+
+/* -------------- search -------------------------- */
+div.dokuwiki form#dw__search input.button,
+div.dokuwiki form#dw__search button {
+  display: none;
+}
+
+div.dokuwiki form#dw__search input.edit {
+  width: 142px;
+}
+
+/* ---------- table of contents ------------------- */
+div.dokuwiki div.toc {
+  margin-top: 13px;
+  line-height: 100%;
+}
+
+/* ---------- AJAX quicksearch -------------------- */
+div.dokuwiki div.ajax_qsearch {
+  left: 0.6em;
+}
+
+/* --------------- additional --------------------- */
+div.dokuwiki div#footer {
+  padding: 1em;
+  margin: 10px 0 1em 0;
+  background: __background__;
+  border: 1px solid __border__;
+  text-align: center;
+}
+
+div.dokuwiki div#footer input.button,
+div.dokuwiki div#footer button {
+  float: none;
+}
+
+div.dokuwiki div.footerinc {
+  padding: 1em;
+  margin: 10px 0 1em 0;
+}
+
+/* ---------- toolbox ----------- */
+div.dokuwiki div.sidebar #toolbox {
+  padding-bottom: 0.3em;
+}
+
+div.dokuwiki #toolbox ul {
+  list-style: none;
+  margin: 0;
+}
+
+div.dokuwiki #toolbox a.login {
+  background: transparent url(images/tool-login.png) 0px 1px no-repeat;
+  padding: 1px 0px 1px 18px;
+}
+
+div.dokuwiki #toolbox a.logout {
+  background: transparent url(images/tool-logout.png) 0px 1px no-repeat;
+  padding: 1px 0px 1px 18px;
+}
+
+div.dokuwiki #toolbox a.index {
+  background: transparent url(images/tool-index.png) 1px 1px no-repeat;
+  padding: 1px 0px 1px 18px;
+}
+
+div.dokuwiki #toolbox a.recent {
+  background: transparent url(images/tool-recent.png) 0px 1px no-repeat;
+  padding: 1px 0px 1px 18px;
+}
+
+div.dokuwiki #toolbox a.admin {
+  background: transparent url(images/tool-admin.png) 0px 1px no-repeat;
+  padding: 1px 0px 1px 18px;
+}
+
+div.dokuwiki #toolbox a.backlink {
+  background: transparent url(images/tool-backlink.png) 0px 1px no-repeat;
+  padding: 1px 0px 1px 18px;
+}
+
+div.dokuwiki #toolbox a.profile {
+  background: transparent url(images/tool-profile.png) 0px 1px no-repeat;
+  padding: 1px 0px 1px 18px;
+}
+div.dokuwiki #toolbox a.media {
+  background: transparent url(../../images/mediamanager.png) 0px 1px no-repeat;
+  padding: 1px 0px 1px 18px;
+}
+
+div.dokuwiki a.top {
+  float: right;
+}

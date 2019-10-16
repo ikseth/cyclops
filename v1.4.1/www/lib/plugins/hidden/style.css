@@ -1,0 +1,64 @@
+/**
+ * style.css for Plugin hidden
+ * 
+ * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
+ * @author     Guillaume Turri <guillaume.turri@gmail.com>
+ *
+ */
+
+div.hiddenGlobal {
+  border: 1px solid __border__;
+}
+
+div.hiddenOnVisible,
+div.hiddenOnHidden {
+  display: inline;
+  color: __link__;
+}
+
+div.hiddenGlobal div.hiddenHead p{
+  margin:0;
+}
+
+div.hiddenHead {
+  background-color: __background_alt__;
+}
+div.hiddenHead:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+
+
+div.hiddenHead p:after {
+  display: inline-block;
+  background-size: 1.2em 1.2em;
+  width: 1.2em;
+  height: 1.2em;
+  content:"";
+}
+div.hiddenGlobal:not(.hiddenHidden)>div.hiddenHead p:after {
+  background-image: url('images/shrink2.png');
+}
+div.hiddenGlobal:not(.hiddenHidden)>div.hiddenHead>div.hiddenOnHidden {
+  display: none;
+}
+
+div.hiddenGlobal.hiddenHidden>div.hiddenHead p:after {
+  background-image: url('images/enlarge2.png');
+}
+div.hiddenGlobal.hiddenHidden>div.hiddenHead>div.hiddenOnVisible {
+  display: none;
+}
+
+
+div.hiddenBody {
+  border-top:1px solid __border__;
+  padding:1px;
+}
+div.hiddenBody p {
+  margin: 0;
+}
+div.hiddenGlobal.hiddenHidden>div.hiddenBody {
+  display: none;
+}

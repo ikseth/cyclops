@@ -1,0 +1,40 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Slurm : Chequeo **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos           ^  Descripción                                            ^  Criticidad          ^  Implicación                                                       ^
+|  Gestión       |  MANAGEMENT NODES     |  **slurmctld**:Permiten la administración del servicio  |  @#FA5858: MUY ALTA  | Puede llegar a generar un parón total del sistema y la producción  |
+|  Login         |  LOGIN NODES (CRITICAL)     |  Acceso de los usuarios al sistema productivo           |  @#FFFF00: MEDIA     | Puede dejar sin acceso a los usuarios                              |
+|  Lustre        |  LOGIN NODES     |  Servidores de Lustre (sistema de ficheros)             |  @#EAFFD5: BAJA     |                   |
+|  Computo/Aire  |  node[RANGE]   |  **slurmd**:Uso del servicio por el sistema productivo  |  @#FAAC58: ALTA      | Merma en el rendimiento productivo                                 |
+|  Computo/Agua  |  node[RANGE]  |  **slurmd**:Uso del servicio por el sistema productivo  |  @#FAAC58: ALTA      | Merma en el rendimiento productivo                                 |
+
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción            ^  Criticidad          ^  Implicación  ^ 
+|  Todos        |  Todos           |                         |  @#FA5858: MUY ALTA  |El fallo de slurm puede implicar la caida completa del sistema productivo  |
+
+===== Procedimiento =====
+
+
+  * Este servicio debemos chequearlo en los nodos [MANAGEMENT NODE], [MANAGEMENT NODE] y  Nodos de computo. Los pasos a seguir para chequear Slurm son:
+    - Conectarse al nodo de gestión: [[:operation:procedures:SPXXXX0002| SPXXXX0002 : Establecer Conexión SSH]]
+    - Comprobamos el servicio ejecutando el siguiente comando desde el nodo de Gestión ([MANAGEMENT NODE] o [MANAGEMENT NODE]), al ser un servicio controlado por Pacemaker, deberemos comprobar qué [NODE] tiene ese servicio activo <code>
+ /etc/init.d/slurm status
+</code>
+    - Los posibles resultados serian:
+       * Todo esta **CORRECTO**:  =) <code>
+#en nodos de cómputo
+slurmd (pid 2368) is running... 
+
+#en el resto de nodos
+slurmctld (pid 14719) is running...
+</code>
+       * Si obtenemos que el servicio esta  **STOPPED**: :-/ <code>
+slurmctld is stopped
+</code>

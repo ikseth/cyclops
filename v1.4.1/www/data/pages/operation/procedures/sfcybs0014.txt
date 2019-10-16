@@ -1,0 +1,75 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Cyclops : Insertar Interactivamente un evento en la bitácora **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo       ^  Nodos        ^  Descripción                               ^  Criticidad          ^  Implicación                                     ^
+
+
+===== Procedimiento =====
+
+  * Ejecutar el siguiente comando: <code>
+/opt/cyclops/scripts/audit.nod.sh -i issue</code>
+
+<hidden Ejemplo de salida>
+<code>
+CYCLOPS AUDIT MODULE:
+Interactive Audit insert event method
+
+Please register the next fields for audit issue event
+Probabily your activity have been monitoring
+
+Type of event (ISSUE|ALERT|INFO|help) : help
+        ISSUE: Issue type event, something bad is happening
+        ALERT: Alert type event, you don't know exactly which is the problem but something is happening
+        INFO: Info event, you want to report about something
+Type of event (ISSUE|ALERT|INFO|help) : INFO
+Node Name ( if blank generic event inserted ) : 
+Which Procedure code will be executed? (write "help" for list all available procs) : 
+Have issue code? (if yes put it else let blank) : 
+State of issue (FAIL/OK/DOWN/SOLVED/UP/INFO/help) : help
+        FAIL: Fail event, some host/node or something is failing
+        DOWN: Host/node or something is down, not working at all
+        OK: Event info is ok, correct status
+        UP: Host/node or something is operative/functional
+        INFO: Event only wants to show info data
+        SOLVED: Event is linking to a issue that is solved
+State of issue (FAIL/OK/DOWN/SOLVED/UP/INFO/help) : INFO
+Please enter a valid state
+State of issue (FAIL/OK/DOWN/SOLVED/UP/INFO/help) : INFO
+Issue Message/Description : Descripcion del evento
+Want to send informative mail (Y/N)? : 
+Information to be insert in bitacora module:
+Event Type: INFO
+Host/node name: MAIN BITACORA
+Procedure code: NONE
+Issue code: NONE
+Event state: INFO
+Descriptive Message: Descripcion del evento
+Send Email: y
+Are you sure? :
+</code>
+</hidden>
+
+==== Descripción de campos ====
+
+    * ** Type of event, ** Tipo de evento, obligatorio.
+      * ISSUE: Issue type event, something bad is happening
+      * ALERT: Alert type event, you don't know exactly which is the problem but something is happening
+      * INFO: Info event, you want to report about something
+    * ** Node Name **, Nombre de nodo, si se quiere incluir evento en bitacota general dejar en blanco
+    * ** Which Procedure code will be executed? **, ** SOLO ** incluir procedimiento en caso de haber sido generado por una alerta de la monitorizacion.
+    * ** Have issue code?, ** En caso de existir un codigo de incidencia incluir en este campo.
+    * ** State of issue **, Estado del evento/incidencia
+      * FAIL: Fail event, some host/node or something is failing
+      * DOWN: Host/node or something is down, not working at all
+      * OK: Event info is ok, correct status
+      * UP: Host/node or something is operative/functional
+      * INFO: Event only wants to show info data
+      * SOLVED: Event is linking to a issue that is solved
+    * ** Issue Message/Description, ** Mensaje o descripcion del evento, no dejar en blanco.
+    * ** Want to send informative mail (Y/N)? ** Enviar un correo informativo, tambien se activa como mensaje en el dashboard de la monitorizacion, recomendable para todos los eventos de tipo ISSUE o ALERT
+    * ** Are you sure, ** Confirmacion de los datos a dar de alta.
+

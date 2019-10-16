@@ -1,0 +1,17 @@
+====== Control de Cambios - weekv05102015 ======
+
+** Change **
+
+  - FUNCIONALIDADES:
+    - Nueva herramienta ** zombie.restore.sh ** para la reparacion de procesos //zombie// o procesos //huerfanos//
+    - En la herramienta ** test.productive.env.sh ** se le incorpora el parámetro pasive para disponer de un test mas rápido, sacrificando el disponer de los datos de estado del sistema mas actualizado.
+    - Comando ** prodedures.sh ** que permite la gestión de los procedimientos de cyclops, actualmente solo esta operativa la consulta, y el formato de salida del comando para personas, separado por comas o salida wiki.
+    - Se mejorar la visualización de la sección de auditoria referente a la información de host/dev
+    - Se añade un nuevo estado ** REPAIRING ** para la monitorizacion, que ayuda a indicar que se están realizando reparaciones sobre el sistema, se actualiza la seccion ** guidelines ** para incluir esta información.
+  - TUNING:
+    - Se crean dos directorios dentro de /opt/cyclops/tools
+      - ** approved ** , aquellas herramientas operativas y comprobadas
+      - ** testing ** , scripts de trabajo que podrian ser candidatos a formar parte de cyclops
+    - Se afinan detalles estéticos en el interfaz web, se desactivan los enlaces de las imágenes al detalle de estas.
+  - REPARACIÓN DE ERRORES:
+    - control de errores de conectividad de las BMC, captura de error e integración de la salida con la monitorización.

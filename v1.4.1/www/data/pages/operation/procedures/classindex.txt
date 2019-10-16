@@ -1,0 +1,91 @@
+====== Procedimientos - Indice por Clase/tipo ======
+
+===== Comunes =====
+
+<hidden NOTIFICACION>
+</hidden>
+
+<hidden ACCESO AL SISTEMA>
+  * [[operation:procedures:ADAEXX0001|ADAEXX0001 : VPN]]
+  * [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+  * [[operation:procedures:SPXXXX0003|SPXXXX0003 : Ejecución de Firefox desde exportación X con ssh]]
+  * [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+</hidden>
+<hidden SITUACION DE EXCEPCION>
+  * [[operation:procedures:SPXXXX0005|SPXXXX0005 : Caso de Emergencia]]
+</hidden>
+
+===== Técnicos de Soporte =====
+
+<hidden PROCEDIMIENTOS GENERALES>
+  * [[operation:procedures:HRBLAV0005|HRBLAV0005 : Comprobacion de estado de un nodo ]]
+  * [[operation:procedures:HRBLAV0003|HRBLAV0003 : Contención de un nodo]]
+  * [[operation:procedures:HRBLAV0006|HRBLAV0006 : Sustitucion Blade B7xx]]
+  * [[operation:procedures:HRIBAV0001|HRIBAV0001 : Actualización Infiniband (flint)]]
+  * [[operation:procedures:HRBIAV0001|HRBIAV0001 : BIOS/BMC Log Trace Alert]]
+</hidden>
+
+<hidden GUIA DE REFERENCIA>
+  * BIOS:
+    - [[operation:procedures:HRBIBS0001|HRBIBS0001 : Listar Eventos BIOS]]
+    - [[operation:procedures:HRBIBS0002|HRBIBS0002 : Borrar Eventos BIOS]]
+  * Blade/Nodo:
+    - [[operation:procedures:HRBLBS0001|HRBLBS0001 : Encendido Nodo]] 
+    - [[operation:procedures:HRBLBS0002|HRBLBS0002 : Reinicio Nodo]]
+    - [[operation:procedures:HRBLBS0003|HRBLBS0003 : Apagado Nodo]]
+    - [[operation:procedures:HRBLBS0005|HRBLBS0005 : Estado Energetico de un Nodo]]
+    - [[operation:procedures:HRBLBS0004|HRBLBS0004 : Identificar Código Hardware - Nodo]]
+  * Almacenamiento:
+    - [[operation:procedures:HRSTBS0001|HRSTBS0001 : Chequear Estado Cabinas de Almacenamiento]]
+    - [[operation:procedures:HRSTBS0002|HRSTBS0002 : Encender una cabina]]
+    - [[operation:procedures:HRSTBS0003|HRSTBS0003 : Apagar una cabina]]
+  * BMC/ILO:
+    - [[operation:procedures:HRBMBS0001|HRBMBS0001 : BMC Comprobar sensores]]
+  * Chasis Blades:
+    - [[operation:procedures:HRCMBS0002|HRCMBS0002 : CMC B7xx Conexión interfaz web]]
+    - [[operation:procedures:HRCMBS0003|HRCMBS0003 : CMC B7xx Verificación estado energético del nodo - interfaz web]]
+    - [[operation:procedures:HRCMBS0004|HRCMBS0004 : CMC Cambiar el estado energético del nodo - interfaz web]]
+    - [[operation:procedures:HRCMBS0005|HRCMBS0005 : CMC Insertar/Remover un blade - interfaz web]]
+    - [[operation:procedures:HRCMBS0006|HRCMBS0006 : CMC Cambiar Exclusión nodos - interfaz web]]
+    - [[operation:procedures:HRCMBS0007|HRCMBS0007 : CMC Insertar/Extraer físicamente un blade]]
+    - [[operation:procedures:HRCMBS0008|HRCMBS0008 : CMC Actualizar información EEPROM de los nodos]]
+    - [[operation:procedures:HRCMBS0009|HRCMBS0009 : CMC Obtener información EEPROM de los nodos]]
+  * Infiniband:
+    - [[operation:procedures:HRIBBS0001|HRIBBS0001 : Actualización Infiniband (clusterdb)]]
+</hidden>
+===== Operadores de Monitorización =====
+
+<hidden CONTROL DE ESTADO>
+  * [[operation:procedures:HRBIAV0001|HRBIAV0001 : BIOS Log Trace Alert]]
+  * [[operation:procedures:HRBLAV0005|HRBLAV0005 : Comprobacion de estado de un nodo ]]
+  * [[operation:procedures:HRHYAV0006|HRHYAV0006 : HYC Inlet Pressure Sensor Control]]
+  * [[operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobar Entorno Productivo]]
+</hidden>
+
+<hidden ACCIONES>
+  * [[operation:procedures:HRBLAV0003|HRBLAV0003 : Contención de un nodo]]
+</hidden>
+===== Administradores de Sistemas =====
+
+<hidden ACCIONES DE CONTROL>
+  * Gestion de Procesos huerfanos/zombies
+    - [[operation:procedures:OSADAV0004|OSADAV0004 : Kill Zombies Process]]
+  * Gestión de Almacenamiento
+    - [[operation:procedures:OSADAV0003|OSADAV0003 : Alert File System Space]]
+</hidden>
+
+<hidden TAREAS COTIDIANAS>
+  * ** Gestión de usuarios **
+    - [[operation:procedures:OSADBS0010|OSADBS0010 : NIS-PAM Sync]]
+    - [[operation:procedures:OSADBS0012|OSADBS0012 : User Add]]
+    - [[operation:procedures:OSADBS0013|OSADBS0013 : User Modification]]
+</hidden>
+===== Analista Desarrollo =====
+
+<hidden GESTION DE ENTORNO>
+  * Entorno de Modulos - LMOD
+    - [[operation:procedures:DVLMBS0001|DVLMBS0001 : Cargar Entorno]]
+    - [[operation:procedures:DVLMBS0002|DVLMBS0002 : Mostrar Modulos Disponibles]]
+    - [[operation:procedures:DVLMBS0003|DVLMBS0003 : Cargar Modulo]]
+    - [[operation:procedures:DVLMBS0004|DVLMBS0004 : Descargar Modulo]]
+</hidden>

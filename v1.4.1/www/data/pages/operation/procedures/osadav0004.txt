@@ -1,0 +1,48 @@
+====== Kill Zombie Process ======
+
+===== Datos Generales =====
+ 
+|< 50% >|
+^  Código      ^  Nombre Procedimiento  ^  Verificado                  ^  Operativo  ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+|  OSADAV0004  |  Kill Zombie Process   |  @#FA5858:<fc white>NO</fc>  |  @#EAFFD5:SI         |  22/09/2015      |  22/09/2015                 |  0.1      |
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 30% 10% 50%>|
+^  Grupo         ^  Nodos                    ^  Descripción         ^  Criticidad            ^  Implicación                                                 ^
+|  all       |  all    |                 |  @#F3F781: BAJA        |  Afectaría al rendimiento del nodo afectado  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 30% 10% 50%>| 
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Todos          |                                                                  |  @#F3F781: BAJA       |  Ninguna conocida  |
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+  - Notificar la incidencia:
+
+==== Alcance ====
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION                   ^  HORARIO EJECUCION                                                                     ^
+
+==== Ejecución ====
+
+
+  - Conectarse externamente a un nodo de gestión: [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+    - En caso de no poder conectarse: [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+  - Conectarse internamente al nodo afectado: [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+  - Comprobar si hay procesos zombies y obtener el PID del proceso: 
+    * [[operation:procedures:OSADBS0004 | OSADBS0004 : Checking Zombies Process]]
+  - Ejecutar <code>kill -9 [PID del proceso Zombie]</code>
+==== Notificación Final ====
+
+  - Notificar la incidencia:
+  - FINAL
+
+ 

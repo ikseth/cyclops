@@ -1,0 +1,18 @@
+#### CONFIG FILE ENVIRONMENT HOSTS ####
+## LUS:[hostname] CODE FOR LUSTRE HOSTNAMES
+## NIS:[hostname] CODE FOR NIS MASTER SERVER
+## SLU:[hostname] CODE FOR SLURM MASTER SERVER
+## LOC:[hostname] CODE FOR LOCAL USER SERVERS (CAN USE hostname[first_id-last_id]
+
+## NIS MASTER SERVER
+
+NIS:[hostname]
+
+## LUSTRE MMS
+
+LUS:[hostname]
+LUS:[hostname]
+
+## SLURM CONTROLLER SERVER
+
+SLU:[hostname]

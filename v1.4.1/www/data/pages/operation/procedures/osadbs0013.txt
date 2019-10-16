@@ -1,0 +1,29 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Sistema Operativo - Administración : Modificación de Usuario **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad     ^  Implicación  ^ 
+|  Todos (Nodos de gestión de usuarios)         |  Todos          |                                                                  |  @#EAFFD5:BAJA  |               |
+
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad     ^  Implicación  ^ 
+|  Gestión       |  [MANAGEMENT NODES]    |  Permiten la administración del sistema                          |  @#EAFFD5:BAJA  |  El servicio de consola puede quedarse en estado inestable  |
+
+===== Procedimiento =====
+
+  * El comando para modificar un usuario:<code>
+usermod [Parametros] [usuarios]</code>
+  * Los parametros son:
+  * ** -c ** [Descripcion] : Incluye una descripcion de usuario o nombre completo.
+  * ** -d ** [Directorio Home] : Cambia el directorio home del usuario.
+  * ** -g ** [GID] : Cambia el Grupo principal del usuario
+  * ** -G ** [grupos] : define una nueva lista de grupos suplementarios.
+  * ** -a ** [grupos] : añade nuevos grupos suplementarios a los ya existentes.
+  * ** -u ** [UID] : Cambia el identificador de usuario

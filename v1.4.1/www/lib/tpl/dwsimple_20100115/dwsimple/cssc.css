@@ -1,0 +1,18 @@
+/* CSS Document */
+body {
+	margin: 0px; /* effects only IE */
+	padding: 0px;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: black;
+	background-image: url(images/folgeneu_03.gif);
+	background-repeat: repeat;
+	background-color: #FFF;
+	font-size: 75%;
+}
+#inhalt{
+	position: static;
+	top     : 0px;	/* wenn relative */
+	height  : 0%;		/* Firefox / IE7 (problem using height:auto - scrollbar shows wrong size) */
+	margin  : 1px 2px 1px 2px;	/* margin definiert Abstand zu .container*/
+	padding : 2px;
+}

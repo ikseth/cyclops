@@ -1,0 +1,20 @@
+
+===== Notificación =====
+
+|< 50% >|
+^  Código      ^  Nombre Procedimiento       ^  Verificado                  ^  Operativo    ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+
+===== Procedimiento =====
+
+  - Identificar el error mostrado en cyclops ( Nodo , Sensor , Estado )
+  - Identificar el dispositivo que produce el error.
+    - En caso de ser un error sin un hardware especifico, utilizar el codigo:
+      * ** XAN-R08-01859 **
+    - Si el error esta asociado a un hardware especifico seguir los siguientes pasos para identificarlo:
+      - NODOS:
+        * [[:operation:procedures:HRBLBS0004|HRBLBS0004: Identificar Código Hardware]]
+      - CABINAS:
+        * [[:operation:procedures:HRSTBS0001|HRSTBS0001: Identificar Código Hardware]]
+    - Enviar correo electrónico:
+      * ** ignacio-jose.garcia@atos.net **
+

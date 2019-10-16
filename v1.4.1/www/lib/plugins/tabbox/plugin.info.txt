@@ -1,0 +1,7 @@
+base   tabbox
+author Andreas Gohr
+email  dokuwiki@cosmocode.de
+date   2018-04-29
+name   tabbox plugin
+desc   Insert a tabbed box in a page
+url    https://www.dokuwiki.org/plugin:tabbox

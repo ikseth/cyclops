@@ -1,0 +1,43 @@
+
+
+#edittable__editor {
+    margin-bottom: 1.4em;
+    height: 400px;
+    width: 100%;
+    display: block;
+    overflow: hidden;
+
+    table {
+
+        td.right {
+            text-align: right;
+            float: none; // fix incompatibility with some templates (like ICKE)
+        }
+
+        td.center {
+            text-align: center;
+        }
+
+        td.header {
+            font-weight: bold;
+            background-color: @ini_background_alt;
+            background-image: none;
+        }
+
+    }
+}
+
+.a() when (@ini_site_width) {
+    #edittable__editor {
+        width: @ini_site_width;
+    }
+}
+
+// add a z-index to DokuWiki's toolbar pickers
+div.picker {
+    z-index: 500;
+}
+
+#link__wiz {
+    z-index: 103; // the highest relevant z-index of edittable elements seems to be 103
+}

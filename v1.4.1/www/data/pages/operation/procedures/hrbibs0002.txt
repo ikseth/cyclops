@@ -1,0 +1,24 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Hardware - BIOS : Borrar Eventos BIOS **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo     ^  Nodos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación  ^
+|  Todos     |  Todos                      |                                                                                          |  @#EAFFD5: BAJA      |  Cambios en la configuración de la BMC  |
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Depende         |                                                                  |  @#EAFFD5: BAJA       |  Ninguno Conocido  |
+
+===== Procedimiento =====
+
+  - Accedemos al nodo objetivo:<code>
+ssh node[RANGE]</code> 
+  - Borramos los eventos de la BMC<code>
+ipmitool sel clear
+</code>
+ 

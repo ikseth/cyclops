@@ -1,0 +1,68 @@
+====== Filesystem Space Recovery ======
+
+===== Datos Generales =====
+
+|< 50% >|
+^  Código      ^  Nombre Procedimiento     ^  Verificado   ^  Operativo    ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+|  OSFSAV0001  |  Filesystem space recovery  |  @#FA5858:NO  |  @#EAFFD5: SI  |  20/11/2017      |  20/11/2017                 |  0.1      |
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >|  
+^  Grupo         ^  Nodos           ^  Descripción                                                   ^  Criticidad      ^  Implicación  ^
+|  All           |  All             |  El nodo se ha quedado sin espacio en uno o varios filesystem  |  @#FA5858: ALTA  |  Podría causar la caída del Sistema Productivo  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >|  
+^  Grupo         ^  Nodos          ^  Descripción                                     ^  Criticidad      ^  Implicación  ^ 
+|  All           |  All            |  Ninguna                                         |  @#EAFFD5: BAJA  |  Ninguna      |   
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+
+  - Notificar la incidencia:
+
+==== Alcance ====
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION                   ^  HORARIO EJECUCION                                                                     ^
+
+==== Ejecución ====
+
+  * La recuperacion de espacio es una accion critica que puede implicar caida del sistema o perdida de informacion por lo que antes de seguir este camino se ha de conocer claramente los efectos sobre los datos incluidos en los ficheros y directorios objetivo y sus consecuencias en el sistema y/o organizacion.
+  * ** <fc red> NOTA: </fc> ** Se recomienda conseguir la aceptación de la acción por parte de un responsable que conozca el sistema y las consecuencias de las acciones a tomar.
+
+  * Comando para eliminacion de archivos **rm** , en la medida de lo posible evitar siempre que se pueda la eliminación de datos. El comando para esto:<code>
+1. rm [fichero]
+2. rm -R [directorio]
+</code>
+    * ** <fc red> NOTA:</fc> ** Nunca indicar el directorio raiz o directorios del sistema, el parametro ** <fc red> -R </fc> ** es extremadamente potente y puede destruir el sistema completamente.
+
+  * Comando para la compresion de archivos **gzip**, existen otros comandos que pueden realizar estas acciones, este es uno de los mas comunes. Ejemplo:<code>
+gzip [nombre de archivo]
+</code>
+    * Este comando generara un archivo con el mismo nombre añadiendo la extension **.gzip** dentro del directorio y eliminara el original.
+    * ** <fc orange> NOTA: </fc> ** Si el archivo esta en uso se recomienda usar el comando **lsof** para verificarlo
+
+  * Comandos para mover/copiar los datos afectados. Si se dispone de espacio en otros sistemas de ficheros se recomienda mover o copiar estos datos antes de eliminarlos, los comandos para ello son:
+    * mover: **mv** comando de linux clasico que permite mover ficheros de un directorio o sistemas de ficheros a otros.<code>
+mv -v [directorio|nombre de fichero origen] [directorio destino]/
+</code>
+    * copiar: **cp** copia archivos o directorios de un sistema de ficheros o directorio a otros. Se requiere lanzar un comando de eliminacion posteriormente para recuperar el espacio ya que este no elimina los datos en origen. Usar el siguiente comando para obtener la ayuda necesaria para ejecutarlo:<code>
+cp --help</code>
+    * otros comandos para copiar: **rsync|scp** estos comandos permiten copiar archivos o directorios de un sistema a otro distinto, por si no se dispusiese de espacio localmente se podrían utilizar para realizar copias de seguridad en sistemas remotos a fin de liberar el espacio de la manera mas segura. Ambos comandos disponen de gran cantidad de parámetros usar los siguientes para obtener ayuda para su ejecución:<code>
+1. rsync --help
+2. man rsync
+a. scp --help
+b. man rsync
+</code>
+
+==== Notificación Final ====
+
+  - Notificar la incidencia:
+  - FINAL

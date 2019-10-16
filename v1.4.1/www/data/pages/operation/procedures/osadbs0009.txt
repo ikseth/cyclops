@@ -1,0 +1,15 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Operating System - Administration : Mostrar memoria disponible ** 
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo ^  Nodos  ^  Descripción             ^  Criticidad          ^  Implicación                                     ^
+|  Computo         |  Todos  | Comprobar la memoria total disponible  |  BAJA  | Ninguna conocida  |
+
+
+===== Procedimiento =====
+
+  * Ejecutar el siguiente comando:<code>
+pdsh -w [NODO|RANGO NODOS] head -n 1 /proc/meminfo | dshback -c</code>

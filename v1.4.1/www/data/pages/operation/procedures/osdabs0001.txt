@@ -1,0 +1,25 @@
+
+
+====== Procedimientos Técnicos - Básicos ======
+
+** Operating System - Daemon : Daemon service failed **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo     ^  Nodos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación  ^
+|  Todos     |  Todos                      |                                                                                          |  @#FFFF00: MEDIA               |  Depende del Demonio  |
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Depende         |                                                                  |  @#FFFF00: MEDIA       |  Depende del Demonio  |
+
+===== Procedimiento =====
+
+  - Accedemos al nodo afectado:<code>ssh [[NODE] afectado]</code> 
+  - Vemos el listado de daemon configurados en el arranque del nodo : <code>
+for _daemon in $(chkconfig | awk '$5 == "3:on" { print $1}') ; do echo $_daemon" : "$(service $_daemon status 2>&1 >/dev/null ; echo $?) ; done
+</code>
+ 

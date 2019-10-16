@@ -1,0 +1,49 @@
+====== Alert File System Space ======
+
+===== Datos Generales =====
+
+
+|< 50% >|
+^  Código      ^  Nombre Procedimiento     ^  Verificado   ^  Operativo    ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+|  OSADAV0003  |  Alert File System Space  |  @#FA5858:NO  |  @#EAFFD5: SI  |  19/09/2015      |  29/09/2015                 |  0.2      |
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >|  
+^  Grupo         ^  Nodos           ^  Descripción                                                   ^  Criticidad      ^  Implicación  ^
+|  All           |  All             |  El nodo se ha quedado sin espacio en uno o varios filesystem  |  @#FA5858: ALTA  |  Podría causar la caída del Sistema Productivo  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >|  
+^  Grupo         ^  Nodos          ^  Descripción                                     ^  Criticidad      ^  Implicación  ^ 
+|  All           |  All            |  Ninguna                                         |  @#EAFFD5: BAJA  |  Ninguna      |   
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+  - Notificar la incidencia:
+
+==== Alcance ====
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION                   ^  HORARIO EJECUCION                                                                     ^
+
+==== Ejecución ====
+
+  - Conectarse externamente a un nodo de gestión: [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+    - En caso de no poder conectarse: [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+  - Comprobación del entorno productivo:
+    - [[operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobar Entorno Productivo]]
+        * Si está ** operativo ** pasar a la **Notificación Final**
+        * Si ** NO ** esta operativo: Realizar el siguiente procedimiento de diagnostico: [[operation:procedures:FSCMBS0001|FSCMBS0001 : Espacio en disco]]
+            * Si se localiza una clara perdida de espacio, ejecutar con <fc red> ** PRECAUCION ** </fc> procedimiento de recuperación: [[operation:procedures:OSFSAV0001|0SFSAV0001 : Filesystem space recovery ]]
+        * En caso de fallar el paso anterior o no realizarse el procedimiento de recuperacion poner el nodo en contencion: [[operation:procedures:HRBLAV0003]|HRBLAV0003 :Contención de un nodo]]
+
+==== Notificación Final ====
+
+  - Notificar la incidencia:
+  - FINAL

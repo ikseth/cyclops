@@ -1,0 +1,36 @@
+
+====== Procedure Status (node) ======
+
+|< 100% >|
+|  @#8FD8FF:CODE  |  @#8FD8FF: DESCRIPTION  |  @#8FD8FF: PRIORITY  |  @#8FD8FF: HOST  |  @#8FD8FF: SENSORS  |  @#8FD8FF: WIKI FILE  |  @#8FD8FF: WIKI INDEX  |  @#8FD8FF: WIKI VER  |  @#8FD8FF: OPERATIVE  |  @#8FD8FF: VERIFICATED  |
+|  FSNFAV0001  |  NFS File System FAIL  |  20  |  ALL  |  nfs_fs  |  fsnfav0001.txt  |  @#A5DF00: YES (1)  |  0.1  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  HRBIAV0001  |  BIOS Log Trace alert  |  50  |  ALL  |  bios_log  |  hrbiav0001.txt  |  @#A5DF00: YES (1)  |  1.0  |  @#EAFFD5: SI  |  @#EAFFD5: SI  |
+|  HRBLAV0002  |  B7xx Blade Temp alert  |  50  |  ALL  |  bld_temp_b7  |  hrblav0002.txt  |  @#A5DF00: YES (1)  |  0.6  |  @#EAFFD5: SI  |  @#EAFFD5: SI  |
+|  HRCPAV0001  |  CPU temperature exceeded  |  50  |  ALL  |  cpu_temp  |  hrcpav0001.txt  |  @#A5DF00: YES (1)  |  0.4  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  HRCPAV0002  |  CPU temperature exceeded  |  50  |  ALL,ALL  |  tc0b7,tc1b7  |  hrcpav0002.txt  |  @#A5DF00: YES (1)  |  0.2  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  HRHDAV0001  |  System disk failure  |  50  |  ALL,ALL  |  bios_log,lsidisk  |  hrhdav0001.txt  |  @#A5DF00: YES (1)  |  0.4  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  HRHDAV0002  |  Smart Disk Alert  |  50  |  ALL,ALL  |  bios_log,smart_disk  |  hrhdav0002.txt  |  @#A5DF00: YES (1)  |  0.2  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  HRSTAV0001  |  External Storage Alert  |  20  |  ALL  |  external_storage  |  hrstav0001.txt  |  @#A5DF00: YES (1)  |  0.0  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  NTCSAV0001  |  Network failure  |  40  |  ALL  |  network  |  ntcsav0001.txt  |  @#A5DF00: YES (1)  |  0.0  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  NTIFAV0001  |  Infiniband Interfaz Alert  |  40  |  ALL  |  ib_if  |  ntifav0001.txt  |  @#A5DF00: YES (1)  |  0.0  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  NTIFAV0002  |  Infiniband Net Check Alert  |  40  |  ALL  |  ib_net  |  ntifav0002.txt  |  @#A5DF00: YES (1)  |  0.0  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  OSADAV0001  |  Alert Zombie Process  |  70  |  ALL  |  z  |  osadav0001.txt  |  @#A5DF00: YES (1)  |  0.3  |  @#EAFFD5: SI  |  @#EAFFD5: SI  |
+|  OSADAV0002  |  Swap Usage Alert  |  50  |  ALL  |  swap  |  osadav0002.txt  |  @#A5DF00: YES (1)  |  0.2  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  OSADAV0003  |  Alert File System Space  |  50  |  ALL  |  disk_space  |  osadav0003.txt  |  @#A5DF00: YES (1)  |  0.2  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  OSADAV0005  |  Node Status Alert  |  40  |  ALL  |  mon_time  |  osadav0005.txt  |  @#A5DF00: YES (1)  |  0.0  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  OSAUAV0001  |  Nis Server Alert  |  20  |  ALL  |  ypserv  |  osauav0001.txt  |  @#A5DF00: YES (1)  |  0.0  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  OSAUAV0002  |  Nis Client Alert  |  20  |  ALL  |  ypbind  |  osauav0002.txt  |  @#A5DF00: YES (1)  |  0.0  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  OSDAAV0002  |  service httpd failure  |  70  |  ALL  |  httpd  |  osdaav0002.txt  |  @#A5DF00: YES (1)  |  0.3  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  OSDAAV0003  |  service crond failure  |  40  |  ALL  |  crond  |  osdaav0003.txt  |  @#A5DF00: YES (1)  |  0.3  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  OSDAAV0005  |  Daemon Status failure  |  50  |  ALL,ALL  |  daemon_status,  |  osdaav0005.txt  |  @#A5DF00: YES (1)  |  0.3  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  OSRHAV0001  |  Recovery SSH failure  |  40  |  ALL  |  sshd  |  osrhav0001.txt  |  @#A5DF00: YES (1)  |  0.3  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  OSRHAV0006  |  node not available  |  40  |  ALL  |  uptime  |  osrhav0006.txt  |  @#A5DF00: YES (1)  |  0.6  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  SFFTAV0001  |  service vsftpd failure  |  30  |  ALL  |  vsftpd  |  sfftav0001.txt  |  @#A5DF00: YES (1)  |  0.1  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  SFHBAV0001  |  heartbeat HA failure  |  50  |  ALL,ALL  |  daemon_status,heartbeat  |  sfhbav0001.txt  |  @#A5DF00: YES (1)  |  0.2  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  SFMUAV0001  |  service munge failure  |  20  |  ALL,ALL  |  daemon_status,munge  |  sfmuav0001.txt  |  @#A5DF00: YES (1)  |  0.2  |  @#EAFFD5: SI  |  @#FA5858: NO  |
+|  SFMYAV0001  |  MySQL replication problem  |  30  |  ALL,ALL  |  mysql_sync,mysql_sync  |  @#FA5858: NO EXIST  |  @#A5DF00: YES (1)  |    |    |    |
+|  SFPMAV0001  |  Pacemaker service failure  |  20  |  ALL  |  pacemaker  |  @#FA5858: NO EXIST  |  @#A5DF00: YES (1)  |    |    |    |
+|  SFPMAV0002  |  Pacemaker failure  |  20  |  ALL  |  corosync  |  @#FA5858: NO EXIST  |  @#A5DF00: YES (1)  |    |    |    |
+|  SFSLAV0001  |  Slurm failure  |  20  |  ALL,ALL  |  daemon_status,slurm  |  sfslav0001.txt  |  @#A5DF00: YES (1)  |  0.3  |  @#EAFFD5: SI  |  @#EAFFD5: SI  |
+|  SFSLAV0003  |  Problem slurm node  |  20  |  ALL  |  slurm_status  |  sfslav0003.txt  |  @#A5DF00: YES (1)  |  0.3  |  @#EAFFD5: SI  |  @#EAFFD5: SI  |
+|  SFSLAV0005  |  Sensor Alert Slurm sinfo Fail  |  10  |  ALL,ALL  |  slurm_sinfo,munge  |  sfslav0005.txt  |  @#A5DF00: YES (1)  |  0.2  |  @#EAFFD5: SI  |  @#EAFFD5: SI  |

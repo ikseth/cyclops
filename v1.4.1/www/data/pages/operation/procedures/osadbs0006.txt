@@ -1,0 +1,30 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Sistema Operativo - Administración : Eliminar procesos Zombies **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo     ^  Nodos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación  ^
+|  Todos     |  Todos                      |                                                                                          |  @#EAFFD5: BAJA      |  Cambios en la configuración de la BMC  |
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Depende         |                                                                  |  @#EAFFD5: BAJA       |  Ninguno Conocido  |
+
+===== Procedimiento =====
+
+  * Ejecutar el siguiente comando para comprobar si existen procesos zombies: <code>
+/opt/cyclops/tools/approved/zombie.restore.sh -n [NOMBRE DE NODO O RANGO DE NODOS] -t zombie -v human
+</code>
+  * Ejecutar el siguiente comando para eliminar procesos zombies: <code>
+/opt/cyclops/tools/approved/zombie.restore.sh -n [NOMBRE DE NODO O RANGO DE NODOS] -t zombie -v human -k
+</code>
+
+
+
+
+
+

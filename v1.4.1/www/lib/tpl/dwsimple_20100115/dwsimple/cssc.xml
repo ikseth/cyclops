@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- windows-1250 -->
+<!-- cssc: CSS-Config file  (c) by Dietrich Wittenberg -->
+<layout>
+	<dimension>px</dimension>
+
+	<line id="0" align="top">    10</line>
+	<line id="1" align="top">   130</line>
+	<line id="7" align="top">   135</line>
+	<line id="2" align="bottom">110</line>
+	<line id="8" align="bottom">115</line>
+	<line id="3" align="bottom"> 30</line>
+	<line id="4" align="left">   10</line>
+	<line id="5" align="right">  10</line>
+	<line id="6" align="bottom"> 10</line>
+
+	<box id="head" top="0" right="5" bottom="1" left="4">
+		<style>background-color: #FFF</style>
+	</box>
+	<box id="foot" top="2" right="5" bottom="3" left="4">
+		<style>overflow: hidden</style>
+		<style>background-color: #FFF</style>
+	</box>
+	<box id="footer" top="3" right="5" bottom="6" left="4">
+		<style>background-color: #FFF</style>
+	</box>
+	<box id="page" top="7" right="5" bottom="8" left="4">
+		<style>background-color: #FFF</style>
+	</box>
+</layout>

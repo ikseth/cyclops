@@ -1,0 +1,15 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Operating System - Administration : Sincronizar la bbdd NIS con PAM del servidor Principal ** 
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo  ^  Nodos  ^  Descripción             ^  Criticidad          ^  Implicación                                     ^
+|  management  |  nodo0  |  Sincronizar PAM con la bbdd NIS  |  BAJA  |  Ninguna conocida  |
+
+
+===== Procedimiento =====
+
+  * Ejecutar el siguiente comando:<code>
+make -C /var/yp</code>

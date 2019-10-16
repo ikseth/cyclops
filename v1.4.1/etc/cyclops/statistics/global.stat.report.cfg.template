@@ -1,0 +1,3 @@
+### DAEMON REPORT CONFIG FILE
+### INDEX;TYPE;DATE_START([NUM+Y(YEAR)/M(MONTH)/D(DAY);NODE_RANGE;LINKS;RECURSIVE;NAME;DESCRIPTION
+1;cyclops;1Y;;no;no;cluster_global;year cluster global report

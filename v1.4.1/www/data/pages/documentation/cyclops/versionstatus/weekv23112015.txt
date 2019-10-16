@@ -1,0 +1,10 @@
+====== Control de Cambios - weekv23112015 ======
+
+** Change **
+
+  - FUNCIONALIDADES:
+    - Se añade la posibilidad de filtrar por varios conceptos (simultáneamente si se desea) en el comando audit.nod.sh 
+  - TUNING:
+    - Se adapta la herramienta de test del entorno productivo a las nueva definición de prioridades de la organización
+  - REPARACIÓN DE ERRORES:
+  - DOCUMENTACIÓN:

@@ -1,0 +1,15 @@
+====== Control de Cambios - weekv21122015 ======
+
+** Change **
+
+  - FUNCIONALIDADES:
+    - Se incluye el parámetro ** -v critical ** , para mostrar información sobre el entorno critico definido en el comando cyclops.sh
+    - Se incluye el control del HA en los comandos audit.nod.sh y cyclops.sh que evitan su ejecución en los nodos SLAVE.
+    - Se modifica el comando audit.nod.sh para permitir una información de todos los eventos de actividad y bitácora que permitan disponer de un registro global.
+    - Se crea una sección en el dashboard que incluye los últimos 10 eventos acaecidos en el registro de auditoria de los nodos en los últimos siete días.
+    - Se crea la nueva version de la herramienta test.productive.env.sh que dispone de fichero de configuración, para mayor dinamismo en los cambios y la configuracion. 
+  - TUNING:
+    - Se amplia el tiempo de detección de procesos zombies de 20 minutos a 6 horas.
+  - REPARACIÓN DE ERRORES:
+  - DOCUMENTACIÓN:
+    - Se incluye ayuda sobre la inserción de eventos en la bitácora de los nodos.

@@ -1,0 +1,11 @@
+
+===== Notificación =====
+
+|< 50% >|
+^  Código      ^  Nombre Procedimiento       ^  Verificado                  ^  Operativo    ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+
+===== Procedimiento =====
+
+  * Datos de Contacto:
+    * Telefonos: 91.581.97.88 - 91.581.97.89
+    * En caso de cualquier otra incidencia, comunicar su detección.

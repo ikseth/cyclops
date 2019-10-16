@@ -1,0 +1,53 @@
+====== Procedimientos Técnicos - Avanzado : Daemon ======
+
+===== Datos Generales =====
+
+|< 50% >|
+^  Código      ^  Nombre Procedimiento   ^  Verificado                  ^  Operativo    ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+|  OSDAAV0005  |  Daemon service failed  |  @#FA5858:<fc white>NO</fc>  |  @#EAFFD5:SI  |  29/07/2015      |  28/09/2015                 |  0.3      |
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 30% 10% 50%>| 
+^  Grupo     ^  Nodos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación  ^
+|  Todos     |  Todos                      |                                                                                          |  @#FFFF00: MEDIA               |  Depende del Demonio  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 30% 10% 50%>|
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Depende         |                                                                  |  @#FFFF00: MEDIA       |  Depende del Demonio  |
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+  - Notificar la incidencia:
+
+==== Alcance ====
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION                   ^  HORARIO EJECUCION                                                                     ^
+
+==== Ejecución ====
+ 
+  * ** Se ejecutan los siguientes pasos: **
+  - Conectamos desde el exterior a un nodo de gestión [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+    - En caso de no poderse conectar realizar: [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+  - Conectamos internamente al nodo afectado [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+  - [[:operation:procedures:OSDABS0001|OSDABS0001: Check Boot Services]] obtendremos el listado de los servicios configurados en el arranque de dicho nodo y el estado en el que se encuentran:
+    - SI es 0: Su estado es correcto.
+    - SI es diferente de 0 ese servicio no esta en el estado esperado: {{popup>:operation:procedures:OSDABS0003?[keepOpen]|OSDABS0003: Chequear Servicio}}.
+      - En caso de que algun servicio no devuelva 0, realizar la comprobacion del entorno productivo productiva:
+        * [[:operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobación del estado del entorno productivo]]
+             - Si el resultado es **OPERATIVE** :
+              - Mantener especial atencion sobre el estado de ese nodo, en caso de aumentar las alertas volver a   [[operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobar Entorno Productivo]]
+            - Si el resultado es ** NO OPERATIVE **
+              -  [[operation:procedures:HRBLAV0003]|HRBLAV0003 :Contención de un nodo]]
+
+==== Notificación Final ====
+
+  - Notificar la incidencia:
+  - FINAL

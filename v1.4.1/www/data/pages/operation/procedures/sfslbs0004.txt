@@ -1,0 +1,54 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Slurm : Estado Nodo **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos           ^  Descripción                                   ^  Criticidad      ^  Implicación  ^
+
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción            ^  Criticidad          ^  Implicación  ^ 
+|  Todos        |  Todos           |                         |  @#FFFF00: MEDIA  |   |
+
+===== Procedimiento =====
+
+  * Se ejecuta el siguiente comando desde los nodos de gestión para los siguientes nodos afectados:
+
+|< 50% >|
+^  Producción  ^^^^
+^  Tipo        ^  Nombre             ^  Descripción                                       ^   Criticidad  ^
+
+  
+
+<code>scontrol update Nodename=[Nodo afectado] State=[Estado en Slurm] Reason=[Indicar el motivo]</code>
+
+  * Los estados disponibles para un nodo son:
+    * ** DOWN ** -> se inhabilita ese nodo para Slurm
+    * ** DRAIN ** -> estado de mantenimiento de un nodo en Slurm, es obligatorio indicar indicar el motivo (Reason)
+    * ** IDLE ** -> se habilita el nodo en Slurm.
+    * ** RESUME ** 
+
+  * Se ejecuta el siguiente comando desde los nodos de gestión para los siguientes nodos afectados: 
+
+|< 50% >|
+^  Desarrollo  ^^^^
+^  Tipo             ^  Nombre             ^  Descripción                                       ^   Criticidad  ^
+|  dev              |  nodo[4,5]        |   <fc orange> ** EJECUCION: Nodos de control de slurm de Desarrollo ** </fc>          |   Media       |
+|  water_rack[0-9]  |  nodo[3105-8318]  |  Nodos de computo de Desarrollo                    |   Baja        |
+
+
+<code>ssh nodo[4,5] scontrol update Nodename=[Nodo afectado] State=[Estado en Slurm] Reason="[Indicar el motivo, Procedimiento Padre que forzó este procedimiento]"</code>
+
+  * **NOTA** especificar en el comando anterior nodo4 o nodo5 en funcion de si uno de los dos esta ** no operativo **
+  
+  * Los estados disponibles para un nodo son:
+    * ** DOWN ** -> se inhabilita ese nodo para Slurm.m
+    * ** DRAIN ** -> estado de mantenimiento de un nodo en Slurm, es obligatorio indicar indicar el motivo (Reason)
+    * ** IDLE ** -> se habilita el nodo en Slurm.
+    * ** RESUME ** 
+ 
+

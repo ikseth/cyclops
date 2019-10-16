@@ -1,0 +1,70 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Hardware - BIOS : Listar Eventos BIOS **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo     ^  Nodos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación  ^
+|  Todos     |  Todos                      |                                                                                          |  @#EAFFD5: BAJA      |  Cambios en la configuración de la BMC  |
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Depende         |                                                                  |  @#EAFFD5: BAJA       |  Ninguno Conocido  |
+
+===== Procedimiento =====
+
+  - Desde un nodo de gestión:<code>
+ipmitool -U [usuario] -P [clave] -H [hostname] sel elist
+</code>
+
+  * ** Las credenciales de acceso para la herramienta son: **
+
+|< 100% >|
+^  Tipo               ^  hostname        ^  usuario  ^  clave  ^
+|  nodo[3101-8318]  |  bmc[3101-8318]  |  administrator  |  administrator  |
+|  rmc                |  rmc[30-80]      |  super    |  pass   |
+|  cmc                |  cmc[31-83]      |  super    |  pass   |
+
+  * **NOTA:** Tener en cuenta que los servidores/nodos con nombre nodo[XXXX] tienen como hostname para la ipmitool bmc[XXXX] ( se cambia nodo por bmc y se deja el resto igual )
+  * **<fc red>NOTA:</fc>** En determinados casos el procedimiento padre puede requerir que se guarde los resultados que genera este comando en un fichero, en tal caso ejecutar el comando:<code>
+ipmitool -U [usuario] -P [clave] -H [hostname] sel elist > /opt/cyclops/logs/[nombre nodo].$(date +%s).bios.log
+</code>
+
+<hidden Salida de Ejemplo>
+<code>
+3846 | 09/29/2015 | 10:44:42 | Temperature #0x08 | Upper Non-critical going high
+3847 | 09/29/2015 | 10:44:43 | Temperature #0x08 | Upper Non-critical going high
+3848 | 09/29/2015 | 10:44:53 | Temperature #0x08 | Upper Non-critical going high
+3849 | 09/29/2015 | 10:44:54 | Temperature #0x08 | Upper Non-critical going high
+384a | 09/29/2015 | 10:44:54 | Temperature #0x08 | Upper Non-critical going high
+384b | 09/29/2015 | 10:44:55 | Temperature #0x08 | Upper Non-critical going high
+384c | 09/29/2015 | 10:44:57 | Temperature #0x08 | Upper Non-critical going high
+384d | 09/29/2015 | 10:44:57 | Temperature #0x08 | Upper Non-critical going high
+384e | 09/29/2015 | 10:44:59 | Temperature #0x08 | Upper Non-critical going high
+</code>
+</hidden>
+
+  - Para ver detalle del error:<code>
+ipmitool -U [usuario] -P [clave] -H [hostname] sel get [numero de id en decimal]
+</code>
+
+<hidden Ejemplo de salida>
+<code>
+SEL Record ID          : 0001
+ Record Type           : 02
+ Timestamp             : 03/30/2015 09:36:48
+ Generator ID          : 0020
+ EvM Revision          : 04
+ Sensor Type           : Unknown
+ Sensor Number         : ff
+ Event Type            : Sensor-specific Discrete
+ Event Direction       : Assertion Event
+ Event Data            : f2ffff
+ Description           : 
+</code>
+</hidden>
+
+  * **NOTA:** el campo //numero de de identificador del parametro //sel elist// (el primer campo) se muestra en hexadecimal, por lo que hay que convertirlo en decimal para poder consultar el detalle

@@ -1,0 +1,26 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - FTP: Stop **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad          ^  Implicacion                                             ^
+
+
+===== Sistemas Colaterales =====
+
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad  ^  Implicacion  ^ 
+
+
+===== Procedimiento =====
+  *  Los pasos a seguir para chequear FTP son:
+
+  - Conectarse al nodo de gestión: [[:operation:procedures:SPXXXX0002| SPXXXX0002 : Establecer Conexión SSH]]
+  - Ejecutamos <code>
+ssh [[NODE] objetivo] /etc/init.d/vsftpd stop
+</code>
+   
+   

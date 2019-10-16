@@ -1,0 +1,7 @@
+base     zenlike
+author   Dennis Ploeger
+email    dennis@dieploegers.de
+date     2012-10-11
+name     zenlike template
+desc     Template based on "zenlike" 1.0 by NodeThirtyThree
+url      http://www.dokuwiki.org/template:zenlike

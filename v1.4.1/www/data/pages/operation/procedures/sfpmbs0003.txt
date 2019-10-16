@@ -1,0 +1,28 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - HA Pacemaker: Restart ** 
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo    ^  Nodos        ^  Descripción                                   ^  Criticidad         ^  Implicacion                                             ^
+|  Gestión  |  MANAGEMENT NODES  |  Acceso de los usuarios al sistema productivo  |  @#FAAC58:ALTA  |  Caida en el nivel de integridad del sistema productivo  |
+|  Lustre   |  node[RANGE]  |  Funcionamiento del servicio                   |  @#FAAC58: ALTA  |  Posibilidad de caida completa del sistema productivo    |
+
+
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo    ^  Nodos        ^  Descripción  ^  Criticidad  ^  Implicacion                                             ^
+|  Gestión  |  MANAGEMENT NODES  |               |   @#FAAC58:ALTA    |  Caida en el nivel de integridad del sistema productivo  |
+|  Lustre   |  LUSTRE MDS NODES  |               |   @#FAAC58: ALTA    |  Posibilidad de caida completa del sistema productivo    |
+| :::       |  node[RANGE]  |               |  @#FAAC58:  ALTA    |  Posibilidad de caida completa del sistema productivo    |
+===== Procedimiento =====
+
+  -Conectarse al nodo de gestión: [[:operation:procedures:SPXXXX0002| SPXXXX0002 : Establecer Conexión SSH]].
+  -Ejecutar: <code>
+haadm restart [nombre del nodo caído]
+</code>
+    * También se puede usar como alternativa para levantar un nodo caído en un HA desde el nodo inactivo:<code> /etc/init.d/corosync restart</code>
+

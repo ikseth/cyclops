@@ -1,0 +1,50 @@
+====== Swap Usage Alert ======
+
+===== Datos Generales =====
+
+
+|< 50% >|
+^  Código      ^  Nombre Procedimiento  ^  Verificado                  ^  Operativo    ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+|  OSADAV0002  |  Swap Usage Alert      |  @#FA5858:<fc white>NO</fc>  |  @#EAFFD5:SI  |  17/09/2015      |  30/09/2015                 |  0.2      |
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >|  
+^  Grupo     ^  Nodos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación  ^
+|  Todos     |  Todos                      |                                                                                          |  @#EAFFD5: BAJA      |  Merma en el rendimiento del nodo  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >| 
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Depende         |                                                                  |  @#EAFFD5: BAJA       |  Podria mermar el rendimiento del entorno productivo  |
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+  - Notificar la incidencia:
+
+==== Alcance ====
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION                   ^  HORARIO EJECUCION                                                                     ^
+
+==== Ejecución ====
+
+
+  * ** Se ejecutan los siguientes pasos: **
+
+  - Conectarse externamente a un nodo de gestión: [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+    - En caso de no poder conectarse: [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+  - Comprobar el entorno productivo ->   [[:operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobación del estado del entorno productivo]]
+             - Si el resultado es **OPERATIVE** :
+              - Mantener especial atencion sobre el estado de ese nodo, en caso de aumentar las alertas volver a   [[operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobar Entorno Productivo]]
+            - Si el resultado es ** NO OPERATIVE **
+              -  [[operation:procedures:HRBLAV0003]|HRBLAV0003 :Contención de un nodo]]
+==== Notificación Final ====
+
+  - Notificar la incidencia:
+  - FINAL

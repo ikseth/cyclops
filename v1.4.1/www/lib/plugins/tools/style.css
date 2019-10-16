@@ -1,0 +1,39 @@
+ul.tools {
+    float: right;
+    list-style: none;
+    line-height: 1 !important;
+    margin: 4px 0 !important;
+    padding: 0 !important;
+    width: 100%;
+}
+
+ul.tools li.head {
+    float: right;
+    color: __dark__;
+    list-style: none;
+    margin: 2px 2px 4px; 
+}
+
+ul.tools li {
+    display: block;
+    float: right;
+    list-style: none;
+    margin: 2px 2px 1px; 
+    overflow: hidden;
+    padding: 0;
+}
+ul.tools li a {
+    display: block;
+    filter: alpha(opacity=60);
+    opacity: .6;
+    -moz-opacity: .6;
+    -khtml-opacity: .6;
+}
+
+ul.tools li a:hover {
+    text-decoration: none;
+    filter: aplha(opacity=100);
+    opacity: 1;
+    -moz-opacity: 1;
+    -khtml-opacity: 1;
+}

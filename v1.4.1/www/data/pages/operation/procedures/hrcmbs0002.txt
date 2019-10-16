@@ -1,0 +1,34 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Hardware - CMC/RMC : B7xx Conexion interfaz web **  
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo     ^  Dispositivos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación  ^
+|  Dispositivos Hardware     |  RMC/CNC                      |    Dispositivos de control del hardware NEWSCA                                |  @#EAFFD5: BAJA      |  Ninguna  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Depende         |                                                                  |  @#EAFFD5: BAJA       |  Ninguno Conocido  |
+
+===== Procedimiento =====
+
+  - Usando el navegador del sistema ( firefox )
+  - Introducir la dirección del dispositivo requerido:
+    * Chasis ( CMC ): <code>
+http://cmc[3-8][1-3]</code>
+    * Rack (RMC ): <code>
+http://rmc[3-8]</code>
+  - Poner las credenciales requeridas:
+    * user: //super//
+    * password: //pass//
+
+  * ** Las direcciones disponibles son: **
+    * Rack ( RMC ) , el digito indica el numero de rack al que se accede.
+    * Chasis ( CMC ):
+      - el primer digito indica el el rack en el que se encuentra el chasis
+      - el segundo digito indica la posicion del chasis dentro del rack, de abajo arriba((el chasis 1 es el mas bajo, el 3 el mas alto))
+    * <fc green>NOTA:</fc> Definicion numerica de los [[:documentation:operation:terminology:mirrornode|nodos]]

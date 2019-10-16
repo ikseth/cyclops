@@ -1,0 +1,55 @@
+====== Service FTP failure ======
+
+===== Datos Generales =====
+
+
+|< 50% >|
+^  Código       ^  Nombre Procedimiento  ^  Verificado    ^  Operativo    ^  Fecha Creación   ^  Fecha Ultima Modificación  ^  Versión  ^
+|  SFFTAV0001   |  Service FTP failure   |  @#FA5858:NO   |  @#EAFFD5:SI  |  27/07/2015       |  27/07/2015                 |    0.1    | 
+
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo  ^  Nodos              ^  Descripción                                                                                ^  Criticidad  ^  Implicación  ^
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+
+  - Notificar la incidencia:
+
+==== Alcance ====
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION  ^  HORARIO EJECUCION           ^ 
+
+==== Ejecución ====
+
+
+  - Conectarse externamente a un nodo de gestion: [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+    - En caso de no poder conectarse: [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+  - Conectarse internamente al nodo afectado: [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+  - Comprobar el estado del servicio: 
+    * [[operation:procedures:SFFTBS0001 | SFFTBS0001 : Check FTP]]
+    - En caso de SI estar parado el servicio:
+      * SI: [[:operation:procedures:SFFTBS0002 | SFFTBS0002 : Start FTP]]
+    - En caso de NO estar parado el servicio:
+      * NO: [[:operation:procedures:SFFTBS0003 | SFFTBS0003 : Restart FTP]]
+  - Comprobar el estado del servicio: [[operation:procedures:SFFTBS0001 | SFFTBS0001 : Check FTP]]
+    - En caso de seguir NO operativo lanzar el procedimiento de contención:
+      * [[operation:procedures:HRBLAV0003|HRBLAV0003 : Contención de un nodo]]
+
+==== Notificación Final ====
+
+  - Notificar la incidencia:
+  - FINAL

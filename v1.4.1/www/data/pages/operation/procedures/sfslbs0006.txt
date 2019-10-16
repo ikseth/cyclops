@@ -1,0 +1,24 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Slurm : Chequear el estado de un nodo **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos                       ^  Descripción                                            ^  Criticidad          ^  Implicación                                                       ^
+|  Computo       |  Todos los nodos de computo  |  Ejecucion de Jobs  |  @#EAFFD5: BAJA  |    |
+
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción            ^  Criticidad          ^  Implicación  ^ 
+|  Ninguno        |  Ninguno           |                         |  Ninguna  | |
+
+===== Procedimiento =====
+
+  - Conectarse al nodo de computo afectado:
+    * [[:operation:procedures:SPXXXX0002| SPXXXX0002 : Establecer Conexión SSH]]
+    * Desde el nodo de gestión: Establecer conexión SSH con el nodo. 
+  - Ejecutar el siguiente comando:<code>
+sinfo -n [NOMBRE NODO]</code>

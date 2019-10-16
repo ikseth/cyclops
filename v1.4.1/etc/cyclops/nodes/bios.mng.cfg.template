@@ -1,0 +1,2 @@
+#### [hostname];[ilo/bmc hostname];[user];[pass] ## ENVIRONMENT OR HOST ACCESS WITH (ILO/BMC COMMAND ACCESS) 
+#### if bmc hostname and hostname are the same put bmc hostname in blank

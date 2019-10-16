@@ -1,0 +1,445 @@
+====== Cyclops Tools ======
+
+===== Conocer el resumen del estado del entorno productivo =====
+
+  * Existe un comando de tipo tool (herramientas especificas de apoyo a cyclops) desarrollada especificamente para un entorno HPC con slurm + lustre que sirve para conocer de manera amigable el estado de los principales elementos y estructuras de las que depende el correcto funcionamiento de sistema para la realizacion de su funcion principal, a lo que denominamos ** entorno productivo **.
+  * El comando a ejecutar es:<code>
+/opt/cyclops/tools/approved/test.productive.env.sh -t [active|pasive]</code>
+
+<hidden Ejemplo de Salida>
+<code>
+critical environment analisys
+-----------------------------
+
+analisys type                  PASIVE
+date                           12-23-2015
+time                           10:03
+
+detailed results
+-----------------------------
+management                     OPERATIVE
+login                          OPERATIVE
+ls_mds                         OPERATIVE
+ls_oss                         OPERATIVE
+air                            OPERATIVE
+-----------------------------
+
+FINAL RESULT                   OPERATIVE
+</code>
+</hidden>
+
+  * La opción ** -t ** permite ejecutar mas rápidamente o mas fiablemente el test:
+    * ** active **: el test lanza una comprobación completa del sistema por lo que se obtienen los resultados mas actualizados posibles, su ejecución puede tardar entre 15 segundos y varios minutos (nunca mas de 10 y en caso de mas de 2 minutos habrá problemas en algunos dispositivos/nodos).
+    * ** pasive **: el test utiliza la ultima monitorizacion existente para comprobar el estado del entorno productivo, su ejecución sera muy rápida pero solo se recomienda en caso de disponer de datos actualizados de la monitorizacion 
+  - Siempre que este muestre el mensaje ** OPERATIVE ** ha de considerarse que el sistema continua funcionando independientemente de las alertas existentes en otros servicios y/o hosts, prestar especial atención si el mensaje va acompañado de algún tipo de WARNING , en cuyo caso hay que depurarlo para detectar si ocurrirá una caída inminente del entorno productivo.
+  - Siempre que parezca el mensaje ** NO OPERATIVE ** el entorno productivo estará caído y por tanto las acciones para recuperar el sistema son prioritarias, el comando puede ayudar a localizar el origen de los elementos que han generado el problema
+====== Limpiar un nodo de Procesos problematicos ======
+
+  * Se ha desarrollado una herramienta especifica para la eliminacion de procesos de tipo "//zombie//" y de tipo "//huerfanos//" estos ultimos son procesos de usuarios que por distintas razones se quedan activos en nodos de computos que ya no tienen en ejecucion ningun //job// de dicho usuario
+  * El comando para comprobar la existencia de estos procesos es:<code>
+/opt/cyclops/tools/approved/zombie.restore.sh -n [nodo o rango de nodos] -t [zombie|orphan] -v [human|commas|wiki] -k
+</code>
+    * ** -n [obligatorio] ** , parametro para especificar el nodo o nodos donde se desea comprobar el estado de los procesos
+    * ** -t [obligatorio] ** , parametro donde se especifica el tipo de procesos sobre los que se quiere actuar.
+    * ** -v ** , parametro que formatea la salida segun las necesidades del ejecutor.
+    * ** -k **, paramentro que ejecuta un kill ( señal 9 ) sobre los procesos detectados
+
+<hidden Ejemplo de Salida>
+<code>
+date        time   hostname    user      ppid   pid     status  process          kill status
+06-10-2015  14:31  nodo3101  dcharpin  23767  23777   S       dcharpin@pts/1   NO KILL
+06-10-2015  14:31  nodo3101  dcharpin  23777  23778   S       -bash            NO KILL
+06-10-2015  14:31  nodo3102  pn13      1      37302   S       intelremotemond  NO KILL
+06-10-2015  14:31  nodo3101  pnl       1      32239   S       intelremotemond  NO KILL
+06-10-2015  14:31  nodo3102  png       1      87490   S       intelremotemond  NO KILL
+06-10-2015  14:31  nodo3101  pn13      1      68614   S       intelremotemond  NO KILL
+06-10-2015  14:31  nodo3101  png       1      91944   S       intelremotemond  NO KILL
+06-10-2015  14:31  nodo3101  harmonie  1      117120  S       intelremotemond  NO KILL
+06-10-2015  14:31  nodo3109  png       1      56695   S       intelremotemond  NO KILL
+06-10-2015  14:31  nodo3113  pn13      1      34932   S       intelremotemond  NO KILL
+06-10-2015  14:31  nodo3113  png       1      101274  S       intelremotemond  NO KILL
+06-10-2015  14:31  nodo3114  png       1      26063   S       intelremotemond  NO KILL
+06-10-2015  14:31  nodo3115  pn13      1      23084   S       intelremotemond  NO KILL
+06-10-2015  14:31  nodo3115  png       1      25399   S       -1               NO KILL
+06-10-2015  14:31  nodo3115  png       25399  25400   S       -1               NO KILL
+06-10-2015  14:31  nodo3210  pn13      1      38384   S       intelremotemond  NO KILL
+</code>
+</hidden>
+
+  * ** NOTA **, los procesos huerfanos solo se comprobaran sobre nodos de computo y en caso de existir jobs de slurm en ejecucion en dicho nodo no se realizara ninguna accion (ni siquiera chequeo)
+
+====== Configurar el Acceso BMC ======
+
+  * **<fc orange>NOTA:</fc> Herramienta optimizada para controladores de equipos compatibles con ipmitool **
+  * Esta Herramienta permite configurar las bmc de los equipos deseados con unos parametros predeterminados, esta recomendada para equipos nuevos, cambios de placa o bmc reseteadas.
+  * El comando a utilizar:<code>
+/opt/cyclops/tools/approved/tool.configure.bmc.sh -n [nombre de nodo/nombre de nodo[rango]]</code>
+
+<hidden Ejemplo de Salida>
+<code>
+</code>
+</hidden>
+====== Extracción de MAC's desde el log de DHCP ======
+
+  * **<fc orange>NOTA:</fc> Herramienta optimizada para la SUIT HPC de BULL **
+  * El comando obtiene la dirección mac de la red de gestión, permitiendo posteriormente darla de alta en la clusterdb
+    * Esta información la obtiene del log del dhcp, por lo que esta herramienta habrá de ser utilizada en el nodo que tenga el servicio de dhcp activo.
+    * La herramienta fuerza un apagado y reinicio del nodo para obtener una petición en el dhcp, tener en cuenta las siguientes protecciones:
+      * Los nodos sobre los que se va a actuar no deben estar en la monitorizacion en modo **up**
+      * En caso de encontrarse en otro modo pero aun así siguen operativos en el gestor de colas slurm y tienen jobs en ejecucion la herramienta no operara sobre dicho nodo.
+    * En la mayoría de los casos esta herramienta dependerá de la herramienta ** tool.mac.extract.sh ** para que los valores de acceso a la bmc sean los adecuados.
+  * El comando a ejecutar:<code>
+/opt/cyclops/tools/approved/tool.mac.extract.sh -n [nombre de nodo/nombre de nodo[rango]]</code>
+  * Usar la opcion ** -h ** para tener mas información de la herramienta.
+  
+<hidden Ejemplo de Salida>
+<code>
+[root@nodo0 ~]# /opt/cyclops/tools/approved/tool.mac.extract.sh -n nodo[7301,7310] -o clusterdb
+nodo7301 : IN drain MODE, VALID FOR RECOVERY NODE MAC TASK
+nodo7301 : SLURM INACTIVE LAUNCH MAC RECOVERY PROCESS
+nodo7301 : OFF -> POWER ON NODE
+nodo7301 : 08:00:38:3b:47:cb
+nodo7301 : POWER OFF NODE
+nodo7310 : IN drain MODE, VALID FOR RECOVERY NODE MAC TASK
+nodo7310 : SLURM INACTIVE LAUNCH MAC RECOVERY PROCESS
+nodo7310 : OFF -> POWER ON NODE
+nodo7310 : 08:00:38:3b:43:45
+nodo7310 : POWER OFF NODE
+FINISH: mac data in /opt/cyclops/temp/tool.ext.macs.cdb.1489750009.sh
+</code>
+</hidden>
+
+====== Actualización de Firmware de nodos B710 ======
+
+  * ** <fc red>NOTA:</fc> Herramienta critica, usar con extremo cuidado **
+  * El comando ha de indicar de manera oblicatoria el nodo o nodos sobre los que se va a realizar la actualizacion, opcion ** -n [nodo o rango] **
+  * ** Modo Interactivo ** ( por defecto ):
+    * Este modo verifica el estado de un nodo antes de actualizarlo:
+      - Estado energetico del nodo, ha de estar en ** off ** para poderse actualizar.
+      - Estado de la monitorizacion del nodo, ha de estar en ** drain ** para poderse actualizar.
+      - El comando ha de lanzarse desde una sesion creada con el comando screen.
+    * El modo interactivo permite usar los siguientes parametros:
+      * ** -y ** : pregunta antes de actualizar un nodo
+      * ** -f ** : indicar fichero especifico de firmwares, disponibles en <code>/etc/cyclops/tools/tool.b7xx.*.cfg</code> 
+      * ** -p ** : paraleliza el lanzamiento de actualizacion, por lo que el tiempo de una actualizacion masiva de nodos se reduce sustancialmente.
+  * Ejemplo de Comando interactivo:<code>
+/opt/cyclops/tools/approved/tool.update.fw.node.sh -n [nodo o rango de nodos] -p -y</code>
+<hidden Ejemplo de Salida>
+<code>
+[root@nodo0 approved]# ./tool.update.fw.node.sh -n nodo[6201-6218] -p 
+
+INFO: CHECK UPGRADE OPTIONS:
+INFO:   PARALLEL EXEC:          YES
+INFO:   ASK BEFORE:             NO
+INFO:   ALTERNATIVE FILE:       NO
+INFO:   NODE RANGE:             nodo[6201-6218]
+
+INFO: You can follow detailed fw update in /opt/cyclops/logs/fw.update.[BMC HOSTNAME].[DATE YYYYMMDDTHHMM].log
+
+PRESS ANY KEY TO START FW UPGRADE OR CTRL+C TO CANCEL ALL PROCESS... 
+NODE: nodo6201 : bmc6201 : RIGHT STATUS FOR UPGRADE :                 [ START ]
+NODE: nodo6201 : bmc6201 : FIRMWARE                                   [ UPGRADING ]
+NODE: nodo6201 : bmc6201 : BMC update :                               [ START ]
+NODE: nodo6202 : bmc6202 : RIGHT STATUS FOR UPGRADE :                 [ START ]
+NODE: nodo6202 : bmc6202 : FIRMWARE                                   [ UPGRADING ]
+NODE: nodo6202 : bmc6202 : BMC update :                               [ START ]
+NODE: nodo6203 : bmc6203 : RIGHT STATUS FOR UPGRADE :                 [ START ]
+NODE: nodo6203 : bmc6203 : FIRMWARE                                   [ UPGRADING ]
+NODE: nodo6203 : bmc6203 : BMC update :                               [ START ]
+NODE: nodo6204 : bmc6204 : RIGHT STATUS FOR UPGRADE :                 [ START ]
+NODE: nodo6204 : bmc6204 : FIRMWARE                                   [ UPGRADING ]
+NODE: nodo6204 : bmc6204 : BMC update :                               [ START ]
+NODE: nodo6205 : bmc6205 : RIGHT STATUS FOR UPGRADE :                 [ START ]
+NODE: nodo6205 : bmc6205 : FIRMWARE                                   [ UPGRADING ]
+NODE: nodo6205 : bmc6205 : BMC update :                               [ START ]
+NODE: nodo6206 : bmc6206 : RIGHT STATUS FOR UPGRADE :                 [ START ]
+NODE: nodo6206 : bmc6206 : FIRMWARE                                   [ UPGRADING ]
+NODE: nodo6206 : bmc6206 : BMC update :                               [ START ]
+NODE: nodo6207 : bmc6207 : RIGHT STATUS FOR UPGRADE :                 [ START ]
+NODE: nodo6207 : bmc6207 : FIRMWARE                                   [ UPGRADING ]
+NODE: nodo6207 : bmc6207 : BMC update :                               [ START ]
+NODE: nodo6208 : bmc6208 : RIGHT STATUS FOR UPGRADE :                 [ START ]
+NODE: nodo6208 : bmc6208 : FIRMWARE                                   [ UPGRADING ]
+NODE: nodo6208 : bmc6208 : BMC update :                               [ START ]
+NODE: nodo6209 : bmc6209 : RIGHT STATUS FOR UPGRADE :                 [ START ]
+NODE: nodo6209 : bmc6209 : FIRMWARE                                   [ UPGRADING ]
+NODE: nodo6209 : bmc6209 : BMC update :                               [ START ]
+NODE: nodo6210 : bmc6210 : RIGHT STATUS FOR UPGRADE :                 [ START ]
+NODE: nodo6210 : bmc6210 : FIRMWARE                                   [ UPGRADING ]
+
+.
+.
+.
+</code>
+</hidden>
+  * ** Modo Pasivo **:
+    * Este modo se activa con el paramentro ** -g [nombre de fichero]** :
+    * Tan solo se verifica la existencia del fichero destino.
+    * Permite usar las siguientes opciones:
+      * ** -y ** : genera el fichero con una pausa antes de cada actualizacion.
+      * ** -p ** : genera el fichero con el lanzamiento de la actualizacion en paralelo todos los nodos. 
+  * Ejemplo de comando pasivo:<code>
+/opt/cyclops/tools/approved/tool.update.fw.node.sh -n nodo[4301-4318] -g temp.sh -y</code>
+<hidden Ejemplo de Salida>
+<code>
+AUTO GENERATED FIRMWARE UPGRADE FILE: temp.sh
+NODE: nodo4301 : bmc4301 >> [ GENERATING SCRIPT ]
+NODE: nodo4302 : bmc4302 >> [ GENERATING SCRIPT ]
+NODE: nodo4303 : bmc4303 >> [ GENERATING SCRIPT ]
+NODE: nodo4304 : bmc4304 >> [ GENERATING SCRIPT ]
+NODE: nodo4305 : bmc4305 >> [ GENERATING SCRIPT ]
+NODE: nodo4306 : bmc4306 >> [ GENERATING SCRIPT ]
+NODE: nodo4307 : bmc4307 >> [ GENERATING SCRIPT ]
+NODE: nodo4308 : bmc4308 >> [ GENERATING SCRIPT ]
+NODE: nodo4309 : bmc4309 >> [ GENERATING SCRIPT ]
+NODE: nodo4310 : bmc4310 >> [ GENERATING SCRIPT ]
+NODE: nodo4311 : bmc4311 >> [ GENERATING SCRIPT ]
+NODE: nodo4312 : bmc4312 >> [ GENERATING SCRIPT ]
+NODE: nodo4313 : bmc4313 >> [ GENERATING SCRIPT ]
+NODE: nodo4314 : bmc4314 >> [ GENERATING SCRIPT ]
+NODE: nodo4315 : bmc4315 >> [ GENERATING SCRIPT ]
+NODE: nodo4316 : bmc4316 >> [ GENERATING SCRIPT ]
+NODE: nodo4317 : bmc4317 >> [ GENERATING SCRIPT ]
+NODE: nodo4318 : bmc4318 >> [ GENERATING SCRIPT ]
+</code>
+</hidden>
+<hidden Ejemplo de fichero generado>
+<code>
+#!/bin/bash
+echo "AUTO GENERATED FIRMWARE UPGRADE FILE: temp.sh"
+nodo4301()
+{
+
+echo "nodo4301 with bmc name bmc4301 upgrading"
+read -p "PRESS ANY KEY TO CONTINUE OR CTRL+C TO CANCEL ALL PROCESS... " -n1 -s
+/opt/BSMHW/bin/ipmitool -H bmc4301 -U super -P pass -v bulloem upgrade /[firmaware path]/BIOS/BIOSX03.040.04.204.fd BIOS 0
+/opt/BSMHW/bin/ipmitool -H bmc4301 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_MAIN/EMM_CPLD_CSP_MAIN_2_8 CPLD_MAIN 0
+/opt/BSMHW/bin/ipmitool -H bmc4301 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_IOEXP/EMM_CPLD_CSP_IOEXP_5_2 CPLD_IOEXP 0
+/opt/BSMHW/bin/ipmitool -H bmc4301 -U super -P pass -v bulloem upgrade /[firmaware path]/bios/b710/b710.ht.enable.bios.03.040.04.204.07.fd BIOS_REGION 0
+/opt/BSMHW/bin/ipmitool -H bmc4301 -U super -P pass -v bulloem upgrade /[firmaware path]/BMC/fw-wub-wpcm450_bulldc_NEWSCASNB_223700_1343.bin MC 0
+
+}
+nodo4302()
+{
+
+echo "nodo4302 with bmc name bmc4302 upgrading"
+read -p "PRESS ANY KEY TO CONTINUE OR CTRL+C TO CANCEL ALL PROCESS... " -n1 -s
+/opt/BSMHW/bin/ipmitool -H bmc4302 -U super -P pass -v bulloem upgrade /[firmaware path]/BIOS/BIOSX03.040.04.204.fd BIOS 0
+/opt/BSMHW/bin/ipmitool -H bmc4302 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_MAIN/EMM_CPLD_CSP_MAIN_2_8 CPLD_MAIN 0
+/opt/BSMHW/bin/ipmitool -H bmc4302 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_IOEXP/EMM_CPLD_CSP_IOEXP_5_2 CPLD_IOEXP 0
+/opt/BSMHW/bin/ipmitool -H bmc4302 -U super -P pass -v bulloem upgrade /[firmaware path]/bios/b710/b710.ht.enable.bios.03.040.04.204.07.fd BIOS_REGION 0
+/opt/BSMHW/bin/ipmitool -H bmc4302 -U super -P pass -v bulloem upgrade /[firmaware path]/BMC/fw-wub-wpcm450_bulldc_NEWSCASNB_223700_1343.bin MC 0
+
+}
+nodo4303()
+{
+
+echo "nodo4303 with bmc name bmc4303 upgrading"
+read -p "PRESS ANY KEY TO CONTINUE OR CTRL+C TO CANCEL ALL PROCESS... " -n1 -s
+/opt/BSMHW/bin/ipmitool -H bmc4303 -U super -P pass -v bulloem upgrade /[firmaware path]/BIOS/BIOSX03.040.04.204.fd BIOS 0
+/opt/BSMHW/bin/ipmitool -H bmc4303 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_MAIN/EMM_CPLD_CSP_MAIN_2_8 CPLD_MAIN 0
+/opt/BSMHW/bin/ipmitool -H bmc4303 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_IOEXP/EMM_CPLD_CSP_IOEXP_5_2 CPLD_IOEXP 0
+/opt/BSMHW/bin/ipmitool -H bmc4303 -U super -P pass -v bulloem upgrade /[firmaware path]/bios/b710/b710.ht.enable.bios.03.040.04.204.07.fd BIOS_REGION 0
+/opt/BSMHW/bin/ipmitool -H bmc4303 -U super -P pass -v bulloem upgrade /[firmaware path]/BMC/fw-wub-wpcm450_bulldc_NEWSCASNB_223700_1343.bin MC 0
+
+}
+nodo4304()
+{
+
+echo "nodo4304 with bmc name bmc4304 upgrading"
+read -p "PRESS ANY KEY TO CONTINUE OR CTRL+C TO CANCEL ALL PROCESS... " -n1 -s
+/opt/BSMHW/bin/ipmitool -H bmc4304 -U super -P pass -v bulloem upgrade /[firmaware path]/BIOS/BIOSX03.040.04.204.fd BIOS 0
+/opt/BSMHW/bin/ipmitool -H bmc4304 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_MAIN/EMM_CPLD_CSP_MAIN_2_8 CPLD_MAIN 0
+/opt/BSMHW/bin/ipmitool -H bmc4304 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_IOEXP/EMM_CPLD_CSP_IOEXP_5_2 CPLD_IOEXP 0
+/opt/BSMHW/bin/ipmitool -H bmc4304 -U super -P pass -v bulloem upgrade /[firmaware path]/bios/b710/b710.ht.enable.bios.03.040.04.204.07.fd BIOS_REGION 0
+/opt/BSMHW/bin/ipmitool -H bmc4304 -U super -P pass -v bulloem upgrade /[firmaware path]/BMC/fw-wub-wpcm450_bulldc_NEWSCASNB_223700_1343.bin MC 0
+
+}
+nodo4305()
+{
+
+echo "nodo4305 with bmc name bmc4305 upgrading"
+read -p "PRESS ANY KEY TO CONTINUE OR CTRL+C TO CANCEL ALL PROCESS... " -n1 -s
+/opt/BSMHW/bin/ipmitool -H bmc4305 -U super -P pass -v bulloem upgrade /[firmaware path]/BIOS/BIOSX03.040.04.204.fd BIOS 0
+/opt/BSMHW/bin/ipmitool -H bmc4305 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_MAIN/EMM_CPLD_CSP_MAIN_2_8 CPLD_MAIN 0
+/opt/BSMHW/bin/ipmitool -H bmc4305 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_IOEXP/EMM_CPLD_CSP_IOEXP_5_2 CPLD_IOEXP 0
+/opt/BSMHW/bin/ipmitool -H bmc4305 -U super -P pass -v bulloem upgrade /[firmaware path]/bios/b710/b710.ht.enable.bios.03.040.04.204.07.fd BIOS_REGION 0
+/opt/BSMHW/bin/ipmitool -H bmc4305 -U super -P pass -v bulloem upgrade /[firmaware path]/BMC/fw-wub-wpcm450_bulldc_NEWSCASNB_223700_1343.bin MC 0
+
+}
+nodo4306()
+{
+
+echo "nodo4306 with bmc name bmc4306 upgrading"
+read -p "PRESS ANY KEY TO CONTINUE OR CTRL+C TO CANCEL ALL PROCESS... " -n1 -s
+/opt/BSMHW/bin/ipmitool -H bmc4306 -U super -P pass -v bulloem upgrade /[firmaware path]/BIOS/BIOSX03.040.04.204.fd BIOS 0
+/opt/BSMHW/bin/ipmitool -H bmc4306 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_MAIN/EMM_CPLD_CSP_MAIN_2_8 CPLD_MAIN 0
+/opt/BSMHW/bin/ipmitool -H bmc4306 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_IOEXP/EMM_CPLD_CSP_IOEXP_5_2 CPLD_IOEXP 0
+/opt/BSMHW/bin/ipmitool -H bmc4306 -U super -P pass -v bulloem upgrade /[firmaware path]/bios/b710/b710.ht.enable.bios.03.040.04.204.07.fd BIOS_REGION 0
+/opt/BSMHW/bin/ipmitool -H bmc4306 -U super -P pass -v bulloem upgrade /[firmaware path]/BMC/fw-wub-wpcm450_bulldc_NEWSCASNB_223700_1343.bin MC 0
+
+}
+nodo4307()
+{
+
+echo "nodo4307 with bmc name bmc4307 upgrading"
+read -p "PRESS ANY KEY TO CONTINUE OR CTRL+C TO CANCEL ALL PROCESS... " -n1 -s
+/opt/BSMHW/bin/ipmitool -H bmc4307 -U super -P pass -v bulloem upgrade /[firmaware path]/BIOS/BIOSX03.040.04.204.fd BIOS 0
+/opt/BSMHW/bin/ipmitool -H bmc4307 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_MAIN/EMM_CPLD_CSP_MAIN_2_8 CPLD_MAIN 0
+/opt/BSMHW/bin/ipmitool -H bmc4307 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_IOEXP/EMM_CPLD_CSP_IOEXP_5_2 CPLD_IOEXP 0
+/opt/BSMHW/bin/ipmitool -H bmc4307 -U super -P pass -v bulloem upgrade /[firmaware path]/bios/b710/b710.ht.enable.bios.03.040.04.204.07.fd BIOS_REGION 0
+/opt/BSMHW/bin/ipmitool -H bmc4307 -U super -P pass -v bulloem upgrade /[firmaware path]/BMC/fw-wub-wpcm450_bulldc_NEWSCASNB_223700_1343.bin MC 0
+
+}
+nodo4308()
+{
+
+echo "nodo4308 with bmc name bmc4308 upgrading"
+read -p "PRESS ANY KEY TO CONTINUE OR CTRL+C TO CANCEL ALL PROCESS... " -n1 -s
+/opt/BSMHW/bin/ipmitool -H bmc4308 -U super -P pass -v bulloem upgrade /[firmaware path]/BIOS/BIOSX03.040.04.204.fd BIOS 0
+/opt/BSMHW/bin/ipmitool -H bmc4308 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_MAIN/EMM_CPLD_CSP_MAIN_2_8 CPLD_MAIN 0
+/opt/BSMHW/bin/ipmitool -H bmc4308 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_IOEXP/EMM_CPLD_CSP_IOEXP_5_2 CPLD_IOEXP 0
+/opt/BSMHW/bin/ipmitool -H bmc4308 -U super -P pass -v bulloem upgrade /[firmaware path]/bios/b710/b710.ht.enable.bios.03.040.04.204.07.fd BIOS_REGION 0
+/opt/BSMHW/bin/ipmitool -H bmc4308 -U super -P pass -v bulloem upgrade /[firmaware path]/BMC/fw-wub-wpcm450_bulldc_NEWSCASNB_223700_1343.bin MC 0
+
+}
+nodo4309()
+{
+
+echo "nodo4309 with bmc name bmc4309 upgrading"
+read -p "PRESS ANY KEY TO CONTINUE OR CTRL+C TO CANCEL ALL PROCESS... " -n1 -s
+/opt/BSMHW/bin/ipmitool -H bmc4309 -U super -P pass -v bulloem upgrade /[firmaware path]/BIOS/BIOSX03.040.04.204.fd BIOS 0
+/opt/BSMHW/bin/ipmitool -H bmc4309 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_MAIN/EMM_CPLD_CSP_MAIN_2_8 CPLD_MAIN 0
+/opt/BSMHW/bin/ipmitool -H bmc4309 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_IOEXP/EMM_CPLD_CSP_IOEXP_5_2 CPLD_IOEXP 0
+/opt/BSMHW/bin/ipmitool -H bmc4309 -U super -P pass -v bulloem upgrade /[firmaware path]/bios/b710/b710.ht.enable.bios.03.040.04.204.07.fd BIOS_REGION 0
+/opt/BSMHW/bin/ipmitool -H bmc4309 -U super -P pass -v bulloem upgrade /[firmaware path]/BMC/fw-wub-wpcm450_bulldc_NEWSCASNB_223700_1343.bin MC 0
+
+}
+nodo4310()
+{
+
+echo "nodo4310 with bmc name bmc4310 upgrading"
+read -p "PRESS ANY KEY TO CONTINUE OR CTRL+C TO CANCEL ALL PROCESS... " -n1 -s
+/opt/BSMHW/bin/ipmitool -H bmc4310 -U super -P pass -v bulloem upgrade /[firmaware path]/BIOS/BIOSX03.040.04.204.fd BIOS 0
+/opt/BSMHW/bin/ipmitool -H bmc4310 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_MAIN/EMM_CPLD_CSP_MAIN_2_8 CPLD_MAIN 0
+/opt/BSMHW/bin/ipmitool -H bmc4310 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_IOEXP/EMM_CPLD_CSP_IOEXP_5_2 CPLD_IOEXP 0
+/opt/BSMHW/bin/ipmitool -H bmc4310 -U super -P pass -v bulloem upgrade /[firmaware path]/bios/b710/b710.ht.enable.bios.03.040.04.204.07.fd BIOS_REGION 0
+/opt/BSMHW/bin/ipmitool -H bmc4310 -U super -P pass -v bulloem upgrade /[firmaware path]/BMC/fw-wub-wpcm450_bulldc_NEWSCASNB_223700_1343.bin MC 0
+
+}
+nodo4311()
+{
+
+echo "nodo4311 with bmc name bmc4311 upgrading"
+read -p "PRESS ANY KEY TO CONTINUE OR CTRL+C TO CANCEL ALL PROCESS... " -n1 -s
+/opt/BSMHW/bin/ipmitool -H bmc4311 -U super -P pass -v bulloem upgrade /[firmaware path]/BIOS/BIOSX03.040.04.204.fd BIOS 0
+/opt/BSMHW/bin/ipmitool -H bmc4311 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_MAIN/EMM_CPLD_CSP_MAIN_2_8 CPLD_MAIN 0
+/opt/BSMHW/bin/ipmitool -H bmc4311 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_IOEXP/EMM_CPLD_CSP_IOEXP_5_2 CPLD_IOEXP 0
+/opt/BSMHW/bin/ipmitool -H bmc4311 -U super -P pass -v bulloem upgrade /[firmaware path]/bios/b710/b710.ht.enable.bios.03.040.04.204.07.fd BIOS_REGION 0
+/opt/BSMHW/bin/ipmitool -H bmc4311 -U super -P pass -v bulloem upgrade /[firmaware path]/BMC/fw-wub-wpcm450_bulldc_NEWSCASNB_223700_1343.bin MC 0
+
+}
+nodo4312()
+{
+
+echo "nodo4312 with bmc name bmc4312 upgrading"
+read -p "PRESS ANY KEY TO CONTINUE OR CTRL+C TO CANCEL ALL PROCESS... " -n1 -s
+/opt/BSMHW/bin/ipmitool -H bmc4312 -U super -P pass -v bulloem upgrade /[firmaware path]/BIOS/BIOSX03.040.04.204.fd BIOS 0
+/opt/BSMHW/bin/ipmitool -H bmc4312 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_MAIN/EMM_CPLD_CSP_MAIN_2_8 CPLD_MAIN 0
+/opt/BSMHW/bin/ipmitool -H bmc4312 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_IOEXP/EMM_CPLD_CSP_IOEXP_5_2 CPLD_IOEXP 0
+/opt/BSMHW/bin/ipmitool -H bmc4312 -U super -P pass -v bulloem upgrade /[firmaware path]/bios/b710/b710.ht.enable.bios.03.040.04.204.07.fd BIOS_REGION 0
+/opt/BSMHW/bin/ipmitool -H bmc4312 -U super -P pass -v bulloem upgrade /[firmaware path]/BMC/fw-wub-wpcm450_bulldc_NEWSCASNB_223700_1343.bin MC 0
+
+}
+nodo4313()
+{
+
+echo "nodo4313 with bmc name bmc4313 upgrading"
+read -p "PRESS ANY KEY TO CONTINUE OR CTRL+C TO CANCEL ALL PROCESS... " -n1 -s
+/opt/BSMHW/bin/ipmitool -H bmc4313 -U super -P pass -v bulloem upgrade /[firmaware path]/BIOS/BIOSX03.040.04.204.fd BIOS 0
+/opt/BSMHW/bin/ipmitool -H bmc4313 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_MAIN/EMM_CPLD_CSP_MAIN_2_8 CPLD_MAIN 0
+/opt/BSMHW/bin/ipmitool -H bmc4313 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_IOEXP/EMM_CPLD_CSP_IOEXP_5_2 CPLD_IOEXP 0
+/opt/BSMHW/bin/ipmitool -H bmc4313 -U super -P pass -v bulloem upgrade /[firmaware path]/bios/b710/b710.ht.enable.bios.03.040.04.204.07.fd BIOS_REGION 0
+/opt/BSMHW/bin/ipmitool -H bmc4313 -U super -P pass -v bulloem upgrade /[firmaware path]/BMC/fw-wub-wpcm450_bulldc_NEWSCASNB_223700_1343.bin MC 0
+
+}
+nodo4314()
+{
+
+echo "nodo4314 with bmc name bmc4314 upgrading"
+read -p "PRESS ANY KEY TO CONTINUE OR CTRL+C TO CANCEL ALL PROCESS... " -n1 -s
+/opt/BSMHW/bin/ipmitool -H bmc4314 -U super -P pass -v bulloem upgrade /[firmaware path]/BIOS/BIOSX03.040.04.204.fd BIOS 0
+/opt/BSMHW/bin/ipmitool -H bmc4314 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_MAIN/EMM_CPLD_CSP_MAIN_2_8 CPLD_MAIN 0
+/opt/BSMHW/bin/ipmitool -H bmc4314 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_IOEXP/EMM_CPLD_CSP_IOEXP_5_2 CPLD_IOEXP 0
+/opt/BSMHW/bin/ipmitool -H bmc4314 -U super -P pass -v bulloem upgrade /[firmaware path]/bios/b710/b710.ht.enable.bios.03.040.04.204.07.fd BIOS_REGION 0
+/opt/BSMHW/bin/ipmitool -H bmc4314 -U super -P pass -v bulloem upgrade /[firmaware path]/BMC/fw-wub-wpcm450_bulldc_NEWSCASNB_223700_1343.bin MC 0
+
+}
+nodo4315()
+{
+
+echo "nodo4315 with bmc name bmc4315 upgrading"
+read -p "PRESS ANY KEY TO CONTINUE OR CTRL+C TO CANCEL ALL PROCESS... " -n1 -s
+/opt/BSMHW/bin/ipmitool -H bmc4315 -U super -P pass -v bulloem upgrade /[firmaware path]/BIOS/BIOSX03.040.04.204.fd BIOS 0
+/opt/BSMHW/bin/ipmitool -H bmc4315 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_MAIN/EMM_CPLD_CSP_MAIN_2_8 CPLD_MAIN 0
+/opt/BSMHW/bin/ipmitool -H bmc4315 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_IOEXP/EMM_CPLD_CSP_IOEXP_5_2 CPLD_IOEXP 0
+/opt/BSMHW/bin/ipmitool -H bmc4315 -U super -P pass -v bulloem upgrade /[firmaware path]/bios/b710/b710.ht.enable.bios.03.040.04.204.07.fd BIOS_REGION 0
+/opt/BSMHW/bin/ipmitool -H bmc4315 -U super -P pass -v bulloem upgrade /[firmaware path]/BMC/fw-wub-wpcm450_bulldc_NEWSCASNB_223700_1343.bin MC 0
+
+}
+nodo4316()
+{
+
+echo "nodo4316 with bmc name bmc4316 upgrading"
+read -p "PRESS ANY KEY TO CONTINUE OR CTRL+C TO CANCEL ALL PROCESS... " -n1 -s
+/opt/BSMHW/bin/ipmitool -H bmc4316 -U super -P pass -v bulloem upgrade /[firmaware path]/BIOS/BIOSX03.040.04.204.fd BIOS 0
+/opt/BSMHW/bin/ipmitool -H bmc4316 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_MAIN/EMM_CPLD_CSP_MAIN_2_8 CPLD_MAIN 0
+/opt/BSMHW/bin/ipmitool -H bmc4316 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_IOEXP/EMM_CPLD_CSP_IOEXP_5_2 CPLD_IOEXP 0
+/opt/BSMHW/bin/ipmitool -H bmc4316 -U super -P pass -v bulloem upgrade /[firmaware path]/bios/b710/b710.ht.enable.bios.03.040.04.204.07.fd BIOS_REGION 0
+/opt/BSMHW/bin/ipmitool -H bmc4316 -U super -P pass -v bulloem upgrade /[firmaware path]/BMC/fw-wub-wpcm450_bulldc_NEWSCASNB_223700_1343.bin MC 0
+
+}
+nodo4317()
+{
+
+echo "nodo4317 with bmc name bmc4317 upgrading"
+read -p "PRESS ANY KEY TO CONTINUE OR CTRL+C TO CANCEL ALL PROCESS... " -n1 -s
+/opt/BSMHW/bin/ipmitool -H bmc4317 -U super -P pass -v bulloem upgrade /[firmaware path]/BIOS/BIOSX03.040.04.204.fd BIOS 0
+/opt/BSMHW/bin/ipmitool -H bmc4317 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_MAIN/EMM_CPLD_CSP_MAIN_2_8 CPLD_MAIN 0
+/opt/BSMHW/bin/ipmitool -H bmc4317 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_IOEXP/EMM_CPLD_CSP_IOEXP_5_2 CPLD_IOEXP 0
+/opt/BSMHW/bin/ipmitool -H bmc4317 -U super -P pass -v bulloem upgrade /[firmaware path]/bios/b710/b710.ht.enable.bios.03.040.04.204.07.fd BIOS_REGION 0
+/opt/BSMHW/bin/ipmitool -H bmc4317 -U super -P pass -v bulloem upgrade /[firmaware path]/BMC/fw-wub-wpcm450_bulldc_NEWSCASNB_223700_1343.bin MC 0
+
+}
+nodo4318()
+{
+
+echo "nodo4318 with bmc name bmc4318 upgrading"
+read -p "PRESS ANY KEY TO CONTINUE OR CTRL+C TO CANCEL ALL PROCESS... " -n1 -s
+/opt/BSMHW/bin/ipmitool -H bmc4318 -U super -P pass -v bulloem upgrade /[firmaware path]/BIOS/BIOSX03.040.04.204.fd BIOS 0
+/opt/BSMHW/bin/ipmitool -H bmc4318 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_MAIN/EMM_CPLD_CSP_MAIN_2_8 CPLD_MAIN 0
+/opt/BSMHW/bin/ipmitool -H bmc4318 -U super -P pass -v bulloem upgrade /[firmaware path]/CPLD_IOEXP/EMM_CPLD_CSP_IOEXP_5_2 CPLD_IOEXP 0
+/opt/BSMHW/bin/ipmitool -H bmc4318 -U super -P pass -v bulloem upgrade /[firmaware path]/bios/b710/b710.ht.enable.bios.03.040.04.204.07.fd BIOS_REGION 0
+/opt/BSMHW/bin/ipmitool -H bmc4318 -U super -P pass -v bulloem upgrade /[firmaware path]/BMC/fw-wub-wpcm450_bulldc_NEWSCASNB_223700_1343.bin MC 0
+
+}
+nodo4301  # Delete line to disable node update
+nodo4302  # Delete line to disable node update
+nodo4303  # Delete line to disable node update
+nodo4304  # Delete line to disable node update
+nodo4305  # Delete line to disable node update
+nodo4306  # Delete line to disable node update
+nodo4307  # Delete line to disable node update
+nodo4308  # Delete line to disable node update
+nodo4309  # Delete line to disable node update
+nodo4310  # Delete line to disable node update
+nodo4311  # Delete line to disable node update
+nodo4312  # Delete line to disable node update
+nodo4313  # Delete line to disable node update
+nodo4314  # Delete line to disable node update
+nodo4315  # Delete line to disable node update
+nodo4316  # Delete line to disable node update
+nodo4317  # Delete line to disable node update
+nodo4318  # Delete line to disable node update
+</code>
+</hidden>

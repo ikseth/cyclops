@@ -1,0 +1,31 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Cyclops : Purgar procesos zombie **  
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo         ^  Nodos            ^  Descripción                                              ^  Criticidad  ^  Implicación  ^
+|  Todos         |  Todos            |                                                           |  @#FA5858:<fc white>ALTA</fc>        |  La ejecucion de este procedimiento de manera inadecuada podria generar inestabilidad en todo el entorno  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >| 
+^  Grupo         ^  Nodos            ^  Descripción                                              ^  Criticidad      ^  Implicación  ^ 
+|  Ninguno       |  Ninguno          |                                                           |  @#EAFFD5: BAJA  |  Ninguna conocida  |
+===== Procedimiento =====
+
+  - Ejecutar el comando siguiente sobre el nodo o nodos requeridos:<code>
+/opt/cyclops/tools/approved/zombie.restore.sh -v human -t zombie -n [nodo|rango de nodos] -k 
+</code>
+
+<hidden Ejemplo Salida>
+<code>
+./zombie.restore.sh -v human -t zombie -n nodo0 -k 
+date        time   hostname  user  ppid   pid    status  process    kill status
+07-10-2015  10:31  nodo0   root  31019  499    Z       <defunct>  KILLED
+07-10-2015  10:31  nodo0   root  31019  31020  Z       <defunct>  CAN'T KILL IT (bash: line 112: kill: (31019) - No such process 1)
+</code>
+</hidden> 
+
+  * ** NOTA: ** Se recomienda verificar antes y después de la ejecución la existencia de los procesos zombies. 

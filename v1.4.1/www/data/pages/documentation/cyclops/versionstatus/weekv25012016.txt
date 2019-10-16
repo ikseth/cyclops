@@ -1,0 +1,24 @@
+====== Control de Cambios - weekv25012016 ======
+
+** Change **
+
+  - FUNCIONALIDADES:
+    - Se actualiza la monitorizacion en la maqueta de desarrollo, con el fin de no utilizar la monitorizacion en el servidor de explotación para tan solo lo estrictamente necesario.
+    - Se incorpora el paquete w3m al servidor para poder acceder al interfaz web de cyclops por consola.
+  - TUNING:
+    - Nueva estructura de directorios para los ficheros de configuración
+    - Se inclute un nuevo plugin de generacion de barras de progreso, aun en pruebas.
+  - REPARACIÓN DE ERRORES:
+    - Errores del comando cyclops para la activacion del HA
+    - Errores en el script de monitorizacion de nodos que hacian mal la referencia a los ficheros de configuracion.
+    - Errores en el script de auditoria en la generacion de informacion
+    - Detectados problemas de casuistica con el ha de cyclops, solucionando.
+    - Solucionado error en la monitorizacion de entorno que no añadia correctamente el nombre del sensor que generaba la alerta en el mail
+    - Depurados alertas en el sensor de blades de los chasis B7xx por el que cualquier cambio de estado lo consideraba fallo, ahora solo genera warnings, fallo del sensor, o estado correcto.
+  - DOCUMENTACIÓN:
+
+<hidden Pruebas de visualización de barra de progreso>
+|<100% 20& 80%>|
+|  PRUEBA  |  @#A5DF00: <progrecss 67% style=default;width=80em; />  |
+|  PRUEBA  |  @#FA5858: <progrecss 67% style=default;width=80em; />  |
+</hidden>

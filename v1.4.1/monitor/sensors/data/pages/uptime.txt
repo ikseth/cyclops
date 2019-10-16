@@ -1,0 +1,28 @@
+
+
+==== NODOS: UPTIME (dias)====
+
+
+=== Servidores Operacionales ===
+
+<gchart 700x350 hbar #47a731 #ffffff left values>
+N0=47
+N1=38
+N2=20
+N3=6
+N4=38
+N5=46
+N6=47
+N7=47
+N8=47
+N9=48
+</gchart>
+
+=== Nodos de Computo de Aire ===
+
+<gchart 700x140 hbar #ffaf00 #ffffff left values>
+N10=20
+N11=19
+N12=20
+N13=18
+</gchart>

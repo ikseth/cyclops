@@ -1,0 +1,24 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Slurm : Ejecucion Job Interactivo **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos                       ^  Descripción                                            ^  Criticidad          ^  Implicación                                                       ^
+|  Computo       |  Todos los nodos de computo  |  Ejecucion de Jobs  |  @#EAFFD5: BAJA  |  Tan solo hay que tener vigilado el no bloquear los nodos, se recomienda la opcion //--time// para evitar el problema  |
+
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción            ^  Criticidad          ^  Implicación  ^ 
+|  Ninguno        |  Ninguno           |                         |  Ninguna  | |
+
+===== Procedimiento =====
+
+  - Conectarse a los nodos de login:
+    * [[:operation:procedures:SPXXXX0002| SPXXXX0002 : Establecer Conexión SSH]]
+    * Desde el nodo de gestión: Establecer conexión SSH con el nodo. 
+  - Ejecutar el siguiente comando:<code>
+salloc -p [PARTICION] -N [NUMERO DE NODOS] srun --pty bash</code>

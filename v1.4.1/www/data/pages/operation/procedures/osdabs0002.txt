@@ -1,0 +1,23 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Operating System - Daemon : Restart Service **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo      ^  Nodos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación       ^
+|  Todos      |  Todos                      |                                                                                          |  @#EAFFD5: BAJA                |  Ninguna Conocida  |
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Depende         |                                                                  |  @#EAFFD5: BAJA        |  Ninguna Conocida  |
+
+===== Procedimiento =====
+
+  - Desde los nodos de gestión:<code>
+ssh node[RANGE] restart</code>
+  - En el propio nodo afectado:<code>
+service  [nombre del servicio] restart </code>
+  

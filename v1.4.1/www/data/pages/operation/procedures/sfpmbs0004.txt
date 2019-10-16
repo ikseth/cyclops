@@ -1,0 +1,62 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - HA Pacemaker: Start servicio de Pacemaker ** 
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo    ^  Nodos        ^  Descripción                                   ^  Criticidad         ^  Implicacion                                             ^
+|  Gestión  |  MANAGEMENT NODES  |  Acceso de los usuarios al sistema productivo  |  @#FAAC58:ALTA  |  Caida en el nivel de integridad del sistema productivo  |
+|  Lustre   |  node[RANGE]  |  Funcionamiento del servicio                   |  @#FAAC58: ALTA  |  Posibilidad de caida completa del sistema productivo    |
+
+
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo    ^  Nodos        ^  Descripción  ^  Criticidad  ^  Implicacion                                             ^
+|  Gestión  |  MANAGEMENT NODES  |               |   @#FAAC58:ALTA    |  Caida en el nivel de integridad del sistema productivo  |
+|  Lustre   |  LUSTRE MDS NODES  |               |   @#FAAC58: ALTA    |  Posibilidad de caida completa del sistema productivo    |
+| :::       |  node[RANGE]  |               |  @#FAAC58:  ALTA    |  Posibilidad de caida completa del sistema productivo    |
+===== Procedimiento =====
+
+  -Conectarse al nodo de gestión: [[:operation:procedures:SPXXXX0002| SPXXXX0002 : Establecer Conexión SSH]].
+  - Arrancamos el servicio que hemos detectado que está  "not running" con el siguiente comando:
+<code>
+haresl start -n [servicio] 
+</code>
+<hidden  Ejemplo>
+<code>[root@[MANAGEMENT NODES] node_state]# haresl listprefs
+Please wait a few seconds ...
+---------------------------- listprefs -----------------------------
+resource           preferred-node status                            
+--------------------------------------------------------------------
+restofence[MANAGEMENT NODES]  [MANAGEMENT NODES]        (NOT running)                     
+restofence[MANAGEMENT NODES]  [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES])             
+                                                                    
+console            [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES])             
+dhcp               [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES])             
+dns                [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES] / Migrated)  
+fs-BCM             [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES])             
+fs-IDC             [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES])             
+fs-Shine           [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES])             
+fs-ibms            [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES] / Migrated)  
+ibms-database      [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES] / Migrated)  
+ibms-devmgr        [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES] / Migrated)  
+ibms-perfmgr       [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES] / Migrated)  
+kconf              [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES])             
+ksis-rsync         [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES])             
+monitoring         [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES])             
+mysql              [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES] / Migrated)  
+nfs                [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES])             
+postfix            [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES] / Migrated)  
+postfix-client     [MANAGEMENT NODES]        (NOT running)                     
+postgresql         [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES] / Migrated)  
+slurm              [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES] / Migrated)  
+slurmdbd           [MANAGEMENT NODES]        (NOT running)                     
+tftp               [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES])             
+yabix              [MANAGEMENT NODES]        (running on: [MANAGEMENT NODES])
+</code>
+
+</hidden>    
+  - Si se produce algún error [[operation:procedures:]]

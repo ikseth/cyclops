@@ -1,0 +1,8 @@
+====== Control de Cambios - weekv08022016 ======
+
+** Change **
+
+  - FUNCIONALIDADES:
+  - TUNING:
+  - REPARACIÓN DE ERRORES:
+  - DOCUMENTACIÓN:

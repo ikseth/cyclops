@@ -1,0 +1,71 @@
+====== Procedimiento Especial - Acceder por SSH al Sistema ======
+
+
+
+===== Datos Generales  =====
+
+
+|< 50% >|
+^  Código      ^  Nombre Procedimiento                   ^  Verificado   ^  Operativo    ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+|  SPXXXX0002  |  Acceder por SSH al Sistema  |  @#EAFFD5:SI  |  @#EAFFD5:SI  |  16/09/2015      |  29/09/2015                 |  0.2      |
+
+===== Alcance  =====
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION                   ^  HORARIO EJECUCION                                                                     ^
+|     |  @#EAFFD5:SI                 |  @#FFFF00: INTERVENCION SOLICITADA                                                     |
+
+
+===== Procedimiento =====
+
+==== Alcance ====
+
+=== Servidores Externos - Primera Conexión ( Exterior ) ===
+
+^  Hostname  ^  Direccion IP  ^  Tipo     ^  Funcion  ^
+|  [MANAGEMENT NODES]   |    |  Gestion  |  Gestion y Mantenimiento del Sistema  |
+|  [LOGIN NODES]   |    |  Login    |  Acceso de Usuarios al Sistema        |
+
+=== Servidores Internos  - Segunda Conexión ( Interna ) ===
+
+^  Hostname                 ^  BMC Hostname   ^  Tipo       ^  Funcion  ^
+|  MANAGEMENT NODES         |  	              |  Gestion    |  Gestion y Mantenimiento del Sistema       |
+|  LOGIN NODES              |                 |  Login      |  Accceso de usuarios al cluster            |
+|  node[RANGE]              |                 |  Lustre     |  Servidores de Sistema de ficheros Lustre  |
+|  node[RANGE]              |                 |  Computo    |  Nodos de Computo refrigerados por Aire    |
+
+==== Primera conexión - Acceso desde el exterior ====
+
+=== Conexión Windows ===
+
+
+{{:operation:procedures:manual-putty-telnet-ssh-01.gif?200|}}
+
+  - Ejecuta PuTTy
+  - En el menú de configuración selecciona la categoría ** Session **
+  - Introduzca la IP del nodo ** externo ** y seleccione el ** protocolo SSH **
+  - Introduzca un nombre para esta conexión en el campo ** Saved Sessions **
+  - Vuelva al menú de configuración y seleccione la categoría ** SSH **
+  - Asegúrese de que está marcada la opción 2 en ** Preferred SSH protocol ** versión
+  - Seleccione nuevamente la categoría ** Session **
+  - Para guardar la configuración pulse ** Save ** (si necesita guardar la sesión para siguientes ocasiones) y  ** Open ** para conectar
+  - Al iniciar la conexión, se abrirá la ventana del terminal. Introduzca su nombre de usuario y pulse Intro, después, introduzca su contraseña y pulse Intro. Si el nombre de usuario y password son correctos podrá iniciar la sesión SSH
+=== Conexión Linux/Unix ===
+
+  * Ejecutar el siguiente comando desde una consola<code>
+ssh -l [usuario] [direccion ip nodo externo]
+</code>
+  * Podria ser necesario disponer de de acceso a las Xwindows para disponer de esa posibilidad ejecutar:<code>
+ssh -l [usuario] [direccion ip nodo externo] -Y
+</code>
+
+==== Segunda conexión - Desde los nodos externos al resto del sistema ====
+
+  - Habra de realizarse una elevacion de privilegios con el comando siguiente:<code>
+su - 
+</code>
+  - Posteriormente se ejecutara:<code>
+ssh [nombre de nodo]
+</code>
+
+<box orange>Donde pone //nombre de nodo// sera el nombre del nodo sobre el que se ha de aplicar las acciones requeridas</box>

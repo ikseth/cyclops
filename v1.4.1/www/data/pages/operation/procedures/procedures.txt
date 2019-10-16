@@ -1,0 +1,289 @@
+====== Procedimientos ======
+
+===== Administrativos =====
+
+===== Especiales =====
+
+  * [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+  * [[operation:procedures:SPXXXX0003|SPXXXX0003 : Ejecución de Firefox desde exportación X con ssh]]
+  * [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+  * [[operation:procedures:SPXXXX0005|SPXXXX0005 : Caso de Emergencia]]
+
+===== Sistema de Ficheros =====
+
+<hidden BASICOS>
+
+  - [[operation:procedures:FSCMBS0001|FSCMBS0001 : Espacio en disco]] 
+  - [[operation:procedures:FSLUBS0001|FSLUBS0001 : Chequeo Lustre]] 
+  - [[operation:procedures:FSLUBS0003|FSLUBS0003 : Start servicio Lustre]] 
+  - [[operation:procedures:FSLUBS0004|FSLUBS0004 : Reinicio Lustre]] 
+  - [[operation:procedures:FSLUBS0005|FSLUBS0005 : Montar Unidad]] 
+  - [[operation:procedures:FSLUBS0006|FSLUBS0006 : Start Servidores Lustre]]
+  - [[operation:procedures:FSLUBS0007|FSLUBS0007 : Iniciar FileSystem en lustre]]
+  - [[operation:procedures:FSLUBS0008|FSLUBS0008 : Asignar quota]]
+
+</hidden>
+<hidden AVANZADOS initialState="visible">
+
+  - ** LU - Lustre **
+    - [[operation:procedures:FSLUAV0001|FSLUAV0001 : Lustre Check Failure]] 
+    - [[operation:procedures:FSLUAV0002|FSLUAV0002 : Inicialización Lustre]] 
+    - [[operation:procedures:FSLUAV0003|FSLUAV0003 : Lustre, Problemas OST]] 
+    - [[operation:procedures:FSLUAV0004|FSLUAV0004 : Cliente lustre offline]]
+    - [[operation:procedures:FSLUAV0005|FSLUAV0005 : Lustre, Añadir OST en caliente]]
+  - ** NF - NFS **
+    - [[operation:procedures:FSNFAV0001|FSNFAV0001 : NFS File System FAIL ]]
+
+</hidden>
+===== Hardware =====
+
+<hidden BASICOS>
+
+  - BIOS:
+    - [[operation:procedures:HRBIBS0001|HRBIBS0001 : Listar Eventos BIOS]]
+    - [[operation:procedures:HRBIBS0002|HRBIBS0002 : Borrar Eventos BIOS]]
+    - [[operation:procedures:HRBIBS0003|HRBIBS0003 : Forzar carga de la BIOS durante el arranque]]
+    - [[operation:procedures:HRBIBS0004|HRBIBS0004 : Bull B7xx salvar configuracion de BIOS]]
+  - Blade/Nodo:
+    - [[operation:procedures:HRBLBS0001|HRBLBS0001 : Encendido Nodo]] 
+    - [[operation:procedures:HRBLBS0002|HRBLBS0002 : Reinicio Nodo]]
+    - [[operation:procedures:HRBLBS0003|HRBLBS0003 : Apagado Nodo]]
+    - [[operation:procedures:HRBLBS0004|HRBLBS0004 : Identificar Código Hardware - Nodo]]
+    - [[operation:procedures:HRBLBS0005|HRBLBS0005 : Estado Energetico de un Nodo]]
+  - Almacenamiento:
+    - [[operation:procedures:HRSTBS0001|HRSTBS0001 : Chequear Estado Cabinas de Almacenamiento]]
+    - [[operation:procedures:HRSTBS0002|HRSTBS0002 : Encender una cabina]]
+    - [[operation:procedures:HRSTBS0003|HRSTBS0003 : Apagar una cabina]]
+  - BMC/ILO:
+    - [[operation:procedures:HRBMBS0001|HRBMBS0001 : BMC Comprobar sensores]]
+  - B7xx Sistema Hidráulico:
+    - [[operation:procedures:HRHYBS0001|HRHYBS0001 : HYC Comprobar el numero de hyc configuradas]]
+    - [[operation:procedures:HRHYBS0002|HRHYBS0002 : HYC Cambiar el numero de hycs configuradas en un rack]]
+    - [[operation:procedures:HRHYBS0003|HRHYBS0003 : HYC Balancear primaria a secundaria o viceversa]]
+  - Chasis Blades:
+    - [[operation:procedures:HRCMBS0002|HRCMBS0002 : CMC B7xx Conexión interfaz web]]
+    - [[operation:procedures:HRCMBS0003|HRCMBS0003 : CMC B7xx Verificación estado energético del nodo - interfaz web]]
+    - [[operation:procedures:HRCMBS0004|HRCMBS0004 : CMC Cambiar el estado energético del nodo - interfaz web]]
+    - [[operation:procedures:HRCMBS0005|HRCMBS0005 : CMC Insertar/Remover un blade - interfaz web]]
+    - [[operation:procedures:HRCMBS0006|HRCMBS0006 : CMC Cambiar Exclusión nodos - interfaz web]]
+    - [[operation:procedures:HRCMBS0007|HRCMBS0007 : CMC Insertar/Extraer físicamente un blade]]
+    - [[operation:procedures:HRCMBS0008|HRCMBS0008 : CMC Actualizar información EEPROM de los nodos]]
+    - [[operation:procedures:HRCMBS0009|HRCMBS0009 : CMC Obtener información EEPROM de los nodos]]
+  - Infiniband:
+    - [[operation:procedures:HRIBBS0001|HRIBBS0001 : Actualización Infiniband (clusterdb)]]
+
+
+</hidden>
+<hidden AVANZADOS initialState="visible">
+
+  - ** BI - BIOS **
+    - [[operation:procedures:HRBIAV0001|HRBIAV0001 : BIOS Log Trace Alert]]
+  - ** BL - Blade **
+    - [[operation:procedures:HRBLAV0001|HRBLAV0001 : Cambio de Nodo B7xx]] : ** <fc orange>DEPRECATED</fc> **
+    - [[operation:procedures:HRBLAV0002|HRBLAV0002 : Temperatura Blade]]
+    - [[operation:procedures:HRBLAV0003|HRBLAV0003 : Contención de un nodo]]
+    - [[operation:procedures:HRBLAV0004|HRBLAV0004 : B7xx Blade Fails]]
+    - [[operation:procedures:HRBLAV0005|HRBLAV0005 : Comprobacion de estado de un nodo ]]
+    - [[operation:procedures:HRBLAV0006|HRBLAV0006 : Sustitucion Blade B7xx]] : ** <fc green>NEW</fc> **
+  - ** CP - CPU **
+    - [[operation:procedures:HRCPAV0001|HRCPAV0001 : Temperatura CPU]]
+    - [[operation:procedures:HRCPAV0002|HRCPAV0002 : Temperatura CPU B700]]
+  - ** HD - Hard Disk **
+    - [[operation:procedures:HRHDAV0001|HRHDAV0001 : Error de Disco Duro (LSI)]]
+    - [[operation:procedures:HRHDAV0002|HRHDAV0002 : Error de Disco Duro (SMART)]]
+  - ** ST - Storage **
+    - [[operation:procedures:HRSTAV0001|HRSTAV0001 : External Storage Alert]]
+  - ** CM - Chassis **
+    - [[operation:procedures:HRCMAV0001|HRCMAV0001 : Water Chassis Status alert]]
+    - [[operation:procedures:HRCMAV0002|HRCMAV0002 : Chassis DBB Fan Fail]]
+  - ** HY - Hydraulic Refrigeration **
+    - [[operation:procedures:HRHYAV0001|HRHYAV0001 : HYC Status alert]]
+    - [[operation:procedures:HRHYAV0002|HRHYAV0002 : HYC Masive Error, Refrigeration alert]]
+    - [[operation:procedures:HRHYAV0003|HRHYAV0003 : HYC1 Down, Refrigeration alert]]
+    - [[operation:procedures:HRHYAV0004|HRHYAV0004 : HYC2 Down, Refrigeration alert]]
+    - [[operation:procedures:HRHYAV0005|HRHYAV0005 : HYC Leak Alert]]
+    - [[operation:procedures:HRHYAV0006|HRHYAV0006 : HYC Inlet Pressure Sensor Control]]
+  - ** RM - RMC Power Supply **
+    - [[operation:procedures:HRRMAV0001|HRRMAV0001 : RMC Power Status alert]]
+  - ** IB - Infiniband **
+    - [[operation:procedures:HRIBAV0001|HRIBAV0001 : Actualización Infiniband (flint)]]
+
+</hidden>
+===== Redes =====
+
+<hidden BASICOS>
+
+  - [[operation:procedures:NTADBS0001|NTADBS0001 : Host IP checking]]
+  - [[operation:procedures:NTADBS0002|NTADBS0002 : Ethernet Link]]
+
+</hidden>
+
+<hidden AVANZADOS initialState="visible">
+
+  - ** CS - Cisco Network **
+    - [[operation:procedures:NTCSAV0001|NTCSAV0001 : Alerta Sensor Network]]
+  - ** IF - Infiniband Network **
+    - [[operation:procedures:NTIFAV0001|NTIFAV0001 : Infiniband Interfaz Alert]]
+    - [[operation:procedures:NTIFAV0002|NTIFAV0002 : Infiniband Net Check Alert]]
+
+</hidden>
+===== Sistema Operativo =====
+
+<hidden BASICO>
+
+  - Administracion:
+    - [[operation:procedures:OSADBS0001|OSADBS0001 : Conexión Remota a Consola Nodo]]
+    - [[operation:procedures:OSADBS0002|OSADBS0002 : Checking HTTP/HTTPS Connection]]
+    - [[operation:procedures:OSADBS0003|OSADBS0003 : HTOP]]
+    - [[operation:procedures:OSADBS0004|OSADBS0004 : Checking Zombies Process]]
+    - [[operation:procedures:OSADBS0005|OSADBS0005 : Checking Orphans Process]]
+    - [[operation:procedures:OSADBS0006|OSADBS0006 : Kill Zombies Process]]
+    - [[operation:procedures:OSADBS0007|OSADBS0007 : Creación sesión Screen]]
+    - [[operation:procedures:OSADBS0008|OSADBS0008 : Verificación estado hyperthreading]]
+    - [[operation:procedures:OSADBS0009|OSADBS0009 : Mostrar memoria disponible]]
+    - [[operation:procedures:OSADBS0010|OSADBS0010 : NIS-PAM Sync]]
+    - [[operation:procedures:OSADBS0012|OSADBS0012 : User Add]]
+    - [[operation:procedures:OSADBS0013|OSADBS0013 : User Modification]]
+  - Demonios/Servicios:
+    - [[operation:procedures:OSDABS0001|OSDABS0001 : Check Boot Services]]
+    - [[operation:procedures:OSDABS0002|OSDABS0002 : Reiniciar servicio]] 
+    - [[operation:procedures:OSDABS0003|OSDABS0003 : Chequear servicio]]
+    - [[operation:procedures:OSDABS0004|OSDABS0004 : Start servicio]]
+
+</hidden>
+<hidden AVANZADO initialState="visible">
+
+  - ** DA - Linux Daemons ** 
+    - [[operation:procedures:OSDAAV0001|OSDAAV0001 : Service ssh failure]] 
+    - [[operation:procedures:OSDAAV0002|OSDAAV0002 : Service http failure]] 
+    - [[operation:procedures:OSDAAV0003|OSDAAV0003 : Service cron failure]] 
+    - [[operation:procedures:OSDAAV0004|OSDAAV0004 : Service munge failure]]
+    - [[operation:procedures:OSDAAV0005|OSDAAV0005 : Daemon Status failure]]
+  - ** HA - RedHat **
+    - [[operation:procedures:OSRHAV0001|OSRHAV0001 : Recovery SSH failure]] 
+    - [[operation:procedures:OSRHAV0006|OSRHAV0006 : Node not avalible]]
+  - ** AD - Administration **
+    - [[operation:procedures:OSADAV0001|OSADAV0001 : Alert Zombies Process]]
+    - [[operation:procedures:OSADAV0002|OSADAV0002 : Swap Usage Alert]]
+    - [[operation:procedures:OSADAV0003|OSADAV0003 : Alert File System Space]] 
+    - [[operation:procedures:OSADAV0004|OSADAV0004 : Kill Zombies Process]]
+    - [[operation:procedures:OSADAV0005|OSADAV0005 : Node Status Alert]]
+  - ** AU - Authentication **
+    - [[operation:procedures:OSAUAV0001|OSAUAV0001 : Nis Server Alert]]
+    - [[operation:procedures:OSAUAV0002|OSAUAV0002 : Nis Client Alert]]
+  - ** FS - Sistemas de ficheros **
+    - [[operation:procedures:OSFSAV0001|0SFSAV0001 : Filesystem space recovery ]]
+
+
+
+</hidden>
+===== Software =====
+
+<hidden BASICOS>
+
+  - ClusterDB - Bull Suit SCS4
+    - [[operation:procedures:SFCBBS0001|SFCBBS0001 : Extract Hosts]] 
+    - [[operation:procedures:SFCBBS0002|SFCBBS0002 : Extract DHCP]] 
+    - [[operation:procedures:SFCBBS0003|SFCBBS0003 : Extract DNS]]
+    - [[operation:procedures:SFCBBS0004|SFCBBS0004 : Test DHCP config]]
+    - [[operation:procedures:SFCBBS0005|SFCBBS0005 : Update BMC MAC Address]]
+    - [[operation:procedures:SFCBBS0005|SFCBBS0005 : Update Network Interface MAC Address]] 
+  - FTP
+    - [[operation:procedures:SFFTBS0001|SFFTBS0001 : Chequeo FTP]] 
+    - [[operation:procedures:SFFTBS0002|SFFTBS0002 : Start FTP]] 
+    - [[operation:procedures:SFFTBS0003|SFFTBS0003 : Stop FTP]]
+  - HeartBeat
+    - [[operation:procedures:SFHBBS0001|SFHBBS0001 : Chequeo HA Heartbeat]] 
+    - [[operation:procedures:SFHBBS0002|SFHBBS0002 : Start Heartbeat]] 
+    - [[operation:procedures:SFHBBS0003|SFHBBS0003 : Stop Heartbeat]]
+  - Munge 
+    - [[operation:procedures:SFMUBS0001|SFMUBS0001 : Chequeo Munge]] 
+    - [[operation:procedures:SFMUBS0002|SFMUBS0002 : Start Munge]] 
+    - [[operation:procedures:SFMUBS0003|SFMUBS0003 : Restart Munge]] 
+    - [[operation:procedures:SFMUBS0004|SFMUBS0004 : Stop Munge]] 
+  - PaceMaker - Bull Suit SCS4
+    - [[operation:procedures:SFPMBS0001|SFPMBS0001 : Chequeo HA Pacemaker]] 
+    - [[operation:procedures:SFPMBS0002|SFPMBS0002 : Start HA Pacemaker]] 
+    - [[operation:procedures:SFPMBS0003|SFPMBS0003 : Reinicio HA Pacemaker]] 
+    - [[operation:procedures:SFPMBS0004|SFPMBS0004 : Start Servico HA de Pacemaker]] 
+    - [[operation:procedures:SFPMBS0005|SFPMBS0005 : Stop Pacemaker]] 
+    - [[operation:procedures:SFPMBS0006|SFPMBS0006 : Re-colocar recursos en el nodo preferido]] 
+    - [[operation:procedures:SFPMBS0007|SFPMBS0007 : Limpiar errores de un recurso]] 
+    - [[operation:procedures:SFPMBS0008|SFPMBS0008 : Localizar nodo donde está arrancado un servicio]] 
+    - [[operation:procedures:SFPMBS0009|SFPMBS0009 : Reinicio Servicio HA de Pacemaker]]
+  - Pacemaker - Redhat7/Centos7
+    - [[operation:procedures:SFPMBS0101|SFPMBS0101 : Conocer estado del cluster ]]
+    - [[operation:procedures:SFPMBS0102|SFPMBS0102 : Cambiar estado del cluster ]]
+    - [[operation:procedures:SFPMBS0103|SFPMBS0103 : Iniciar recursos ]]
+    - [[operation:procedures:SFPMBS0104|SFPMBS0104 : Recuperar recursos ]]
+    - [[operation:procedures:SFPMBS0105|SFPMBS0105 : Depurar inicio de un recurso ]]
+    - [[operation:procedures:SFPMBS0106|SFPMBS0106 : Depurar parada de un recurso ]]
+    - [[operation:procedures:SFPMBS0107|SFPMBS0107 : Balancear recurso ]]
+  - Slurm
+    - [[operation:procedures:SFSLBS0001|SFSLBS0001 : Chequeo Slurm]] 
+    - [[operation:procedures:SFSLBS0002|SFSLBS0002 : Start Slurm]] 
+    - [[operation:procedures:SFSLBS0003|SFSLBS0003 : Reiniciar Slurm]]
+    - [[operation:procedures:SFSLBS0004|SFSLBS0004 : Estado de un nodo en Slurm]]
+    - [[operation:procedures:SFSLBS0005|SFSLBS0005 : Ejecutar un job interactivo en slurm]]
+    - [[operation:procedures:SFSLBS0006|SFSLBS0006 : Chequear el estado de un nodo dentro de slurm]]
+    - [[operation:procedures:SFSLBS0007|SFSLBS0007 : Actualizar en caliente la asignación de nodos de una particion]]
+    - [[operation:procedures:SFSLBS0008|SFSLBS0008 : Crear en caliente una particion]]
+  - Cyclops
+    - [[operation:procedures:SFCYBS0001|SFCYBS0001 : Monitorizar el estado de los Nodos]] 
+    - [[operation:procedures:SFCYBS0002|SFCYBS0002 : Cambiar el estado de los Nodos en Cyclops]] 
+    - [[operation:procedures:SFCYBS0003|SFCYBS0003 : TOOL: Comprobar si existen procesos zombie]]
+    - [[operation:procedures:SFCYBS0004|SFCYBS0004 : TOOL: Purgar procesos zombie]]
+    - [[operation:procedures:SFCYBS0005|SFCYBS0005 : Registrar información en el diario de seguimiento de un nodo]]
+    - [[operation:procedures:SFCYBS0006|SFCYBS0006 : TOOL: Actualizar Firmware Blade B700]]
+    - [[operation:procedures:SFCYBS0007|SFCYBS0007 : Cargar entornos de trabajo]]
+    - [[operation:procedures:SFCYBS0008|SFCYBS0008 : TOOL: configurar Acceso remoto BMC compatibles ipmitool]]
+    - [[operation:procedures:SFCYBS0009|SFCYBS0009 : TOOL: actualizar firmware Bull Newsca B7xx]]
+    - [[operation:procedures:SFCYBS0010|SFCYBS0010 : TOOL: obtención de direcciones MACs desde Log DHCP]]
+    - [[operation:procedures:SFCYBS0011|SFCYBS0011 : TOOL: activación/desactivación del sistema autolink]]
+    - [[operation:procedures:SFCYBS0012|SFCYBS0012 : TOOL: despliegue de configuraciones (kconf)]]
+    - [[operation:procedures:SFCYBS0013|SFCYBS0013 : WEB: Limpiar la cache del interfaz web]]
+    - [[operation:procedures:SFCYBS0014|SFCYBS0014 : Insertar Interactivamente un evento en la bitacora]]
+  - Ksis - Bull Suit SCS4
+    - [[operation:procedures:SFKSBS0001|SFKSBS0001 : Listado de Imágenes disponibles]]
+    - [[operation:procedures:SFKSBS0002|SFKSBS0002 : Listado de Imágenes desplegadas]]
+    - [[operation:procedures:SFKSBS0003|SFKSBS0003 : Crear Imagen]]
+    - [[operation:procedures:SFKSBS0004|SFKSBS0004 : Desplegar Imagen]]
+
+</hidden>
+
+<hidden AVANZADOS initialState="visible">
+  - ** PM - Pacemaker - BULL Suit SCS4 **
+    - [[operation:procedures:SFPMAV0001|SFPMAV0001 : Solución Balanceo Pacemaker]] 
+    - [[operation:procedures:SFPMAV0002|SFPMAV0002 : Pacemaker service is not running]]
+  - ** SL - Slurm ** 
+    - [[operation:procedures:SFSLAV0001|SFSLAV0001 : Alerta Sensor Slurm Daemon]]
+    - [[operation:procedures:SFSLAV0003|SFSLAV0003 : Alerta Sensor Slurm Node Status]]
+    - [[operation:procedures:SFSLAV0005|SFSLAV0005 : Sensor Alert Slurm sinfo Fail]]
+  - ** FT - FTP **
+    - [[operation:procedures:SFFTAV0001|SFFTAV0001 : Service FTP failure]]
+  - ** MU - Munge ** 
+    - [[operation:procedures:SFMUAV0001|SFMUAV0001 : Alerta Sensor Munge]]
+  - ** HB - Heartbeat **
+    - [[operation:procedures:SFHBAV0001|SFHBAV0001 : Heartbeat failure]]
+  - ** MY - Mysql **
+    - [[operation:procedures:SFMYAV0001|SFMYAV0001 : MySQL replication problem]]
+  - ** CY - Cyclops **
+    - [[operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobar Entorno Productivo]] 
+</hidden>
+
+
+===== Desarrollo =====
+
+<hidden BASICOS>
+  - Lmod
+    - [[operation:procedures:DVLMBS0001|DVLMBS0001 : Cargar Entorno]]
+    - [[operation:procedures:DVLMBS0002|DVLMBS0002 : Mostrar Modulos Disponibles]]
+    - [[operation:procedures:DVLMBS0003|DVLMBS0003 : Cargar Modulo]]
+    - [[operation:procedures:DVLMBS0004|DVLMBS0004 : Descargar Modulo]]
+    - [[operation:procedures:DVLMBS0005|DVLMBS0005 : Marcar version de modulo como defecto]]
+</hidden>
+
+<hidden AVANZADOS initialState="visible">
+  - Compilacion
+    - [[operation:procedures:DVCPAV0001|DVCPAV0001 : Compilar y crear un modulo ]]
+</hidden>

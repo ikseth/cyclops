@@ -1,0 +1,32 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Heartbeat : Stop **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad  ^  Implicacion  ^ 
+|  Login         |  LOGIN NODES (CRITICAL)    |  Acceso de los usuarios al sistema productivo                    |  @#FFFF00:MEDIA       |  Caida en el nivel de integridad del sistema productivo  |
+|  IO            |  LOGIN NODES    |  Transferencia de Informacion con el entorno de la organizacion  |  @#FFFF00:MEDIA       |  Caida en el nivel de integridad del sistema productivo  |
+
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo  ^  Nodos              ^  Descripción                                                                                ^  Criticidad  ^  Implicacion  ^
+|  Login         |  LOGIN NODES (CRITICAL)    |  Acceso de los usuarios al sistema productivo                    |  @#FFFF00:MEDIA       |  Caida en el nivel de integridad del sistema productivo  |
+|  IO            |  LOGIN NODES    |  Transferencia de Informacion con el entorno de la organizacion  |  @#FFFF00:MEDIA       |  Caida en el nivel de integridad del sistema productivo  |
+
+
+===== Procedimiento =====
+
+
+  *  Los pasos a seguir  son:
+    - Conectarse al nodo de gestión: [[:operation:procedures:SPXXXX0002| SPXXXX0002 : Establecer Conexión SSH]]
+    - Ejecutamos desde el [NODE] con el servicio parado el siguiente comando:
+
+<code>
+/etc/init.d/heartbeat stop
+#o
+service heartbeat stop
+</code>

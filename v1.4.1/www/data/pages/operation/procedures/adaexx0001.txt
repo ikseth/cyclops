@@ -1,0 +1,15 @@
+===== Notificación =====
+
+|< 50% >|
+^  Código       ^  Nombre Procedimiento  ^  Verificado    ^  Operativo    ^  Fecha Creación   ^  Fecha Ultima Modificación  ^  Versión  ^
+|  ADAEXX0001   |  VPN                   |  @#EAFFD5:SI   |  @#EAFFD5:SI  |  29/07/2015       |  27/04/2017                 |    0.3    |
+
+===== Procedimiento =====
+
+  * Los procedimientos de configuración para el uso de la VPN están incluidos en el documento asociado e incluyen:
+    * Configuracion VPN con cliente Windows
+    * Configuracion VPN con Linux ( Network Manager)
+    * Configuracion VPN con Linux ( Scripts )
+
+    * {{operation:procedures:procedimiento_vpn_paloalto_v1.1.pdf|}}
+

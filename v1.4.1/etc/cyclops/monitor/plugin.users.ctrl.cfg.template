@@ -1,0 +1,8 @@
+#### CYCLOPS PLUGIN CONFIG FILE ####
+####   DASHBOARD USER CONTROL   #### 
+
+_pg_usr_ctrl_admin=""			## COMMON ADMINISTRATORS USERS
+_pg_usr_ctrl_l1_support=""		## LEVEL 1 SUPPORT USERS
+_pg_usr_ctrl_l2_support=""		## LEVEL 2 SUPPORT USERS
+_pg_usr_ctrl_l3_support=""		## LEVEL 3 SUPPORT USERS
+_pg_usr_ctrl_other=""			## OTHER MANAGEMENT USERS , LIKE DEPLOY USERS.

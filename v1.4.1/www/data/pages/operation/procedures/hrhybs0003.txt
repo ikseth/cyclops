@@ -1,0 +1,23 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Hardware - HYC : HYC Balancear primaria a secundaria o viceversa **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo     ^  Dispositivos                      ^  Descripción                                ^  Criticidad          ^  Implicación  ^
+|  Todos     |  B7xx RMC (Hyc)                    |  Sistema de refrigeracion liquida           |  ALTA                |  Si falla el balanceo, el rack puede caer  |
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos                                 ^  Descripción          ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Los pertenecientes al rack afectado   |                       |  MEDIA       |  Ninguno Conocido  |
+
+===== Procedimiento =====
+
+  - Balancea la hyc activa a pasiva<code>
+/opt/BSMHW/bin/bsmHYCcmd.sh -m lanplus -H [X.X.X.X|devicename] -u [user] -p [password] -a switch
+</code>
+
+  * ** <fc red>NOTA:</fc> ** Donde //X.X.X.X/devicename// debera indicarse la IP o nombre de dispositivo de tipo ** rmc **

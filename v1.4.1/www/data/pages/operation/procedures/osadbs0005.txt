@@ -1,0 +1,28 @@
+====== Procedimientos Básicos ======
+
+===== Localizar Orphans  =====  
+
+===== Sistemas Vinculados =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción  ^  Criticidad  ^  Implicacion  ^ 
+|  Gestión       |  MANAGEMENT NODES    |  Permiten la administracion del servicio|  MUY ALTA        |        |
+|  Login         |  LOGIN NODES (CRITICAL)    |  Acceso de los usuarios al sistemaproductivo                    |  ALTA        |    |
+|  Computo/Aire  |  node[RANGE]  |  Uso del servicio por el sistemaproductivo                      |  ALTA        |  Merma en el rendimiento productivo  |
+|  Computo/Agua  |  node[RANGE]      |  Uso del servicio por el sistema productivo                      |  ALTA        |  Merma en el rendimiento productivo  |
+ 
+
+===== Procedimiento =====
+
+
+    - Se establece una conexión ssh contra el nodo objetivo. 
+    - Comprobamos que no hay ningún trabajo ejecutándose.<code> squeue</code>
+    - Lanzamos el siguiente comando <code>
+ ps aux | egrep -v "dbus|munge|ntp|root|rpc|USER" | wc -l</code>
+    - Si el resultado el mayor que 0
+        - ACTUAR   
+
+
+
+
+

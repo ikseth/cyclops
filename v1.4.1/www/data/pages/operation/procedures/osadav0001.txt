@@ -1,0 +1,50 @@
+====== Kill Zombie Process ======
+
+===== Datos Generales =====
+ 
+   
+|< 50% >|
+^  Código      ^  Nombre Procedimiento  ^  Verificado                  ^  Operativo    ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+|  OSADAV0001  |  Kill Zombie Process   |  @#EAFFD5:SI  |  @#EAFFD5:SI  |  22/09/2015      |  07/10/2015                 |  0.3      |
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >| 
+^  Grupo         ^  Nodos                    ^  Descripción         ^  Criticidad            ^  Implicación                                                 ^
+|  all       |  all    |                 |  @#FA5858:<fc white>ALTA</fc>        |  La ejecucion de este procedimiento de manera inadecuada podria generar inestabilidad en todo el entorno  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >| 
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Todos          |                                                                  |  @#F3F781: BAJA       |  Ninguna conocida  |
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+  - Notificar la incidencia:
+
+==== Alcance ====
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION                   ^  HORARIO EJECUCION                                                                     ^
+
+==== Ejecución ====
+
+
+  - Conectamos desde el exterior a un nodo de gestión [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+    - En caso de no poderse conectar realizar: [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+  - Comprobar desde el nodo de gestión si hay procesos zombies sobre el nodo afectado: [[operation:procedures:SFCYBS0003|SFCYBS0003 : Comprobar si existen procesos zombie]] 
+    - En caso de confirmar la existencia de procesos Zombie ejecutar sobre el nodo afectado: [[operation:procedures:SFCYBS0004|SFCYBS0004 : Purgar procesos zombie]]
+      - Verificar que se han eliminado: [[operation:procedures:SFCYBS0003|SFCYBS0003 : Comprobar si existen procesos zombie]]
+  - FINAL 
+
+==== Notificación Final ====
+
+  - Notificar la incidencia:
+  - FINAL
+
+ 

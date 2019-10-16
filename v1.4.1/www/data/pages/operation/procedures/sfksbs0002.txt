@@ -1,0 +1,44 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Cyclops - Ksis : Listar Imagenes desplegadas **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo       ^  Nodos        ^  Descripción                  ^  Criticidad   ^  Implicación       ^
+|  Management  |  nodo[0,1]  |  Listar Imagenes disponibles  |  Ninguna      |  Ninguna           |
+
+
+===== Procedimiento =====
+
+  * Ejecutar el siguiente comando: <code>
+ksis nodelist [NODO|RANGO DE NODOS]</code>
+  * ** <fc orange> NOTA: </fc>  ** La inclusión de un nodo o rango de nodos en el comando es opcional, su inclusión ayuda en el filtrado de la información
+
+<hidden ejemplo de salida>
+<code>
+Compute data...
+Node              Sta  Image                  Install date           Type      
+============================================================================================
+nodo4301        rea  cp_desa.k3.mk5         2016-06-01 07:37:00    co        
+nodo4302        rea  cp_desa.k3.mk5         2016-06-01 07:37:00    co        
+nodo4303        rea  cp_desa.k3.mk5         2016-06-01 07:37:00    co        
+nodo4304        rea  cp_desa.k3.mk5         2016-06-01 07:37:00    co        
+nodo4305        rea  cp_desa.k3.mk5         2016-06-01 07:37:00    co        
+nodo4306        rea  cp_desa.k3.mk5         2016-06-01 07:37:00    co        
+nodo4307        rea  cp_desa.k3.mk5         2016-07-07 06:54:32    co        
+nodo4308        rea  cp_desa.k3.mk5         2016-06-02 14:26:11    co        
+nodo4309        rea  cp_desa.k3.mk5         2016-06-01 07:37:00    co        
+nodo4310        rea  cp_desa.k3.mk5         2016-06-01 07:37:00    co        
+nodo4311        rea  cp_desa.k3.mk5         2016-06-01 07:37:00    co        
+nodo4312        rea  cp_desa.k3.mk5         2016-06-01 07:37:00    co        
+nodo4313        rea  cp_desa.k3.mk5         2016-06-01 07:37:00    co        
+nodo4314        rea  cp_desa.k3.mk5         2016-06-01 07:37:00    co        
+nodo4315        rea  cp_desa.k3.mk5         2016-06-01 07:37:00    co        
+nodo4316        rea  cp_desa.k3.mk5         2016-07-06 14:29:11    co        
+nodo4317        rea  cp_desa.k3.mk5         2016-06-02 14:25:51    co        
+nodo4318        rea  cp_desa.k3.mk5         2016-06-01 07:37:00    co        
+============================================================================================
+
+</code>
+</hidden>

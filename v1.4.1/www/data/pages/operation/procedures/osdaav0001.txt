@@ -1,0 +1,57 @@
+
+====== Service ssh failure ======
+
+===== Datos Generales =====
+
+
+|< 50% >|
+^  Código      ^  Nombre Procedimiento  ^  Verificado                  ^  Operativo    ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+|  SFFTAV0001  |  Service ssh failure   |  @#FA5858:<fc white>NO</fc>  |  @#EAFFD5:SI  |  27/07/2015      |  30/09/2015                 |  0.3      |
+
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 30% 10% 50%>| 
+^  Grupo         ^  Nodos    ^  Descripción         ^  Criticidad  ^  Implicación  ^
+|  Todos         |  Todos    |                      |  @#FAAC58: ALTA        |  Problemas para administrar los sistemas afectados  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 30% 10% 50%>|  
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Todos          |                                                                  |  @#EAFFD5: BAJA        |  En caso de caida del servicio ssh el acceso a los nodos solo podra realizarse con el conman y el sistema de monitorizacion no podra obtener informacion del nodo  |
+
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+  - Notificar la incidencia:
+
+==== Alcance ====
+
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+|< 50% >|
+^  ACTOR          ^  EJECUCION                   ^  HORARIO EJECUCION                                                                     ^
+
+==== Ejecución ====
+ 
+  * ** Se ejecutan los siguientes pasos: **
+  - Conectamos desde el exterior a un nodo de gestión [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+    - En caso de no poderse realizamos el procedimiento de verificación de conexión: [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+  - Comprobamos que no podemos conectarnos al nodo a través de ssh. 
+    * [[operation:procedures:osdabs0002 | OSDABS0002 : Acceso SSH]].
+  - En caso negativo:
+    - Comprobar la red del nodo:
+      * [[:operation:procedures:NTADBS0001|NTADBS0001 : Host IP checking]]
+      - En caso de obtener un resultado negativo, el problema es de conectividad
+        * FINAL
+      - En caso de obtener un resultado positivo, se confirma la caida del servicio, ejecutar:
+        * [[:operation:procedures:HRBLBS0002|HRBLBS0002 : Reinicio Nodo ]]
+    * Verificar el estado del nodo en la monitorización web [[operation:procedures:SFCYBS0001|SFCYBS0001 : Monitorización estado de un nodo ]] 
+
+==== Notificación Final ====
+
+  - Notificar la incidencia:
+  - FINAL

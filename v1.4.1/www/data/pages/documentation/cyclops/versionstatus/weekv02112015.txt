@@ -1,0 +1,8 @@
+====== Control de Cambios - weekv02112015 ======
+
+** Change **
+
+  - FUNCIONALIDADES:
+    - Se añade la opcion rules en /opt/cyclops/procedures.sh para poder conecer la existencia entre los sensores y sus procedimientos asociados.
+  - TUNING:
+  - REPARACIÓN DE ERRORES:

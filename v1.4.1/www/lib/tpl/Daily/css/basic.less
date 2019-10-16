@@ -1,0 +1,444 @@
+/**
+ * This file provides the most basic styles.
+ *
+ * If you integrate DokuWiki into another project, you might either
+ * want to integrate this file into the other project as well, or use
+ * the other project's basic CSS for DokuWiki instead of this one.
+ *
+ * @author Anika Henke <anika@selfthinker.org>
+ */
+
+html {
+    overflow-x: auto;
+    overflow-y: scroll;
+}
+html,
+body {
+    color: @ini_text;
+
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family:  "Open Sans",Helvetica,Arial,"Hiragino Sans GB","Microsoft YaHei","微软雅黑",STHeiti,"WenQuanYi Micro Hei",SimSun,sans-serif;
+    font-weight: lighter;
+    color: #707070;
+    -webkit-font-smoothing:antialiased;
+}
+
+
+/*____________ headers ____________*/
+
+caption,
+figcaption,
+summary,
+legend {
+    padding: 0;
+    margin: 0 0 .35em;
+    line-height: 1.2;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: bold;
+    padding: 0;
+    line-height: 1.2;
+    color: #454545;
+    clear: left; /* ideally 'both', but problems with toc */
+}
+[dir=rtl] h1,
+[dir=rtl] h2,
+[dir=rtl] h3,
+[dir=rtl] h4,
+[dir=rtl] h5,
+[dir=rtl] h6 {
+    clear: right;
+}
+
+h1 {
+    font-size: 2em;
+    margin: 0 0 0.444em;
+}
+h2 {
+    font-size: 1.5em;
+    margin: 0 0 0.666em;
+}
+h3 {
+    font-size: 1.125em;
+    margin: 0 0 0.888em;
+}
+h4 {
+    font-size: 1em;
+    margin: 0 0 1.0em;
+    border-top: 1px solid #CCC;
+    border-bottom: 1px solid #CCC;
+    text-align: center;
+    padding: 1em 0;
+}
+h5 {
+    font-size: .875em;
+    margin: 0 0 1.1428em;
+}
+h6 {
+    font-size: .75em;
+    margin: 0 0 1.333em;
+}
+/* bottom margin = 1 / font-size */
+
+
+/*____________ basic margins and paddings ____________*/
+
+p,
+ul,
+ol,
+dl,
+pre,
+table,
+hr,
+blockquote,
+figure,
+details,
+fieldset,
+address {
+    margin: 0 0 1.4em 0; /* bottom margin = line-height */
+    padding: 0;
+}
+
+div,
+video,
+audio {
+    margin: 0;
+    padding: 0;
+}
+
+
+/*____________ lists ____________*/
+
+ul,
+ol {
+    padding: 0 0 0 1.5em;
+}
+[dir=rtl] ul,
+[dir=rtl] ol {
+    padding: 0 1.5em 0 0;
+}
+
+li,
+dd {
+    padding: 0;
+    margin: 0 0 0 1.5em;
+}
+[dir=rtl] li,
+[dir=rtl] dd {
+    margin: 0 1.5em 0 0;
+}
+dt {
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+}
+
+li ul,
+li ol,
+li dl,
+dl ul,
+dl ol,
+dl dl {
+    margin-bottom: 0;
+    padding: 0;
+}
+li li {
+    font-size: 100%;
+}
+
+ul             { list-style: square outside; }
+ol             { list-style: decimal outside; }
+ol ol          { list-style-type: lower-alpha; }
+ol ol ol       { list-style-type: upper-roman; }
+ol ol ol ol    { list-style-type: upper-alpha; }
+ol ol ol ol ol { list-style-type: lower-roman; }
+
+
+/*____________ tables ____________*/
+
+table {
+    .pure-table;
+}
+
+caption {
+    caption-side: top;
+    text-align: left;
+}
+[dir=rtl] caption {
+    text-align: right;
+}
+
+th,
+td {
+    border-left: 1px solid #cbcbcb;/*  inner column border */
+    border-width: 0 0 0 1px;
+    font-size: inherit;
+    margin: 0;
+    overflow: visible; /*to make ths where the title is really long work*/
+    padding: 0.5em 1em; /* cell padding */
+    border-bottom: 1px solid #cbcbcb;
+}
+th {
+    background-color: #e0e0e0;
+    color: #000;
+    text-align: left;
+    vertical-align: bottom;
+}
+[dir=rtl] th {
+    text-align: right;
+}
+
+
+/*____________ links ____________*/
+
+a {
+    outline: none;
+}
+a:link,
+a:visited {
+    text-decoration: none;
+    color: @ini_link;
+}
+
+/*____________ misc ____________*/
+
+img {
+    border-width: 0;
+    vertical-align: middle;
+    color: #666;
+    background-color: transparent;
+    font-style: italic;
+    height: auto;
+}
+img,
+object,
+embed,
+iframe,
+video,
+audio {
+    max-width: 100%;
+}
+#IE7 img,
+#IE8 img,
+button img {
+    max-width: none;
+}
+
+hr {
+    border-top: solid @ini_border;
+    border-bottom: solid @ini_background;
+    border-width: 1px 0;
+    height: 0;
+    text-align: center;
+    clear: both;
+}
+
+acronym,
+abbr {
+    cursor: help;
+    border-bottom: 1px dotted;
+    font-style: normal;
+}
+em acronym,
+em abbr {
+    font-style: italic;
+}
+
+mark {
+    background-color: @ini_highlight;
+    color: inherit;
+}
+
+blockquote {
+    padding: 0 .5em;
+    border: solid @ini_border;
+    border-width: 0 0 0 .25em;
+}
+[dir=rtl] blockquote {
+    border-width: 0 .25em 0 0;
+}
+q:before,
+q:after {
+    content: '';
+}
+
+sub,
+sup {
+    font-size: .8em;
+    line-height: 1;
+}
+sub {
+    vertical-align: sub;
+}
+sup {
+    vertical-align: super;
+}
+
+small {
+    font-size: .8em;
+}
+
+/*____________ forms ____________*/
+
+/* for all of the form styles, style.ini colours are not used on purpose (except for fieldset border) */
+
+form {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+fieldset {
+    padding: .7em 1em 0;
+    padding: .7rem 1rem; /* for those browsers understanding :last-child */
+    border: 1px solid @ini_text_alt;
+}
+fieldset > :last-child {
+    margin-bottom: 0;
+}
+legend {
+    margin: 0;
+    padding: 0 .1em;
+}
+label {
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+input,
+textarea,
+button,
+select,
+optgroup,
+option,
+keygen,
+output,
+meter,
+progress {
+    font: inherit;
+    font-weight: normal;
+    color: #333;
+    background-color: #fff;
+    line-height: normal;
+    margin: 0;
+    vertical-align: middle;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+select {
+    max-width: 100%;
+}
+optgroup {
+    font-style: italic;
+    font-weight: bold;
+}
+option {
+    font-style: normal;
+    font-weight: normal;
+}
+
+input,
+textarea,
+select,
+keygen {
+    border: 1px solid #ccc;
+    box-shadow: inset 0 0 1px #eee;
+    border-radius: 2px;
+}
+input:active,
+input:focus,
+textarea:active,
+textarea:focus,
+select:active,
+select:focus,
+keygen:active,
+keygen:focus {
+    border-color: #999;
+}
+input[type=radio],
+input[type=checkbox],
+input[type=image] {
+    padding: 0;
+    border-style: none;
+    box-shadow: none;
+}
+
+/* all types of buttons */
+input[type=submit],
+input[type=button],
+input[type=reset],
+input.button,
+a.button,
+button,
+.qq-upload-button {
+    .pure-buttion;
+    border-radius: 4px;
+    padding: 0.5em 1.5em;
+    margin: 0.5em 1em;
+    border-radius: 12px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+#IE7 input.button,
+#IE7 button {
+    line-height: 1.4;
+    overflow: visible;
+}
+
+input[type=submit]:hover,
+input[type=submit]:active,
+input[type=submit]:focus,
+input[type=button]:hover,
+input[type=button]:active,
+input[type=button]:hover,
+input[type=reset]:hover,
+input[type=reset]:active,
+input[type=reset]:hover,
+input.button:hover,
+input.button:active,
+input.button:focus,
+a.button:hover,
+a.button:active,
+a.button:focus,
+button:hover,
+button:active,
+button:focus,
+.qq-upload-button:hover {
+    .buttion;
+    background-color: #AAD2F0;
+    background-image: -moz-linear-gradient(center top , #AAD2F0 5%, #8BC1ED 100%);
+    background-repeat: repeat;
+    background-attachment: scroll;
+    background-position: 0% 0%;
+    background-clip: border-box;
+    background-origin: padding-box;
+    background-size: auto auto;
+}
+
+input::-moz-focus-inner,
+button::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+input[disabled],
+button[disabled],
+select[disabled],
+textarea[disabled],
+option[disabled],
+input[readonly],
+button[readonly],
+select[readonly],
+textarea[readonly] {
+    cursor: auto;
+    opacity: .5;
+    background-color: #eee;
+}

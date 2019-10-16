@@ -1,0 +1,26 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Hardware - CMC : Insertar/Remover un blade - interfaz web **  
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo     ^  Dispositivos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación  ^
+|  Dispositivos Hardware     |  RMC/CNC                      |    Dispositivos de control del hardware NEWSCA                                |  @#EAFFD5: BAJA      |  Ninguna  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Depende         |                                                                  |  @#EAFFD5: BAJA       |  Ninguno Conocido  |
+
+===== Procedimiento =====
+
+  * ** Usando el navegador del sistema ( firefox ): **
+  - Pulsar sobre la opción ** Maintenance **, ubicada en el menú superior.
+  - Pulsar sobre la opción ** Unit Change **, dentro de la sección ** Manteinance Operations **, situada en el menú lateral izquierdo.
+  - Pulsar sobre el Botón **[ Insert | Remove ]** para **[ Insertar | Extraer ]** el blade deseado, este se encuentra en la sección ** Server Blade change ** en la parte central del interfaz web.
+
+  * ** <fc orange>NOTA:</fc> ** Ambos nodos incluidos en el blade han de estar en ** Power Status -> Stand-by-off ** Para poder realizarse la acción ** Remove **
+  * ** <fc green>NOTA:</fc> ** Ambos nodos incluidos en el blade han de estar en el mismo ** Power Status ** para poder realizarse la acción ** Insert ** 
+

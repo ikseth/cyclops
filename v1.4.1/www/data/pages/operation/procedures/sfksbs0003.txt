@@ -1,0 +1,15 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Cyclops - Ksis : Creacion de imagen **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo ^  Nodos  ^  Descripción             ^  Criticidad          ^  Implicación                                     ^
+|  managemenet         |  nodo[0,1]  | Crear imagen de un nodo  |  Baja  | La creacion de una imagen se puede hacer con el nodo en uso, pero en caso de los nodos de computo, es recomendable que no esten de alta en el gestor de colas   |
+
+
+===== Procedimiento =====
+
+  * Ejecutar el siguiente comando:<code>
+ksis create [NOMBRE DE IMAGEN] [NODO]</code>

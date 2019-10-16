@@ -1,0 +1,34 @@
+====== Control de Cambios - weekv10082015 ======
+
+** Change **
+
+  - Se integra el script de monitorizacion de dispositivos de entorno en el sistema general de monitorizacion (monitoring.sh)
+  - Se crean múltiples sensores de rmc ( gestión energética y control hidráulico) y cmc (chasis de blades)
+  - Se añaden dos nuevos plugins al script "monitoring.sh" , muestran el nodo con el mayor uptime y con el menor uptime.
+  - Se controla el record de mas uptime en el dashboard de "monitoring.sh"
+  - Se estructura el dashboard de monitoring para separar los plugings de la seccion de control de cyclops
+  - Se crea el fichero stateofthings.cyc para controlar diversos estados de alertas, mensajes y otros datos relevantes a lo largo del tiempo
+  - Se crea el plugin de ciclos para disponer de informacion sobre las veces que se ha lanzado "monitoring.sh"
+  - Se crea el plugin de usuarios logeados, mostrando el numero de usuarios en los nodos de acceso, en caso de no haber ninguno se muestra "UP" , en caso contrario se resalta el numero existente.
+  - Se añade al comando cyclops.sh la gestion de mensajes del dashboard
+  - Sistema de mensajes en dashboard operativo
+  - Arreglado BUG en los mensajes del dashboard (mostraba 1 aunque no habia ninguno activo)
+  - Arreglado BUG de monitoring.sh , nombre de variable incorrecto, no se gestionaba correctamente el control de la salida de errores.
+  - Mejorado el comando cyclops para la gestión de mensajes, se simplifica la prioridad dejando cuatro categorías (info,low,medium,high) y se muestra la información de manera mas amigable.
+  - Reparedo el BUG en el plugin de uptime del script monitoring.sh (cuando hay un nodo con un sensor activo no muestra la informacion correcta)
+  - Plugin de las alertas activas
+  - En Fabricacion Plugin de las alertas enviadas
+  - Gestion de Alertas Activas Operativo
+  - Arreglado BUG: detectado en la ia de nodos, envía desde sensors.nodes.mon.sh el valor //hostname// como si de un nombre de nodo se tratase
+  - El comando cyclops se le han añadido las siguientes funciones:
+    - gestion de mensajes del dashboard
+    - gestion del estado administrativo de los nodos
+    - creacion de backups de ficheros cyclops
+    - gestion del estado de la monitorizacion (activacion y desactivacion)
+    - visualizacion del estado de distintas configuraciones
+  - BUG: Reparado en la gestion del estado administrativo del nodo, no buscaba correctamente
+
+** To Change **
+
+  - Crear volcado en log de los mensajes caducados del dashboard
+  - Mejorar el plugin de ciclos para su correcta integración en caso de desactivar la monitorizacion

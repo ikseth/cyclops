@@ -1,0 +1,37 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Hardware - CMC : ctualizar información EEPROM de los nodos **  
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo     ^  Dispositivos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación  ^
+|  Dispositivos Hardware     |  CMC                      |    Dispositivos de control del blades NEWSCA                                |  @#EAFFD5: BAJA      |  Ninguna  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Depende         |                                                                  |  @#EAFFD5: BAJA       |  Ninguno Conocido  |
+
+===== Procedimiento =====
+
+  * ** Usando el navegador del sistema ( firefox ): **
+  - Pulsar sobre la opción ** Maintenance **, ubicada en el menú superior.
+  - Pulsar sobre la opción ** Blades **, dentro de la sección ** Manteinance Operations **, situada en el menú lateral izquierdo.
+  - En la sección central del interfaz web, aparecerá toda la información disponible de los nodos insertados
+
+  * La información se encuentra seccionada por los números de nodos, aunque los denomina ** Blade [1-18] ** 
+  * ** Cada Blade [1-18] **, corresponde a un [[:documentation:operation:terminology:mirrornode|nodo]] (referirse a la información incluida en el enlace anterior para la conocer la relación numérica)
+  * La información incluida es:
+    * ** Main CPLD Version:** versión del firmware.
+    * ** IOExp CPLD Version:** versión del firmware.
+    * ** BMC Version:** versión del firmware.
+    * ** Board Hardware Versión:** actualmente no relevante.
+    * ** BMC IP Address:** Dirección ip asignada a la BMC.
+      * ** <fc orange>NOTA:</fc> ** el ultimo grupo de dígitos de la dirección ip ha de ser el mismo que el ** Blade [numero] **
+    * ** BMC MAC Address:** Dirección física del interfaz.
+      * ** <fc red>NOTA:</fc> ** Esta información es esencial para la inserción de un nuevo nodo en el sistema
+    * ** Board Hardware Type:** actualmente no relevante.
+    * ** Board Serial:** Numero de serie del nodo.
+      * ** <fc red>NOTA:</fc> ** Esta información es importante para dar las incidencias de alta, así como identificador único del nodo que permite reconocerlo del resto.

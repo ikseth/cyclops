@@ -1,0 +1,7 @@
+base   mp3play
+author Michael Hamann, Michael Klier
+email  michael@content-space.de
+date   2013-04-20
+name   mp3play plugin
+desc   Embeds a flash mp3player.
+url    http://dokuwiki.org/plugin:mp3play

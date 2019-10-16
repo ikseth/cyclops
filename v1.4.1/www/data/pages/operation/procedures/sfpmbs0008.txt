@@ -1,0 +1,8 @@
+====== Operativa: Pacemaker ======
+
+===== Localizar nodo donde está arrancado un servicio =====
+
+  - <code>
+haresl whereis -n [servicio] 
+</code>
+    

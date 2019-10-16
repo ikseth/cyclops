@@ -1,0 +1,7 @@
+base cellbg
+author dr4ke
+email <dr4ke@dr4ke.net>
+date 2013-10-09
+name Cell Background
+desc Allows user-defined background colored cells in tables
+url http://www.dokuwiki.org/plugin:cellbg

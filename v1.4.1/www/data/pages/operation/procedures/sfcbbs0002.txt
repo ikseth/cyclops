@@ -1,0 +1,22 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - ClusterDB : Extract DHCP **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo Lustre  ^  Nodos  ^  Descripción             ^  Criticidad          ^  Implicación                                     ^
+
+===== Procedimiento =====
+
+  * Los pasos a seguir son:
+  * Este procedimiento es necesario ejecutarlo desde el nodo donde se está ejecutando ** dhcp ** .
+  - [[:operation:procedures:SFPMBS0008|SFPMBS0008: Localizar nodo donde está arrancado un servicio ]]
+  - Se establece una conexión ssh contra el nodo donde esta arrancado  ** dhcp **
+  - Ejecutamos el Script:<code>
+/usr/lib/clustmngt/clusterdb/bin/extractDhcp --pool admin
+</code>
+   - Restart del servicio ** dhcp ** : [[:operation:procedures:SFPMBS0009|SFPMBS0009 : Reinicio Servico HA de Pacemaker ]]
+
+  * ** <fc red> NOTA: </fc> ** En caso de arquitectura de los nodos de gestion en HA, lanzar de nuevo el comando de extraccion en el nodo espejo tras el reinicio anterior del recurso dhcp
+   

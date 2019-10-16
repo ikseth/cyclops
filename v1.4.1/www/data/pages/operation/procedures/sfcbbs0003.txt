@@ -1,0 +1,25 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - ClusterDB : Extract DHCP **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo Lustre  ^  Nodos  ^  Descripción             ^  Criticidad          ^  Implicación                                     ^
+|  Todos         |  Todos  | Mapping hostnames - IPs  |  @#FA5858: MUY ALTA  | El sistema necesita la asignación de host a IPs  |
+
+
+===== Procedimiento =====
+
+  * Los pasos a seguir son:
+  * Este procedimiento es necesario ejecutarlo desde el nodo donde se está ejecutando ** dns ** .
+  - [[:operation:procedures:SFPMBS0008|SFPMBS0008: Localizar nodo donde está arrancado un servicio ]]
+  - Se establece una conexión ssh contra el nodo donde esta arrancado  ** dns **
+  - Accedemos al directorio que contiene el scripts:<code>
+cd /usr/lib/clustmngt/clusterdb/bin/
+</code>
+   - Ejecutamos el script :<code>
+./extractDns 
+</code>
+   - Restart del servicio ** dns ** : [[:operation:procedures:SFPMBS0009|SFPMBS0009 : Reinicio Servico HA de Pacemaker ]]
+   

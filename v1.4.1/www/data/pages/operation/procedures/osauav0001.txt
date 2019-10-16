@@ -1,0 +1,50 @@
+====== Redes - Nis Server Alert ======
+
+<box red> ** Procedimiento genérico hasta que se desarrolle uno especifico ** </box>
+
+===== Datos Generales =====
+
+|< 50% >|
+^  Código      ^  Nombre Procedimiento  ^  Verificado                  ^  Operativo    ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+|  OSAUAV0001  |  Nis Server Alert    |  @#FA5858:<fc white>NO</fc>  |  @#EAFFD5:SI  |  03/11/2015      |  03/11/2015                 |  0.0      |
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >| 
+^  Grupo     ^  Nodos                 ^  Descripción                            ^  Criticidad                                 ^  Implicación  ^
+|  Todos     |  Todos                 |                                         |  @#FAAC58: MEDIA  |  No recuperacion del sistema en el plazo estipulado (SLA)   |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >| 
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad                                 ^  Implicación        ^
+|  Todos     |  Todos                 |                                         |  @#FAAC58: MEDIA  |  No recuperacion del sistema en el plazo estipulado (SLA)   |
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+  - Notificar la incidencia:
+
+==== Alcance ====
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION                   ^  HORARIO EJECUCION                                                                     ^
+
+==== Ejecución ====
+
+  * ** Se ejecutan los siguientes pasos: **
+
+  - Conectarse externamente a un nodo de gestión: [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+    - En caso de no poder conectarse: [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+  - Comprobación del entorno productivo:
+    - [[operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobar Entorno Productivo]]
+        * Si está ** operativo ** pasar a la **Notificación Final**
+        * Si no: ** SOLICITAR INTERVENCION DE TECNICO DE GUARDIA **: 
+
+==== Notificación Final ====
+
+  - Notificar la incidencia:
+  - FINAL

@@ -1,0 +1,29 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - FTP: Chequeo **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad          ^  Implicacion                                             ^
+
+===== Sistemas Colaterales =====
+
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad  ^  Implicacion  ^ 
+
+===== Procedimiento =====
+  * Este servicio debemos chequearlo en los nodos  [LOGIN NODE], [LOGIN NODE] . Los pasos a seguir para chequear FTP son:
+
+    - Conectarse al nodo de gestión: [[:operation:procedures:SPXXXX0002| SPXXXX0002 : Establecer Conexión SSH]]
+    - Comprobamos el servicio ejecutando el siguiente comando desde el nodo  <code>
+ /etc/init.d/vsftpd status
+</code>
+    - Los posibles resultados serian:
+      * Todo esta **CORRECTO**:  =) <code>
+vsftpd(pid 14719) is running...
+</code>
+      * Si obtenemos que el servicio esta  **STOPPED**: :-/ <code>
+vsftpd is stopped
+</code>

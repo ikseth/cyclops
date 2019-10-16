@@ -1,0 +1,17 @@
+====== Operacion ======
+
+===== Stop Pacemaker =====
+
+  - Para parar Pacemaker en el cluster : <code>
+haadm stop [nombre del nodo ]
+</code>
+<hidden Resultado>
+[root@[MANAGEMENT NODES] ~]# haadml stop
+
+Do you want to stop Pacemaker on this node ? [y/N] :
+ 
+y
+
+Done
+
+</hidden>

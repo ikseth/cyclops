@@ -1,0 +1,19 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - LMOD : Cargar Entorno **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo  ^  Nodos        ^  Descripción                                               ^  Criticidad  ^  Implicación   ^
+|  Login  |  nodo[2-5]  |  Activar el sistema de carga de variables de entorno LMOD  |  Ninguna     |  Ninguna       |
+
+===== Procedimiento =====
+
+  * Se ejecuta el siguiente comando:<code>
+if [ -e /software/Lmod/lmod/lmod/init/profile ] && [ -e /usr/lib64/lua/5.1/lfs.so ]; then
+    source /software/Lmod/lmod/lmod/init/profile
+    export MODULEPATH=/software/Lmod/lmod/lmod/modulefiles/Core
+fi</code>
+
+  * ** <fc red> NOTA: </fc> ** Se recomienda insertar estas lineas en el fichero ** //.bashrc// ** del usuario

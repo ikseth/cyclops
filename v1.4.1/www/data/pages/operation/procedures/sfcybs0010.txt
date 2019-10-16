@@ -1,0 +1,22 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Cyclops - Tools : obtención de direcciones MACs desde Log DHCP **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo ^  Nodos  ^  Descripción             ^  Criticidad          ^  Implicación                                     ^
+|  Todos         |  Todos  | Configurar el acceso remoto  |  BAJA  | El sistema necesita la asignación de host a IPs  |
+
+
+===== Procedimiento =====
+
+  * Se ejecuta el siguiente comandos:
+  - Obtención de direcciones MAC:<code>
+/opt/cyclops/tools/approved/tool.mac.extract.sh -o clusterdb -n [nombre de nodo|nombre de nodo[rango]]</code>
+  - ** [OPCIONAL]: ** Actualizacion de direcciones MACs:<code>
+. /opt/cyclops/temp/tool.ext.macs.cdb.[timestamp].sh</code>
+
+  * ** <fc orange>NOTA:</fc>** los nodos han de estar en estado de monitorizacion diferente a ** up ** y en estado energetico ** apagado ** antes de la ejecucion del procedimiento. 
+  * ** <fc green>NOTA:</fc>** donde ** el nombre del script que genera la ** tool ** sera mostrado al acabar esta.
+

@@ -1,0 +1,24 @@
+====== TODO ======
+
+  - Funcion cyclops para activar y desactivar sensores
+  - Generar estadisticas
+    - Slurm
+    - Monitorizacion
+  - Añadir al sistemas de mensajes, subject, src y dst
+  - Permitir configuracion permisos (usuario/grupo) apache
+  - Purgar ficheros de monitorizacion de los nodos (comando cyclops, quiza mejor un comando aparte)
+  - Crear una opcion para activar y desactivar los correos
+  - Opcion de cyclops para añadir y eliminar cuentas de correo de las alertas.
+  - Accion - Activar el led de ubicacion del nodo en caso de alerta y apagarlo al restablecimiento.
+  - Cambiar el directorio sensors/status por sensors/nodes(o hosts)
+  - Opcion comando cyclops para eliminar alarmas "enquistadas"
+  - Comando o parametro para mensajes preestablecidos. (control de incidencias)
+  - Incluir mensajes y notificaciones automaticas con los cambios de modo de la monitorizacion.
+  - Incluir un "gestor" de procedimientos, que vincule, codigos ia, fichero de descripcion y pagina wiki
+  - Incluir modo simulacro en la monitorizacion (incluir un procedimiento asociado.
+  - IA de usuarios, control de acceso a usuarios externos, control de usuarios en nodos internos
+  - Insertar cabecera de auto actualizacion  en los detalles de la monitorizacion
+  - Script de ayuda para ejecucion de procedimeintos (path/script/nombre.sh -p [CODIGO PROCEDIMIENTO]
+  - Revisar y reparar el plugin de uptime
+  - Cambiar la seccion de plugins para que sea configurable y se autogenere a partir de esa configuracion.
+  - Arreglar la estructura de enlaces para que la navegacion en la wiki sea mas amigable [index.txt > start.txt]

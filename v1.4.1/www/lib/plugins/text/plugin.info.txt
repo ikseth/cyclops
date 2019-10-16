@@ -1,0 +1,7 @@
+base   text
+author Michael Hamann
+email  michael@content-space.de
+date   2016-06-19
+name   text plugin
+desc   renders page as plain text. USAGE: <pagename>?do=export_text (Original author: Todd Augsburger)
+url    https://www.dokuwiki.org/plugin:text

@@ -1,0 +1,30 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Hardware - CMC : B7xx Verificación estado energético del nodo - interfaz web **  
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo     ^  Dispositivos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación  ^
+|  Dispositivos Hardware     |  RMC/CNC                      |    Dispositivos de control del hardware NEWSCA                                |  @#EAFFD5: BAJA      |  Ninguna  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Depende         |                                                                  |  @#EAFFD5: BAJA       |  Ninguno Conocido  |
+
+===== Procedimiento =====
+
+  * ** Usando el navegador del sistema ( firefox ): **
+  - Pulsar sobre la opción ** Maintenance **, ubicada en el menú superior.
+  - Pulsar sobre la opción ** Power Management **, dentro de la sección ** Manteinance Operations **, situada en el menú lateral izquierdo.
+  - El estado de los nodos se encuentra en la columna ** Power Status **, dentro de la sección ** Server Blade ** en la parte central izquierda del interfaz web.
+    * Los posibles estados energéticos de los nodos son:
+      - ** On: ** Encendido, tanto el nodo como la BMC.
+      - ** Off: ** El nodo se encuentra apagado y la BMC esta encendida y se ha de disponer de acceso a esta.
+      - ** Stand-by-on: ** El nodo se encuentra apagado y sin capacidad energética disponible, la BMC esta encendida y se ha de disponer de acceso a esta.
+      - ** Stand-by-off: ** El nodo y la BMC se encuentran completamente apagados y sin capacidad energética disponible.
+      - ** Unknown: ** No se dispone de información energética del nodo, esto suele indicar un problema hardware de conectividad fisica del blade con el chasis.
+
+

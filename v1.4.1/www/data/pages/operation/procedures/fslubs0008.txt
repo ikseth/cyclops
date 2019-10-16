@@ -1,0 +1,30 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** File System - Lustre : Asignacion de quota **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo Lustre     ^  Nodos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación  ^
+|  Cliente Lustre   |  nodo[4-5]((se recomienda estos nodos))  | Se asigna una quota de ficheros y capacidad maxima a un usuario      | @#EAFFD5: BAJA  |  |
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos    ^  Descripción              ^  Criticidad       ^  Implicación  ^ 
+|  Ninguno       |  Ninguno  |                           |  @#EAFFD5: BAJA   |               |
+
+===== Procedimiento =====
+
+  * Este procedimiento es recomendable ejecutarlo desde:
+    * Los nodos de desarrollo/login nodo[4,5]. 
+
+  * Los pasos a seguir son:
+    - Ejecutamos desde el nodo objetivo el siguiente comando:<code>
+lfs setquota -u [USUARIO] -B [LIMITE HARD BLOQUES] -b [LIMITE SOFT BLOQUES] -I [LIMITE HARD INODOS] -i [LIMITE BLANDO] [SYSTEM DE FICHEROS LUSTRE]</code>
+
+  * ** <fc green> NOTA: </fc> ** Explicacion de terminos:
+    * Los Bloques hacen referencia al espacio total deseado
+    * Los iNodos hacen referencia al numero de ficheros deseado
+    * El limite Hard no permite ser superado
+    * El limite Soft permite ser superado hasta llegar al Hard y muestra aviso.

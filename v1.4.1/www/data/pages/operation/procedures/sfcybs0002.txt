@@ -1,0 +1,38 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Cyclops : Estado Nodo **  
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >| 
+^  Grupo         ^  Nodos           ^  Descripción                                   ^  Criticidad      ^  Implicación  ^
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >| 
+^  Grupo         ^  Nodos          ^  Descripción            ^  Criticidad          ^  Implicación  ^ 
+|  Todos        |  Todos           |                         |  @#FFFF00: MEDIA  |Atención con los estados que no generan alertas o no monitorizan   |
+
+===== Procedimiento =====
+
+  * Se ejecuta el siguiente comando desde los nodos de gestión:
+
+ * Comando /opt/cyclops/scripts/cyclops.sh, permite especificar con el parámetro -n familia, grupo, nodo o rango de nodos ( nodo[numero id,nid-nid]).
+
+** SE RECOMIENDA COMPROBAR LOS CAMBIOS ANTES DE APLICARLOS **
+
+  * Comprobar los cambios de estado de un nodo:<code>
+/opt/cyclops/scripts/cyclops.sh   -a [acción] -n [nodo|rango de nodos|@familia/@grupo]
+</code>
+  * Cambiar el estado de un nodo:<code>
+/opt/cyclops/scripts/cyclops.sh   -a [acción] -n [nodo|rango de nodos|@familia/@grupo] -c
+</code>
+
+  * Los estados disponibles para un nodo son:
+    * ** up **: estado activo, estado normal de un nodo, se monitoriza, se generan alertas en caso de estar apagado.
+    * ** drain **: estado mantenimiento, la monitorizacion excluye el nodo, lo pone en mantenimiento y no se muestran alertas.
+    * ** diagnose **: estado diagnostico, el nodo se monitoriza pero no genera alertas.
+    * ** content **: estado contencion, cyclops pone en contencion los servicios, el nodo genera una alerta pero no se monitoriza.
+    * ** repair **: estado reparacion, el nodo esta en modo auto-reparación y según el resultado cambiara automáticamente el estado del nodo a **"diagnose"** en caso de éxito y a **"content"** en caso de fracaso.
+    * ** link **: estado de enlace, se conecta el nodo al sistema, si algún servicio falla durante la conexión, el nodo pasara a estado **content**, en caso positivo el nodo pasara a estado **up**
+    * ** unlink ** : estado de desconexión, el nodo se excluye del sistema, pasando posteriormente a modo **drain**

@@ -1,0 +1,186 @@
+#!/bin/bash
+######################################################
+#             CYCLOPS MONITORING SYSTEM              #
+#						     #
+#             GLOBAL VARIABLEs CONF FILE 	     #
+######################################################
+
+# ------------------- PATH's ------------------------#
+# GENERAL SYSTEM PATHs
+
+_config_path="/etc/cyclops"							## BASE CFG PATH
+_config_path_sys=$_config_path"/system"						## BASE CFG SYSTEM PATH
+_config_path_mon=$_config_path"/monitor"					## BASE CFG MONITOR PATH
+_config_path_nod=$_config_path"/nodes"						## BASE CFG MONITOR NODES/HOSTS PATH
+_config_path_env=$_config_path"/environment"					## BASE CFG MONITOR ENVIRONMENT DEVICES PATH
+_config_path_sec=$_config_path"/security"					## BASE CFG MONITOR SECURITY PATH 
+_config_path_srv=$_config_path"/services"					## BASE CFG MONITOR SERVICES PATH
+_config_path_rea=$_config_path"/reactive"					## BASE CFG MONITOR REACTIVE ACTIONS PATH
+_config_path_sta=$_config_path"/statistics"					## BASE CFG STATISTICS CONFIG PATH
+_config_path_too=$_config_path"/tools"						## BASE CFG TOOLS PATH
+_config_path_aud=$_config_path"/audit"                                          ## BASE CFG AUDIT MODULE PATH
+_ia_config_path=$_config_path"/ia"						## BASE CFG MONITOR IA PATH //DEPRECATED??//
+
+_base_path="/opt/cyclops"							## CYCLOPS BASE PATH
+
+_script_path=$_base_path"/scripts"						## CYCLOPS MAIN SCRIPT PATH
+_monitor_path=$_base_path"/monitor"						## CYCLOPS MON PATH
+_stat_path=$_base_path"/statistics"						## CYCLOPS STATs PATH
+_tool_path=$_base_path"/tools"							## CYCLOPS TOOLS BASE PATH
+_audit_path=$_base_path"/audit"							## CYCLOPS AUDIT BASE PATH
+_historic_data=$_monitor_path"/historic/data"					## CYCLOPS HISTORIC MON DATA PATH
+_libs_path=$_base_path"/lib"							## CYCLOPS LIBS PATH
+
+_script_bkp_path=$_base_path"/backups"						## CYCLOPS BACKUP PATH
+_lock_path=$_base_path"/lock"							## CYCLOPS LOCK PATH
+_cyclops_temp_path=$_base_path"/temp"						## CYCLOPS MAIN TEMP PATH
+
+# CYCLOPS CLIENT PATHS
+
+_cyc_clt_base_path=$_base_path"/local"                                          ## CYCLOPS LOCAL CLIENT BASE PATH             
+_cyc_clt_etc_path=$_cyc_clt_base_path"/etc"					## CYCLOPS LOCAL CLIENT BASE PATH 
+
+source $_cyc_clt_etc_path/local.main.cfg					## LOAD LOCAL MAIN VARS
+
+# SENSORs PATH
+
+_sensors_path=$_monitor_path"/sensors"
+_sensors_config_path=$_sensors_path"/status/conf"	
+_sensors_script_path=$_sensors_path"/status/scripts"
+_sensors_data_status_path=$_sensors_path"/data/status"
+_sensors_data=$_sensors_path"/status/data"
+_sensors_log_path=$_sensors_path"/status/agent_log"
+_sensors_ia_path=$_sensors_path"/status/ia"
+_sensors_squeue_script_path=$_sensors_path"/squeue/scripts"
+_sensors_squeue_ia_path=$_sensors_path"/squeue/ia"_
+_sensors_users_rules_path=$_sensors_path"/users/rules"
+_sensors_temp_path=$_sensors_path"/temp"
+_sensors_alerts_path=$_sensors_path"/alerts"
+_sensors_env_scripts=$_sensors_path"/environment/scripts"
+_sensors_env_data=$_sensors_path"/environment/data"
+_sensors_env_ia=$_sensors_path"/environment/ia"
+_sensors_env_conf=$_sensors_path"/environment/conf"
+_sensors_pkg_dir=$_monitor_path"/packs"
+
+# WIKI PATHs
+
+#_wiki_path="/var/www/html/cyclops" # REDHAT APACHE PATH
+_wiki_path="/opt/cyclops/www" # CYCLOPS WEB PATH
+_pages_path=$_wiki_path"/data/pages"
+_mon_path=$_pages_path"/operation/monitoring" 
+_dst_pages_mon_path=$_mon_path"/systemstatus/now" # ALERT: CONFIRM VARIABLE!!
+_mon_history_path=$_mon_path"/history"
+_audit_wiki_path=$_pages_path"/audit"
+_stat_wiki_path=$_pages_path"/operation/statistics"
+
+# WIKI PAGE PATHs
+
+_wiki_mon_dashboard_path=":operation:monitoring:dashboard"
+_wiki_mon_general_path=":operation:monitoring:general"
+_wiki_mon_sec_path=":operation:monitoring:monsec"
+_wiki_mon_srv_path=":operation:monitoring:monsrv"
+_wiki_mon_nod_path=":operation:monitoring:monnod"
+_wiki_mon_env_path=":operation:monitoring:monenv"
+_wiki_procedures_path=":operation:procedures"
+_wiki_history_path=":operation:monitoring:history"
+_wiki_audit_path=":audit"
+_wiki_stat_path=":operation:statistics"
+
+# AUDIT PATHs
+
+_audit_scripts_path=$_audit_path"/scripts"
+_audit_data_path=$_audit_path"/data"
+
+# STATISTICS PATHs
+
+_stat_data_path=$_stat_path"/data"						## STATISTICS DATA MAIN PATH 
+_stat_extr_path=$_stat_path"/scripts"						## STATISTICS EXTRACTORs PATH
+
+# LOG PATHs AND LOG FILEs
+
+_mon_log_path="/opt/cyclops/logs"
+_mon_log=$_mon_log_path"/mon.log"
+_sensors_log=$_sensors_log_path"/sensors.log"
+_cyclops_log=$_mon_log_path"/cyclops.log"
+_last_event_log=$_mon_log_path"/last.event.log"
+_sys_dashboard_log=$_mon_log_path"/dashboard.system.log"			## MONITORING DASHBOARD MAIN SYS LOG
+_pg_dashboard_log=$_mon_log_path"/dashboard.plugin.log"				## MONITORING DASHBOARD PLUGIN LOG
+_srv_quota_logs=$_mon_log_path"/services/quota"                                 ## SERVICE QUOTA LOG DIRECTORY
+_srv_slurm_logs=$_mon_log_path"/services/slurm"                                 ## SERVICE SLURM LOG DIRECTORY
+
+# REMOTE MONITOR SCRIPT PATH
+
+#_sensor_remote_path="/root/cyclops/sensors"
+_sensor_remote_path=$_cyc_clt_data_path"/sensors"                               ## NEW CLIENT SENSOR MON PATH
+#_sensor_remote_path="/opt/cyclops/local/data/sensors"
+
+# RAZOR SETTINGS
+
+_razordb_file=$_config_path_rea"/razor.nod.cfg"					## RAZOR GLOBAL WORKING FILE
+
+# CONFIG FILEs
+
+_mon_cfg_file=$_config_path_mon"/monitor.cfg"					## MONITOR CFG FILE 
+_type=$_config_path_nod"/node.type.cfg"						## NODES MON CFG FILE 
+_bios_mng_cfg_file=$_config_path_nod"/bios.mng.cfg"				## NODES BIOS CREDENTIALS CFG FILE
+_color_cfg_file=$_config_path_sys"/colors.cfg"					## CYCLOPS SYSTEM COLORS CFG FILE 
+_alert_mail_cfg_file=$_config_path_mon"/alert.email.cfg"			## CYCLOPS MON MAIL ALERTS CFG FILE
+_dev=$_config_path_env"/env.devices.cfg"					## ENVIRONMENT CFG PATH
+
+_ha_cfg_file=$_config_path_sys"/ha.cfg"						## HA CONFIG FILE
+_ha_role_file="/etc/role.ha.cyc"						## HA HOST ROLE FILE
+_ha_sync_exc=$_config_path_sys"/ha_sync.excludes"				## HA SYNC EXCLUDE FILE 
+
+_critical_res=$_config_path_nod"/critical.res.cfg"				## CRITICAL NODES RESOURCES DEFINITION
+
+_stat_main_cfg_file=$_config_path_sta"/main.ext.cfg"				## STATISTICS MAIN EXTRACTORS CONFIG FILE
+_stat_wiki_cfg_file=$_config_path_sta"/wiki.stat.cfg"				## STATISTICS WIKI GRAPHS CONFIG FILE
+_stat_daemon_cfg_file=$_config_path_sta"/global.stat.report.cfg"                ## STATISTICS GLOBAL DAEMON REPORT GENERATION FILE
+_stat_sensor_cfg_file=$_config_path_sta"/sensors.report.cfg"			## REPORT NODE SENSOR DEFINITION
+
+_cyc_module_screen_cfg=$_config_path_sys"/screen.module.cfg"			## CYCLOPS SCREEN CONTROL MODULE CONFIG FILE
+
+## -------- SYSTEMs DEFINITION FILES -----------------#
+
+# SENSORS FILEs
+
+_sensors_usr_login_srv_list=$_config_path_sec"/login.node.list.cfg"		## SECURITY LOGIN CFG FILE
+_sensors_var_file=$_sensors_config_path"/sensor.var.cfg"
+
+_sensors_ia_tmp_path="/opt/cyclops/monitor/sensors/temp"
+_sensors_ia_tmp_name="sensors.status.tmp"
+_sensors_ia_script_file=$_script_path"/sensors.nodes.ia.sh"
+_sensors_ia_codes_file=$_config_path_mon"/procedure.ia.codes.cfg"		## PROCEDURE IA CODES CFG FILE 
+
+_sensors_mon_script_file=$_script_path"/sensors.nodes.mon.sh"
+_sensors_mon_general_file=$_mon_path"/general.txt"
+_sensors_mon_disable_file=$_lock_path"/sensors.mon.disable.lock"
+
+_sensors_slurm_ia_script_file=$_script_path"/sensors.slurm.ia.sh"
+_sensors_slurm_ia_rules_file=$_sensors_squeue_ia_path"/rules.cfg"
+_sensors_mon_slurm_tmp_ia_file="/tmp/slurm.ia.old.file"
+_sensors_ia_slurm_tmp_file="/tmp/now.sensors.slurm.ia.tmp"
+
+_sensors_ia_users_tmp_file="/tmp/now.sensors.users.ia.tmp"
+_sensors_users_ia_script_file=$_script_path"/sensors.users.ia.sh"
+
+_sensors_ia_env_script_file=$_script_path"/sensors.envhard.ia.sh"
+
+_sensors_email_script_file=$_script_path"/sensors.ia.alerts.sh" ## DEPRECATED??!
+
+_sensors_sot=$_sensors_data_status_path"/stateofthings.cyc"
+_sensors_sot_codes_file=$_config_path_sys"/cyc.codes.cfg"			## CYCLOPS SYSTEM MON CODES FILE 
+
+# CYCLOPS SYSTEM FILES
+
+_cyc_script_code_file=$_config_path_sys"/script.code.cfg"			## CYCLOPS SCRIPTS AND TOOLS BASE INFO
+
+# AUDIT FILEs
+
+
+# DEBUG FILEs
+
+_debug_file=$_cyclops_temp_path"/debug.txt"
+
+######################################################
+

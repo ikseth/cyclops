@@ -1,0 +1,51 @@
+====== Heartbeat Failure ======
+
+===== Datos Generales =====
+
+
+|< 50% >|
+^  Código       ^  Nombre Procedimiento  ^  Verificado    ^  Operativo    ^  Fecha Creación   ^  Fecha Ultima Modificación  ^  Versión  ^
+|  SFHBAV0001   |  Heartbeat Failure  |  @#FA5858:NO   |  @#EAFFD5:SI  |  17/09/2015       |  03/11/2015                 |    0.2    | 
+
+===== Sistemas Vinculados =====
+
+|< 100% 10% 10% 30% 10% 50%>|
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad  ^  Implicacion  ^ 
+
+
+===== Sistemas Sobre los que aplicar el procedimiento =====
+
+|< 100% 10% 10% 30% 10% 50%>| 
+^  Grupo  ^  Nodos              ^  Descripción                                                                                ^  Criticidad  ^  Implicacion  ^
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+
+  - Notificar la incidencia:
+
+==== Alcance ====
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION                   ^  HORARIO EJECUCION                                                                     ^
+
+==== Ejecución ====
+
+
+    - Se establece una conexion contra uno de los nodos de gestion [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+      - En caso de no conseguir conectarse, ejecutar: [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+    - [[operation:procedures:SFHBBS0001|SFHBBS0001:Chequear heartbeat ]] para comprobar el estado.
+    - Los posibles resultados serian:
+      * Funcionamiento correcto del servicio HA: =) <code>
+heartbeat OK [pid 12985 et al] is running on nodoX[nodoX]...</code>                                  
+      * El servicio HA esta parado ::-\ <code>
+heartbeat is stopped...</code>                                  
+       - Si está parado: [[operation:procedures:SFHBBS0002 |  SFHBBS0002: Start Heartbeat]]
+
+==== Notificación Final ====
+
+  - Notificar la incidencia:
+  - FINAL

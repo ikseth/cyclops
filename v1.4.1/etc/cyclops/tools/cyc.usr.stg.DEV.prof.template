@@ -1,0 +1,17 @@
+#### INCLUDE VARS TO DEFINE USER PROFILE ####
+#### INDICATE PROFILE NAME HERE ####
+#_profile_name='PROFILE NAME'
+#_par_home='HOME PATH'
+#_par_shell='SHELL'
+#_par_pass='DEFAULT USER PASSWORD'
+#_opt_nis='yes/no' ## ENABLE NIS USER AUTH
+#_par_slurm='DEFAULT SLURM ACCOUNT' ## THIS OPTION ENABLE SLURM USER
+#_par_lustre='yes/no' ## ENABLE LUSTRE ACCESS
+
+_profile_name='developers'
+_par_home='/pred/'$_par_user
+_par_shell='/bin/bash'
+_par_pass='$$[nodeprefixname]$$'$_par_user
+_opt_nis='yes'
+_par_slurm='yes'
+_par_lustre='yes'

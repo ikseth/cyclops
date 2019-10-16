@@ -1,0 +1,12 @@
+====== Control de Cambios - weekv14122015 ======
+
+** Change **
+
+  - FUNCIONALIDADES:
+    - Nuevo plugin para el control del entorno productivo, configurable por sensores y familia.
+  - TUNING:
+    - Se amplia el tiempo de detección de procesos zombies de 20 minutos a 6 horas.
+  - REPARACIÓN DE ERRORES:
+  - DOCUMENTACIÓN:
+    - Se incluye ayuda sobre la inserción de eventos en la bitácora de los nodos.
+

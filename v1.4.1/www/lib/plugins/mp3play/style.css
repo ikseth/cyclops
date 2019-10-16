@@ -1,0 +1,14 @@
+/**
+ * CSS for DokuWiki Plugin MP3
+ *
+ * Michael Klier <chi@chimeric.de>
+ */
+
+div.dokuwiki div.plugin_mp3play {
+  display: block;
+  margin: 1em;
+}
+
+/**
+ * vim:ts=2:sw=2:et:enc=utf-8:
+ */

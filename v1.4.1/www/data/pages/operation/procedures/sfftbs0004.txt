@@ -1,0 +1,10 @@
+====== Operativa: FTP ======
+
+===== Restart FTP =====
+  
+
+  - Ejecutamos desde [NODE] activo  el siguiente comando siendo [NODE]X el servidor en el que queremos activar FTP:
+ <code>
+ssh [NODE]X /etc/init.d/vsftpd restart
+</code>
+   

@@ -1,0 +1,30 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Sistema Operativo - Administración : Crear un usuario **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+|< 100% >| 
+^  Grupo                                               ^  Nodos          ^  Descripción                                                     ^  Criticidad     ^  Implicación  ^ 
+|  Todos ( servidores de gestion de usuarios )         |  Todos          |                                                                  |  @#EAFFD5:BAJA  |               |
+
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad     ^  Implicación  ^ 
+|  Gestión       |  [MANAGEMENT NODES]    |  Permiten la administración del sistema                          |  @#EAFFD5:BAJA  |  El servicio de consola puede quedarse en estado inestable  |
+
+===== Procedimiento =====
+
+  * El comando de creacion de usuarios locales:<code>
+useradd -d [Directorio de usuario] -g [GID] -u [UID] -G [Grupos suplementarios] -m -u [UID] -C "[Descripcion/Nombre completo de usuario]"</code>
+
+  * Consultar la ayuda del comando con:<code>
+man useradd</code>
+
+  * Otros comando vinculados:<code>
+usermod //modificacion de datos,caracteristicas de un usuario//
+passwd //cambio de claves de un usuario//
+</code>

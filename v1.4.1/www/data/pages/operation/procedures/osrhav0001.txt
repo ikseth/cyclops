@@ -1,0 +1,49 @@
+====== Recuperar SSH ======
+
+===== Datos Generales =====
+
+|< 50% >|
+^  Código      ^  Nombre Procedimiento  ^  Verificado                  ^  Operativo    ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+|  OSRHAV0001  |  Recuperar ssh         |  @#FA5858:<fc white>NO</fc>  |  @#EAFFD5:SI  |  29/07/2015      |  30/09/2015                 |  0.3      |
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 30% 10% 50%>| 
+^  Grupo         ^  Nodos           ^  Descripción                                   ^  Criticidad                        ^  Implicación                                                        ^
+|  Gestión       |  nodo[0-1]     |  Permiten la administración del servicio       |  @#FA5858:<fc white>MUY ALTA</fc>  |  Puede llegar a generar un parón total del sistema y la producción  |
+|  Login         |  nodo[2-3]     |  Acceso de los usuarios al sistema productivo  |  @#FFFF00: MEDIA                   |  Puede dejar sin acceso a los usuarios                              |
+|  Lustre        |  nodo[4-5]     |  Servidores de Lustre (sistema de ficheros)    |  @#FA5858:<fc white>MUY ALTA</fc>  |  Puede llegar a generar un parón de la producción                   |
+|  Computo/Aire  |  nodo[10-13]   |  Uso del servicio por el sistema productivo    |  @#FAAC58: ALTA                    |  Merma en el rendimiento productivo                                 |
+|  Computo/Agua  |  nodo[0-9]{4}  |  Uso del servicio por el sistema productivo    |  @#FAAC58: ALTA                    |  Merma en el rendimiento productivo                                 |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 30% 10% 50%>| 
+^  Grupo  ^  Nodos  ^  Descripción  ^  Criticidad                        ^  Implicación                                                                    ^
+|  Todos  |  Todos  |               |  @#FA5858:<fc white>MUY ALTA</fc>  |  El apagado de un nodo puede implicar la caida completa del sistema productivo  |
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+  - Notificar la incidencia:
+
+==== Alcance ====
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION                   ^  HORARIO EJECUCION                                                                     ^
+   
+==== Ejecución ====
+
+
+  * ** Se ejecutan los siguientes pasos: **
+  - Conectamos desde el exterior a un nodo de gestión [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+    - En caso de no poderse conectar realizar: [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+  - Realizar un reinicio ** soft ** [[:operation:procedures:HRBLBS0002| HRBLBS0002: Reinicio Nodo ]]
+
+==== Notificación Final ====
+
+  - Notificar la incidencia:
+  - FINAL

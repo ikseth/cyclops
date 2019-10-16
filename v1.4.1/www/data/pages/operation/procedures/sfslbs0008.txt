@@ -1,0 +1,21 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Slurm : Crear en caliente una particion **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos                       ^  Descripción                                            ^  Criticidad          ^  Implicación                                                       ^
+|  Computo       |  Todos los nodos de computo  |  Ejecucion de Jobs  |  @#EAFFD5: BAJA  |    |
+
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción            ^  Criticidad          ^  Implicación  ^ 
+|  Ninguno        |  Ninguno           |                         |  Ninguna  | |
+
+===== Procedimiento =====
+
+  - Ejecutar el siguiente comando desde un nodo controlador de slurm:<code>
+scontrol create partition=[NOMBRE DE PARTICION] nodes=[RANGO DE NODOS ASIGNADOS A LA PARTICION]</code>

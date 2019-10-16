@@ -1,0 +1,4 @@
+====== Procedure Status ======
+
+  * [[documentation:procedures:node_status|Node Status]]
+  * [[documentation:procedures:env_status|Environment Status]]

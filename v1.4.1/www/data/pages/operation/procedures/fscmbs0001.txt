@@ -1,0 +1,186 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** File System - Comunes : Chequeo espacio en disco **  
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo         ^  Nodos            ^  Descripción                                              ^  Criticidad  ^  Implicación  ^
+|  Todos         |  Todos            |  Cualquier sistema que se haya quedado sin espacio en disco  |  @#FA5858: ALTA            |Perdida del sistema y/o perdida de información               |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >| 
+^  Grupo         ^  Nodos            ^  Descripción                                              ^  Criticidad      ^  Implicación  ^ 
+|  Todos       |  Todos          |                                                           |  @#FA5858: ALTA  |  Caida completa del sistema por perdida de nodos criticos o por perdida de informacion critica  |
+===== Procedimiento =====
+
+  * No existe un procedimiento al uso para este problema, tan solo se pueden realizar acciones para localizar donde se puede estar concentrando el aumento de uso del sistema de ficheros e intentar liberar dicho espacio perdido, para ello se dispone de dos tipos de comandos recomendados ( pueden existir otros igual o mas efectivos que estos )
+    * Comandos para el diagnostico, que ayudaran a conocer donde se pierde el espacio y/o si se ha recuperado el mismo despues de las acciones para liberar dicho espacio
+    * Comandos para recuperación de espacio, que permitirán mover, eliminar o comprimir ficheros y/o directorios.
+
+==== Diagnostico ====
+
+  * El comando **df** le permite mostrar un informe detallado sobre el uso de espacio de disco del sistema. Para ello, escriba lo siguiente en el intérprete de comandos: <code>
+df -Th
+</code>
+
+<hidden Ejemplo de salida>
+<code>
+[root@[MANAGEMENT NODES] ~]# ssh [LOGIN NODES] df
+
+Filesystem              1K-blocks         Used    Available Use% Mounted on
+/dev/mapper/vg_01-lv_root
+                         10321208      3810452      5986468  39% /
+tmpfs                    65968672            4     65968668   1% /dev/shm
+/dev/sda1                  495844        57066       413178  13% /boot
+/dev/mapper/vg_01-lv_opt
+                         10321208       175916      9621004   2% /opt
+/dev/mapper/vg_01-lv_tmp
+                         10321208       154108      9642812   2% /tmp
+/dev/mapper/vg_01-lv_var
+                         53309964       585736     50016160   2% /var
+nfs-ib-server:/pred     516062208     45506560    465312768   9% /pred
+nfs-ib-server:/expl     619274240     49838080    563144704   9% /expl
+[PATH]
+                     836596323328 434519308800 355180526080  56% /ISILON/backup
+[LUSTRE NODES MDS] -ic0@o2ib0,[LUSTRE NODES MDS] -ic1@o2ib1:[LUSTRE NODES MDS] -ic0@o2ib0,[LUSTRE NODES MDS] -ic1@o2ib1:/scratch
+                     374765704800   1705656200 373060042972   1% /SCRATCH
+</code>
+</hidden>
+
+   * Para cada sistema de archivos en la lista, el comando df muestra :
+     * su nombre ( Filesystem ) 
+     * tamaño (1K-blocks) 
+     * la cantidad de espacio utilizado ( Used) 
+     * la cantidad de cupos disponibles (Available ) 
+     * el porcentaje de uso del espacio ( Use% ) 
+     * donde es el sistema de archivos montado ( Mounted on )
+     * Para filtrar los sistemas de ficheros locales usar el parametro **-l**
+
+  * Con el comando **du** se puede obtener el espacio de un directorio concretos o directorios dentro de un sistema de ficheros, por ejemplo:<code>
+du -hs *
+</code>
+
+<hidden Ejemplo de salida>
+<code>
+[2017-10-19T14:04:12][root@nodo4][/var]# du -hs *
+4.0K    account
+197M    cache
+4.0K    crash
+4.0K    cvs
+32K     db
+8.0K    empty
+8.0K    ftp
+4.0K    games
+4.0K    gdm
+32K     inventory
+21G     lib
+4.0K    local
+16K     lock
+3.2G    log
+16K     lost+found
+0       mail
+4.0K    nis
+4.0K    opt
+4.0K    preserve
+432K    run
+148M    spool
+4.0K    tmp
+1.2M    www
+20K     yp
+</code>
+</hidden>
+
+  * Por ultimo, para el diagnostico otro comando util es ** lsof ** , permitira conocer sobre todo despues de las acciones para solventar el problema ( borrar, mover o comprimir archivos y/o directorios ) si aun siguen ficheros en uso y actuar en consecuencia para poder recuperar el espacio en disco usado por dichos archivos. Ejemplo:<code>
+lsof +L1</code>
+
+<hidden Ejemplo de Salida>
+<code>
+[2017-10-19T14:06:53][root@nodo4][/var]# lsof +L1
+COMMAND   PID  USER   FD   TYPE DEVICE SIZE/OFF NLINK    NODE NAME
+screen    549  root  txt    REG  253,1   389048     0    2893 /usr/bin/screen (deleted)
+bash      550  root  txt    REG  253,1   941720     0    3016 /bin/bash (deleted)
+tail     2880  root    3r   REG  253,4  1258816     0 2752699 /var/log/syslog-20170430 (deleted)
+vim      3278   pny    0u   CHR 136,42      0t0     0      45 /dev/pts/42 (deleted)
+vim      3278   pny    1u   CHR 136,42      0t0     0      45 /dev/pts/42 (deleted)
+vim      3278   pny    2u   CHR 136,42      0t0     0      45 /dev/pts/42 (deleted)
+screen   4134  root  txt    REG  253,1   389048     0    2893 /usr/bin/screen (deleted)
+bash     4137  root  txt    REG  253,1   941720     0    3016 /bin/bash (deleted)
+screen   8969  root  txt    REG  253,1   389048     0    2893 /usr/bin/screen (deleted)
+bash     8970  root  txt    REG  253,1   941720     0    3016 /bin/bash (deleted)
+screen  13599  root  txt    REG  253,1   389048     0    2893 /usr/bin/screen (deleted)
+bash    13600  root  txt    REG  253,1   941720     0    3016 /bin/bash (deleted)
+screen  13947  root  txt    REG  253,1   389048     0    2893 /usr/bin/screen (deleted)
+bash    13948  root  txt    REG  253,1   941720     0    3016 /bin/bash (deleted)
+mysqld  14551 mysql    5u   REG  253,2        0     0      12 /tmp/ibgBvNpG (deleted)
+mysqld  14551 mysql    6u   REG  253,2        0     0      13 /tmp/ibL41u2P (deleted)
+mysqld  14551 mysql    7u   REG  253,2        0     0      16 /tmp/ibAoKcFZ (deleted)
+mysqld  14551 mysql    8u   REG  253,2        0     0      17 /tmp/ibxq6ai9 (deleted)
+mysqld  14551 mysql   12u   REG  253,2        0     0      18 /tmp/ibgPfc0i (deleted)
+mysqld  14551 mysql   25u   REG  253,2    73538     0      14 /tmp/MLT7kQ4y (deleted)
+screen  15285  root  txt    REG  253,1   389048     0    2893 /usr/bin/screen (deleted)
+bash    15286  root  txt    REG  253,1   941720     0    3016 /bin/bash (deleted)
+screen  19552  root  txt    REG  253,1   389048     0    2893 /usr/bin/screen (deleted)
+bash    19553  root  txt    REG  253,1   941720     0    3016 /bin/bash (deleted)
+screen  22809  root  txt    REG  253,1   389048     0    2893 /usr/bin/screen (deleted)
+bash    22810  root  txt    REG  253,1   941720     0    3016 /bin/bash (deleted)
+screen  27730  root  txt    REG  253,1   389048     0    2893 /usr/bin/screen (deleted)
+bash    27731  root  txt    REG  253,1   941720     0    3016 /bin/bash (deleted)
+vim     30374   pny  txt    REG  253,1  2324712     0    4012 /usr/bin/vim (deleted)
+vim     30374   pny    0u   CHR 136,41      0t0     0      44 /dev/pts/41 (deleted)
+vim     30374   pny    1u   CHR 136,41      0t0     0      44 /dev/pts/41 (deleted)
+vim     30374   pny    2u   CHR 136,41      0t0     0      44 /dev/pts/41 (deleted)
+</code>
+</hidden>
+
+  * Si se elabora algo mas el comando se puede obtener informacion mas precisa o que facilite mas la identificacion del foco de perdida de espacio.<code>
+du -xh / |grep '^\S*[0-9\.]\+G'|sort -rn</code>
+
+<hidden Ejemplo de Salida>
+<code>
+132G    /
+120G    /opt
+118G    /opt/cyclops
+49G     /opt/cyclops/www/data
+49G     /opt/cyclops/www
+42G     /opt/cyclops/www/data/pages/operation/monitoring/history
+42G     /opt/cyclops/www/data/pages/operation/monitoring
+42G     /opt/cyclops/www/data/pages/operation
+42G     /opt/cyclops/www/data/pages
+40G     /opt/cyclops/backups
+31G     /opt/cyclops/www/data/pages/operation/monitoring/history/2017
+26G     /opt/cyclops/logs
+11G     /opt/cyclops/www/data/pages/operation/monitoring/history/2018
+7.0G    /opt/cyclops/www/data/cache
+6.5G    /usr
+4.6G    /root
+4.2G    /usr/share
+3.1G    /opt/cyclops/www/data/pages/operation/monitoring/history/2017/12
+2.9G    /opt/cyclops/www/data/pages/operation/monitoring/history/2018/03
+2.9G    /opt/cyclops/www/data/pages/operation/monitoring/history/2017/08
+2.8G    /opt/cyclops/www/data/pages/operation/monitoring/history/2018/01
+2.8G    /opt/cyclops/www/data/pages/operation/monitoring/history/2017/10
+2.7G    /opt/cyclops/www/data/pages/operation/monitoring/history/2017/11
+2.7G    /opt/cyclops/www/data/pages/operation/monitoring/history/2017/09
+2.7G    /opt/cyclops/www/data/pages/operation/monitoring/history/2017/07
+2.6G    /opt/cyclops/www/data/pages/operation/monitoring/history/2018/02
+2.6G    /opt/cyclops/www/data/pages/operation/monitoring/history/2017/06
+2.5G    /opt/cyclops/www/data/pages/operation/monitoring/history/2017/05
+2.5G    /opt/cyclops/www/data/pages/operation/monitoring/history/2017/03
+2.4G    /opt/cyclops/www/data/pages/operation/monitoring/history/2017/04
+2.4G    /opt/cyclops/www/data/pages/operation/monitoring/history/2017/01
+2.2G    /opt/cyclops/www/data/pages/operation/monitoring/history/2018/04
+2.2G    /opt/cyclops/www/data/pages/operation/monitoring/history/2017/02
+1.7G    /usr/share/ibms
+1.4G    /opt/cyclops/statistics/data/slurm
+1.4G    /opt/cyclops/statistics/data
+1.4G    /opt/cyclops/statistics
+1.3G    /opt/cyclops/temp
+1.2G    /usr/share/systemimager/boot/x86_64
+1.2G    /usr/share/systemimager/boot
+1.2G    /usr/share/systemimager
+1.1G    /usr/share/ibms/software
+</code>
+</hidden>
+ 

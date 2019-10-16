@@ -1,0 +1,125 @@
+====== BIOS Log Trace Alert ======
+
+===== Datos Generales =====
+
+|< 50% >|
+^  Código      ^  Nombre Procedimiento  ^  Verificado   ^  Operativo    ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+|  HRBIAV0001  |  BIOS Log Trace Alert  |  @#EAFFD5:SI  |  @#EAFFD5:SI  |  30/07/2015      |  07/12/2017                 |  1.0      |
+
+  * ** <fc red> IMPORTANTE: </fc> INFORMACION DEL ENTORNO : ** {{popup>:documentation:cyclops:architecture?[keepOpen]|HPC Architecture and Risk Definitions}}
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >| 
+^  Grupo         ^  Nodos    ^  Descripción         ^  Criticidad       ^  Implicación  ^
+|  Todos         |  Todos    |                      |  @#FAAC58: MEDIA  |  Dependiendo de los errores detectados y de los nodos afectados  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >| 
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Todos          |                                                                  |  @#EAFFD5: BAJA        |  Ninguna Conocida  |
+
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+
+  - Notificar la incidencia:
+
+==== Alcance ====
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION                   ^  HORARIO EJECUCION                                                                     ^
+
+==== Ejecución ====
+
+  - Conectarse externamente a un nodo de gestión: [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+    - En caso de no poder conectarse: [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+  - Conectarse internamente al nodo afectado: [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+  - Comprobamos los eventos de la BIOS: [[:operation:procedures:HRBIBS0001 | HRBIBS0001 : Listar Eventos BIOS]].
+  - Los eventos detectados hasta ahora pueden ser:
+<hidden Errores de Memoria >
+        * ** <fc red>NOTA:</fc> ** En caso de ser de estar considerado **<fc red>HIGH</fc>** en la arquitectura del sistema: {{popup>:documentation:cyclops:architecture?[keepOpen]|HPC Architecture and Risk Definitions}}, utilizar el procedimiento [[operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobar Entorno Productivo]] Antes de cambiar el estado de un nodo a un estado no operativo //DRAIN|CONTENT|APAGADO// y no hacerlo en caso de estar en situacion ** <fc orange>OPERATIVE WITH WARNINGS</fc>**
+        * En caso de ser nodo de computo realizar: 
+          - Poner el nodo en la monitorización en modo **drain** [[operation:procedures:SFCYBS0002|SFCYBS0002 : Cambiar el estado de los Nodos en Cyclops]]
+          - Esperar a que el nodo entre en mantenimiento, comprobar con el comando: [[operation:procedures:SFCYBS0001|SFCYBS0001 : Monitorizar el estado de los Nodos]] ** <fc orange>NOTA:</fc> ** El nodo puede tardar entre 3 y 12 minutos en cambiar su estado.
+          - Apagar el nodo  de manera ** soft ** [[operation:procedures:HRBLBS0003|HRBLBS0003 : Apagado Nodo]]
+        * En caso de ser un nodo de servicio/operacion realizar:
+          - Verificar el estado del entorno productivo [[operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobar Entorno Productivo]]:
+            - Si el resultado es **OPERATIVE** :
+              - Cambiar el estado del nodo a **diagnose** para controlar las alertas del nodo [[operation:procedures:SFCYBS0002|SFCYBS0002 : Cambiar el estado de los Nodos en Cyclops]]
+              - Mantener especial atención sobre el estado de ese nodo, revisar cada 5~15 minutos máximo.  
+                - Si aumenta el numero de alertas, volver a verificar el estado del entorno productivo. [[operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobar Entorno Productivo]]
+                - Si pasado un tiempo de ** <fc orange> 30~60 minutos </fc> ** no ha aumentado el numero de alertas bios_log del nodo afectado:
+                  - Volcar el registro de la bios en un fichero. [[operation:procedures:HRBIBS0001|HRBIBS0001 : Listar Eventos BIOS]]
+                  - Limpiar de mensajes de registro la BIOS. [[operation:procedures:HRBIBS0002|HRBIBS0002 : Borrar Eventos BIOS]]
+                  - Y volver a poner el nodo en UP en la monitorización. [[operation:procedures:SFCYBS0002|SFCYBS0002 : Cambiar el estado de los Nodos en Cyclops]]
+            - Si el resultado es ** NO OPERATIVE **
+              - Procedimiento contención de un nodo -> [[operation:procedures:HRBLAV0003| HRBLAV0003 : Contención de un Nodo ]]
+</hidden>
+<hidden Errores de Disco>
+        * ** <fc red>NOTA:</fc> ** En caso de ser de estar considerado **<fc red>HIGH</fc>** en la arquitectura del sistema: {{popup>:documentation:cyclops:architecture?[keepOpen]|HPC Architecture and Risk Definitions}}, utilizar el procedimiento [[operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobar Entorno Productivo]] Antes de cambiar el estado de un nodo a un estado no operativo //DRAIN|CONTENT|APAGADO// y no hacerlo en caso de estar en situacion ** <fc orange>OPERATIVE WITH WARNINGS</fc>**
+        * En caso de ser nodo de cómputo realizar:          
+          - Poner el nodo en la monitorización en modo **drain** [[operation:procedures:SFCYBS0002|SFCYBS0002 : Cambiar el estado de los Nodos en Cyclops]]
+          - Esperar a que el nodo entre en mantenimiento, comprobar con el comando: [[operation:procedures:SFCYBS0001|SFCYBS0001 : Monitorizar el estado de los Nodos]] ** <fc orange>NOTA:</fc> ** El nodo puede tardar entre 3 y 12 minutos en cambiar su estado.
+          - Apagar el nodo de manera ** soft ** [[operation:procedures:HRBLBS0003|HRBLBS0003 : Apagado Nodo]]
+        * En caso de ser un nodo de servicio/operacion realizar:
+          - Verificar el estado del entorno productivo [[operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobar Entorno Productivo]]:
+            - Si el resultado es **OPERATIVE** :
+              - Cambiar el estado del nodo a **diagnose** para controlar las alertas del nodo [[operation:procedures:SFCYBS0002|SFCYBS0002 : Cambiar el estado de los Nodos en Cyclops]]
+              - Mantener especial atencion sobre el estado de ese nodo, ** <fc orange> revisar cada 5~15 minutos máximo. </fc> ** 
+                - Si aumentan volver a verificar el estado del entorno productivo [[operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobar Entorno Productivo]]
+                - Si pasado un tiempo de ** <fc orange> 30~60 minutos </fc> ** no ha aumentado el numero de alertas bios_log del nodo afectado:
+                  - Volcar el registro de la bios en un fichero. [[operation:procedures:HRBIBS0001|HRBIBS0001 : Listar Eventos BIOS]]
+                  - Limpiar de mensajes de registro la BIOS. [[operation:procedures:HRBIBS0002|HRBIBS0002 : Borrar Eventos BIOS]]
+                  - Y volver a poner el nodo en UP en la monitorización. [[operation:procedures:SFCYBS0002|SFCYBS0002 : Cambiar el estado de los Nodos en Cyclops]]
+            - Si el resultado es ** NO OPERATIVE **
+              - Procedimiento contención de un nodo -> [[operation:procedures:HRBLAV0003| HRBLAV0003 : Contención de un Nodo ]]
+</hidden>
+<hidden Errores de Temperatura>
+    * ** <fc red>NOTA:</fc> ** En caso de ser de estar considerado **<fc red>HIGH</fc>** en la arquitectura del sistema: {{popup>:documentation:cyclops:architecture?[keepOpen]|HPC Architecture and Risk Definitions}}, utilizar el procedimiento [[operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobar Entorno Productivo]] Antes de cambiar el estado de un nodo a un estado no operativo //DRAIN|CONTENT|APAGADO// y no hacerlo en caso de estar en situacion ** <fc orange>OPERATIVE WITH WARNINGS</fc>**
+    - Vigilar otros sensores específicos de temperatura
+    * En caso de ser nodo de computo refrigerado por agua realizar:
+      - [[operation:procedures:HRBLAV0002|HRBLAV0002 : Temperatura Blade]]
+    * En caso de ser un nodo de servicio/operación realizar:
+      - Verificar el estado del entorno productivo [[operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobar Entorno Productivo]]:
+        - Si el resultado es **OPERATIVE** :
+          - Cambiar el estado del nodo a **diagnose** para controlar las alertas del nodo [[operation:procedures:SFCYBS0002|SFCYBS0002 : Cambiar el estado de los Nodos en Cyclops]]
+          - Mantener especial atención sobre el estado de ese nodo, ** <fc orange> revisar cada 5~15 minutos máximo. </fc> **
+            - Si aumentan volver a verificar el estado del entorno productivo [[operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobar Entorno Productivo]]
+            - Si pasado un tiempo de ** <fc orange> 30~60 minutos </fc> ** no ha aumentado el numero de alertas bios_log del nodo afectado:
+              - Volcar el registro de la bios en un fichero. [[operation:procedures:HRBIBS0001|HRBIBS0001 : Listar Eventos BIOS]]
+              - Limpiar de mensajes de registro la BIOS. [[operation:procedures:HRBIBS0002|HRBIBS0002 : Borrar Eventos BIOS]]
+              - Y volver a poner el nodo en UP en la monitorización. [[operation:procedures:SFCYBS0002|SFCYBS0002 : Cambiar el estado de los Nodos en Cyclops]] 
+        - Si el resultado es ** NO OPERATIVE **
+          - Procedimiento contención de un nodo -> [[operation:procedures:HRBLAV0003| HRBLAV0003 : Contención de un Nodo ]]
+</hidden>
+<hidden Otros errores>
+        - Volcar el registro de la bios en un fichero [[operation:procedures:HRBIBS0001|HRBIBS0001 : Listar Eventos BIOS]]
+        * ** <fc red>NOTA:</fc> ** En caso de ser de estar considerado **<fc red>HIGH</fc>** en la arquitectura del sistema: {{popup>:documentation:cyclops:architecture?[keepOpen]|HPC Architecture and Risk Definitions}}, utilizar el procedimiento [[operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobar Entorno Productivo]] Antes de cambiar el estado de un nodo a un estado no operativo //DRAIN|CONTENT|APAGADO// y no hacerlo en caso de estar en situacion ** <fc orange>OPERATIVE WITH WARNINGS</fc>**
+        - En caso de ser un nodo de operación/servicio
+          - Verificar el estado del entorno productivo [[operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobar Entorno Productivo]]:
+            - Si el resultado es **OPERATIVE** :
+              - Cambiar el estado del nodo a **diagnose** para controlar las alertas del nodo [[operation:procedures:SFCYBS0002|SFCYBS0002 : Cambiar el estado de los Nodos en Cyclops]]
+              - Mantener especial atención sobre el estado de ese nodo, ** <fc orange> revisar cada 5~15 minutos máximo. </fc> ** 
+                - Si aumentan volver a verificar el estado del entorno productivo [[operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobar Entorno Productivo]]
+                - Si pasado un tiempo de ** <fc orange> 30~60 minutos </fc> ** no ha aumentado el numero de alertas bios_log del nodo afectado:
+                  - Volcar el registro de la bios en un fichero. [[operation:procedures:HRBIBS0001|HRBIBS0001 : Listar Eventos BIOS]]
+                  - Limpiar de mensajes de registro la BIOS. [[operation:procedures:HRBIBS0002|HRBIBS0002 : Borrar Eventos BIOS]]
+                  - Y volver a poner el nodo en UP en la monitorización. [[operation:procedures:SFCYBS0002|SFCYBS0002 : Cambiar el estado de los Nodos en Cyclops]]
+            - Si el resultado es ** NO OPERATIVE **
+              - Procedimiento contención de un nodo -> [[operation:procedures:HRBLAV0003| HRBLAV0003 : Contención de un Nodo ]]
+        - En caso de ser un nodo de computo
+          - Cambiar el estado del nodo a **repair** [[operation:procedures:SFCYBS0002|SFCYBS0002 : Cambiar el estado de los Nodos en Cyclops]]
+          - Si el problema persiste: Procedimiento contención de un nodo -> [[operation:procedures:HRBLAV0003| HRBLAV0003 : Contención de un Nodo ]]
+</hidden>
+
+  * ** Verificar el estado del nodo: ** [[operation:procedures:SFCYBS0001|SFCYBS0001 : Monitorizar el estado de los Nodos]]
+==== Notificación Final ====
+
+  - Notificar la incidencia:
+  - FINAL

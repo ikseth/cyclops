@@ -1,0 +1,17 @@
+====== Control de Cambios - weekv09112015 ======
+
+** Change **
+
+  - FUNCIONALIDADES:
+    - Se añade la opción status en el parámetro -a del comando cyclops, que permite consultar el estado de monitorización actual de un nodo/familia/grupo
+    - Se añade la gestión de eventos de auditoria al comando audit.nod.sh y se integran con el cambio de estado de monitorizacion en el comando cyclops.sh y sensors.nod.ia.sh para las alertas.
+    - Se mejora la visualización "human" de audit.nod.sh
+    - Se añade el plugin smart.disk para obtener información de los discos locales
+    - Se secciona la monitorizacion de nodos de tal forma que se puede acceder exclusivamente al detalle de cada grupo definido en monitor.cfg
+  - TUNING:
+  - REPARACIÓN DE ERRORES:
+    - Se modifica la documentación en dos procedimientos que hacían referencia a scripts dentro de /etc/cyclops /en vez de /opt/cyclops
+    - Se arregla la auditoria de eventos sobre nodos para que solo genere una entrada por alerta y no una entrada cada ciclo de monitorizacion por alerta recibida.
+    - Se filtra la información "unknown" en el plugin de adquisición de información de memoria del script audit.nod.sh
+  - DOCUMENTACIÓN:
+    - Se añade la documentación de configuración e instalación de la monitorización.

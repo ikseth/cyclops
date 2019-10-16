@@ -1,0 +1,31 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Hardware - CMC : Cambiar el estado energético del nodo - interfaz web **  
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo     ^  Dispositivos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación  ^
+|  Dispositivos Hardware     |  RMC/CNC                      |    Dispositivos de control del hardware NEWSCA                                |  @#EAFFD5: BAJA      |  Ninguna  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Depende         |                                                                  |  @#EAFFD5: BAJA       |  Ninguno Conocido  |
+
+===== Procedimiento =====
+
+  * ** Usando el navegador del sistema ( firefox ): **
+  - Pulsar sobre la opción ** Maintenance **, ubicada en el menú superior.
+  - Pulsar sobre la opción ** Power Management **, dentro de la sección ** Manteinance Operations **, situada en el menú lateral izquierdo.
+  - Pulsar el la casilla correspondiente a los nodos deseados dentro de la sección ** Server Blade ** en la parte central izquierda del interfaz web.
+  - Pulsar el boton requerido en la parte superior dentro de la sección mencionada en el punto anterior.
+    * Las acciones disponibles en la sección ** Server Blade **
+      - ** Power On ** , Encendido de los nodos seleccionados.
+      - ** Power Off ** , Apagado de los nodos ( método ACPI, apagado soft ), incompatible en cualquier estado //(Power status))// que no sea ** On **
+      - ** Force Power Off ** , Apagado de los nodos ( método "físico" , apagado hard ) , incompatible en cualquier estado //(Power status))// que no sea ** On **
+      - ** Power Awake ** , Apagado del nodo y Encendido de la BMC, en este estado solo se tiene acceso a la BMC
+      - ** Power Asleep ** , Apagado total del nodo.
+
+

@@ -1,0 +1,15 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - ClusterDB : Update BMC MAC Address **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo ^  Nodos  ^  Descripción             ^  Criticidad          ^  Implicación                                     ^
+|  Gestión         |  Todos  | Actualizar IP de Gestión BMC  |  BAJA  | El sistema necesita la asignación de host a IPs  |
+
+
+===== Procedimiento =====
+
+  * Se ejecuta el siguiente comando:<code>
+cdbm-equipment update port hwaddr=[DIRECCION MAC BMC] --filter node=[NOMBRE BMC OBJETIVO]</code>

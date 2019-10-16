@@ -1,0 +1,72 @@
+====== Monitorización ======
+<html>
+<meta http-equiv="refresh" content="120">
+</html>
+
+===== Alertas =====
+
+| @#FA5858:<fc white>nimbus0</fc>|| 
+<hidden Procedimientos Asociados>
+
+
+{{popup>soporte:procedimientos?[%100x500%]|Procedimientos Generales}}
+
+
+</hidden>
+
+ 
+===== Operacion =====
+ 
+ 
+<hidden Operacion: Slurm Job Activity>
+|< 100% >|
+|  @#F7D358:Partition  |  @#F7D358:Job ID  |  @#F7D358:Node  |  @#F7D358:Name  |  @#F7D358:User  |  @#F7D358:Nodes  |  @#F7D358:Time  |  @#F7D358:State  |  @#F7D358:Reason  |
+
+</hidden>
+ 
+
+ 
+
+<hidden Operacion: External Access User Activity>
+|< 100% >|
+|  @#F7D358:Node  |  @#F7D358:User  |  @#F7D358:IP  |  @#F7D358:Idle Time  |  @#F7D358:Activity  |
+|  @#EAFFD5:nimbus0  |  @#EAFFD5:emc  |  @#F5FFE9:172.24.9.28  |  @#F5FFE9:4days  |  @#F5FFE9:smap -i 5  |
+|  :::  |  :::  |  @#F5FFE9:193.144.150.33  |  @#F5FFE9:0.00s  |  @#F5FFE9:sshd: emc [priv]   |
+|  :::  |  @#EAFFD5:igh  |  @#F5FFE9:193.144.150.169  |  @#F5FFE9:9:03  |  @#F5FFE9:sshd: igh [priv]   |
+|  :::  |  @#EAFFD5:root  |  @#F5FFE9:193.144.150.169:  |  @#F5FFE9:0.00s  |  @#F5FFE9:/bin/bash  |
+|  :::  |  :::  |  @#F5FFE9:193.144.150.169:  |  @#F5FFE9:10:03  |  @#F5FFE9:/bin/bash  |
+
+</hidden>
+ 
+
+===== Nodos de Operacion =====
+ 
+|< 100% 6% 4% 5%>|
+|  @#DEE6FF:11:25:13  |  @#C9D6FF:Uptime  |  @#C9D6FF:monitor  |  @#C9D6FF:bios_log  |  @#C9D6FF:cpu  |  @#C9D6FF:df_space  |  @#C9D6FF:swap  |  @#C9D6FF:lsidisk  |  @#C9D6FF:network  |  @#C9D6FF:storage  |  @#C9D6FF:srv_status  |  @#C9D6FF:corosync  |  @#C9D6FF:HA_services  |  @#C9D6FF:heartbeat  |  @#C9D6FF:lustre  |  @#C9D6FF:munge  |  @#C9D6FF:collectd  |  @#C9D6FF:openibd  |  @#C9D6FF:crond  |  @#C9D6FF:ntpd  |  @#C9D6FF:vsftpd  |  @#C9D6FF:syslog-ng  |
+|  @#FA5858:nimbus0  |  @#EAFFD5:48d  |  @#EAFFD5:11:25:13  |  @#EAFFD5:  |  @#EAFFD5:  |  @#FAAC58:/var/lib/systemimager 81% /opt/intel 84%  |  @#EAFFD5:  |  @#EAFFD5:  |  @#EAFFD5:  |  @#EAFFD5:  |  @#EAFFD5:38  |  @#EAFFD5:  |  @#EAFFD5:  |    |  @#FA5858:lustre  |    |    |  @#EAFFD5:  |  @#EAFFD5:  |  @#EAFFD5:  |    |  @#EAFFD5:  |
+|  @#E28EFF:nimbus1  |  @#E28EFF:unknown  |
+|  @#F2F2F2:nimbus2  |  @#F2F2F2:off  |
+|  @#F2F2F2:nimbus3  |  @#F2F2F2:off  |
+|  @#F2F2F2:nimbus4  |  @#F2F2F2:off  |
+|  @#F2F2F2:nimbus5  |  @#F2F2F2:off  |
+|  @#F2F2F2:nimbus6  |  @#F2F2F2:off  |
+|  @#F2F2F2:nimbus7  |  @#F2F2F2:off  |
+|  @#F2F2F2:nimbus8  |  @#F2F2F2:off  |
+|  @#F2F2F2:nimbus9  |  @#F2F2F2:off  |
+ 
+
+===== Nodos de Computo - Aire ===== 
+
+ 
+
+|< 100% 6% 4% 5%>|
+|  @#DEE6FF:11:25:20  |  @#C9D6FF:Uptime  |  @#C9D6FF:monitor  |  @#C9D6FF:squeue  |  @#C9D6FF:bios_log  |  @#C9D6FF:cpu  |  @#C9D6FF:df_space  |  @#C9D6FF:swap  |  @#C9D6FF:lsidisk  |  @#C9D6FF:network  |  @#C9D6FF:slurm  |  @#C9D6FF:lustre  |  @#C9D6FF:munge  |  @#C9D6FF:collectd  |  @#C9D6FF:openibd  |  @#C9D6FF:ntpd  |  @#C9D6FF:syslog-ng  |
+|  @#F2F2F2:nimbus10  |  @#F2F2F2:off  |
+|  @#F2F2F2:nimbus11  |  @#F2F2F2:off  |
+|  @#F2F2F2:nimbus12  |  @#F2F2F2:off  |
+|  @#F2F2F2:nimbus13  |  @#F2F2F2:off  |
+ 
+<hidden Log de Estado initialState="visible">
+2015-03-30T11:26:20 <fc green>LAST EXEC OK</fc>
+2015-03-30T11:25:01 <fc green>UNLOCK</fc>
+</hidden>

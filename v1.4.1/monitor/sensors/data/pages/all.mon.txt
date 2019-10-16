@@ -1,0 +1,25 @@
+UP_test2;UP_nimbus10;2365;Forecast;pnl;UP_4;UP_29:13;UP_R;UP_
+UP_test2;UP_nimbus10;2365;Forecast;pnl;UP_4;UP_29:13;UP_R;UP_
+UP_test2;UP_nimbus10;2365;Forecast;pnl;UP_4;UP_29:13;UP_R;UP_
+UP_test2;UP_nimbus10;2365;Forecast;pnl;UP_4;UP_29:13;UP_R;UP_
+UP_test2;UP_nimbus10;2366;  Listen;pnl;UP_1;UP_29:12;UP_R;UP_
+UP_test2;UP_nimbus10;2367;Listen4M;pnl;UP_1;UP_29:11;UP_R;UP_
+UP_test2;UP_nimbus10;2398;Forecast;pnl;UP_4;UP_16:48;UP_R;UP_
+UP_test2;UP_nimbus10;2398;Forecast;pnl;UP_4;UP_16:48;UP_R;UP_
+UP_test2;UP_nimbus10;2398;Forecast;pnl;UP_4;UP_16:48;UP_R;UP_
+UP_test2;UP_nimbus10;2398;Forecast;pnl;UP_4;UP_16:48;UP_R;UP_
+UP_test2;UP_nimbus10;2399;  Listen;pnl;UP_1;UP_16:41;UP_R;UP_
+UP_test2;UP_nimbus10;2400;Listen4M;pnl;UP_1;UP_16:41;UP_R;UP_
+UP_test2;UP_nimbus10;2405;   gl_bd;pnl;UP_1;UP_15:18;UP_R;UP_
+UP_test2;UP_nimbus10;2406;   gl_bd;pnl;UP_1;UP_15:18;UP_R;UP_
+UP_test2;UP_nimbus10;2407;   gl_bd;pnl;UP_1;UP_15:17;UP_R;UP_
+UP_test2;UP_nimbus10;2408;   gl_bd;pnl;UP_1;UP_15:16;UP_R;UP_
+UP_test2;UP_nimbus10;2409;   gl_bd;pnl;UP_1;UP_15:15;UP_R;UP_
+UP_test2;UP_nimbus10;2410;   gl_bd;pnl;UP_1;UP_15:15;UP_R;UP_
+UP_test2;UP_nimbus10;2411;   gl_bd;pnl;UP_1;UP_15:14;UP_R;UP_
+UP_test2;UP_nimbus10;2412;   gl_bd;pnl;UP_1;UP_15:13;UP_R;UP_
+UP_test2;UP_nimbus10;2413;   gl_bd;pnl;UP_1;UP_15:13;UP_R;UP_
+UP_test2;UP_nimbus10;2414;   gl_bd;pnl;UP_1;UP_15:12;UP_R;UP_
+UP_test2;UP_nimbus10;2415;   gl_bd;pnl;UP_1;UP_15:11;UP_R;UP_
+UP_test2;UP_nimbus10;2416;   gl_bd;pnl;UP_1;UP_15:10;UP_R;UP_
+UP_test2;UP_nimbus10;2417;   gl_bd;pnl;UP_1;UP_15:10;UP_R;UP_

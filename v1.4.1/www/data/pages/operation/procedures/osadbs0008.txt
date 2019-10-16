@@ -1,0 +1,15 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Operating System - Administration : Verificación estado hyperthreading ** 
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo ^  Nodos  ^  Descripción             ^  Criticidad          ^  Implicación                                     ^
+|  Computo         |  Todos  | Comprobar el estado del hypertheading  |  BAJA  | Ninguna conocida  |
+
+
+===== Procedimiento =====
+
+  * Ejecutar el siguiente comando:<code>
+pdsh -w [NODO|RANGO NODOS] ht | dshback -c</code>

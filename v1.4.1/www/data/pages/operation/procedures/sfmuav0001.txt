@@ -1,0 +1,53 @@
+====== Service munge failure ======
+
+===== Datos Generales =====
+
+
+|< 50% >|
+^  Código      ^  Nombre Procedimiento   ^  Verificado   ^  Operativo    ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+|  SFMUAV0001  |  Service munge failure  |  @#FA5858:NO  |  @#EAFFD5:SI  |  28/07/2015      |  15/12/2015                 |  0.2      |
+
+
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción                                     ^  Criticidad          ^  Implicación  ^ 
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+
+  - Notificar la incidencia:
+
+==== Alcance ====
+
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION  ^  HORARIO EJECUCION           ^ 
+
+==== Ejecución ====
+
+  - Conectarse externamente a un nodo de gestión: [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+    - En caso de no poder conectarse: [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+  - Conectarse internamente al nodo afectado: [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+  - Comprobamos que el servicio esta funcionando: 
+    * [[:operation:procedures:OSDABS0003|OSDABS0003: Chequear servicio]]
+    - En caso negativo, reiniciar el servicio en el nodo objetivo
+      * [[:operation:procedures:OSDABS0002|OSDABS0002: Reiniciar servicio]]
+      - Verificar de nuevo el estado del servicio
+        * [[:operation:procedures:OSDABS0003|OSDABS0003: Chequear servicio]]
+        - En caso de seguir obteniendo un resultado negativo ejecutar el procedimiento de contencion:
+            * [[operation:procedures:HRBLAV0003|HRBLAV0003 : Contención de un nodo]]
+
+==== Notificación Final ====
+
+  - Notificar la incidencia:
+  - FINAL

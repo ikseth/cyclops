@@ -1,0 +1,12 @@
+====== Control de Cambios - weekv05102015 ======
+
+** Change **
+
+  - FUNCIONALIDADES:
+    - Se incorporan nuevas opciones en el script cyclops.sh para la gestion del envio de alertas por email y de activacion y desactivacion de sonido.
+  - TUNING:
+  - REPARACIÓN DE ERRORES:
+    - Se cambia en el script monitoring los parámetros para hacer la copia del fichero con la monitorizacion.
+    - Error en el monitoring.sh que detectaba desactivados los scripts de servicio.
+    - Reparado el plugin de Uptime para que detecte correctamente el valor 9999
+    - Reparado generación de datos "settings" en la auditoria de nodos

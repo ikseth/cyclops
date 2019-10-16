@@ -1,0 +1,9 @@
+====== Control de Cambios - weekv07092015 ======
+
+** Change **
+
+  - Finalización de los cambios gráficos en el interfaz web.
+  - Creacion de la IA para los dispositivos de entorno
+  - Creacion de plugin para monitorizar los "warnings/MARK" activos
+  - Arreglado sensor de cpu para mejorar su exactitud
+  - Añadidos los sonidos de control del plugin "full operative nodes"

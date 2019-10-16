@@ -1,0 +1,19 @@
+====== Control de Cambios - weekv03082015 ======
+
+** Change: **
+
+  - Mensaje campo uptime: Mon err.255, referente a monitorizacion cancelada por el script torquemada, cambiado el mensaje a Mon Timeout
+  - Añadido campo de estado de la monitorizacion.
+  - Creado comando cyclops:
+    - Modifica el estado administrativo de los nodos, permite probar los cambios antes, crea copia de seguridad del fichero.
+  - Se añaden plugings en el dashboard (funciones especiales) que muestran el tanto porciento de nodos operativos, nodos slurm activos y la carga total de CPU del sistema
+  - Se quita la hora/fecha de fabricacion de la pagina de monitorizacion.
+  - Se aumenta el tiempo de espera de la conexion ssh a los nodos para lanzar el script de monitorizacion de 6 segundos a 10 segundos.
+  - Creada version alfa del script sensors.envhard.mon.sh para la monitorizacion de dispositivos de entorno como switchs, electronica de energia, chassis, etc.
+  - Creado fichero de configuración para los colores:
+    - actualmente operativo en el script monitoring.sh
+    - aplicado en el nuevo script sensors.envhard.mon.sh
+
+** To Change: **
+
+  - Rule: Código asociado al sensor network

@@ -1,0 +1,11 @@
+
+<hidden Operacion: External Access User Activity>
+|< 100% >|
+|  @#F7D358:Node  |  @#F7D358:User  |  @#F7D358:IP  |  @#F7D358:Idle Time  |  @#F7D358:Activity  |
+|  @#EAFFD5:nimbus0  |  @#EAFFD5:emc  |  @#F5FFE9:172.24.9.28  |  @#F5FFE9:4days  |  @#F5FFE9:smap -i 5  |
+|  :::  |  :::  |  @#F5FFE9:193.144.150.33  |  @#F5FFE9:0.00s  |  @#F5FFE9:sshd: emc [priv]   |
+|  :::  |  @#EAFFD5:igh  |  @#F5FFE9:193.144.150.169  |  @#F5FFE9:9:03  |  @#F5FFE9:sshd: igh [priv]   |
+|  :::  |  @#EAFFD5:root  |  @#F5FFE9:193.144.150.169:  |  @#F5FFE9:0.00s  |  @#F5FFE9:/bin/bash  |
+|  :::  |  :::  |  @#F5FFE9:193.144.150.169:  |  @#F5FFE9:10:03  |  @#F5FFE9:/bin/bash  |
+
+</hidden>

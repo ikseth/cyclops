@@ -1,0 +1,47 @@
+===== Code Standard =====
+
+|< 100% >|
+^  L1: Family  ^  L2: System  ^  L3: Action  ^  L4: Procedure ID   ^  Description                                     ^
+|  SP          |  XX           |  XX             |  [0-9]{4}             | Special                                          |
+|  AD          |               |                 |                       | Administrative                                   |
+|  NT          |               |                 |                       | Network                                          |
+|              |  CS           |  BS/AV*         |  [0-9]{4}             | Network: Cisco                                   |
+|              |  IF           |  BS/AV*         |  [0-9]{4}             | Network: Infiniband                              |
+|              |  BC           |  BS/AV*         |  [0-9]{4}             | Network: Broadcom                                |
+|              |  AD           |  BS/AV*         |  [0-9]{4}             | Network: Management                              |
+|  HR          |               |                 |                       | Hardware                                         |
+|              |  ET           |  BS/AV*         |  [0-9]{4}             | Hardware: Ethernet                               |
+|              |  IB           |  BS/AV*         |  [0-9]{4}             | Hardware: Infiniband                             |
+|              |  HD           |  BS/AV*         |  [0-9]{4}             | Hardware: Hard Disk                              |
+|              |  CT           |  BS/AV*         |  [0-9]{4}             | Hardware: Controller                             |
+|              |  BL           |  BS/AV*         |  [0-9]{4}             | Hardware: Blade                                  |
+|              |  CP           |  BS/AV*         |  [0-9]{4}             | Hardware: CPU                                    |
+|              |  ME           |  BS/AV*         |  [0-9]{4}             | Hardware: Memory                                 |
+|              |  SW           |  BS/AV*         |  [0-9]{4}             | Hardware: Switch                                 |
+|              |  BI           |  BS/AV*         |  [0-9]{4}             | Hardware: BIOS                                   |
+|              |  PW           |  BS/AV*         |  [0-9]{4}             | Hardware: Power                                  |
+|              |  ST           |  BS/AV*         |  [0-9]{4}             | Hardware: Storage                                |
+|              |  BM           |  BS/AV*         |  [0-9]{4}             | Hardware: BMC/ILO                                |
+|  FS          |               |                 |                       | File System                                      |
+|              |  LU           |  BS/AV*         |  [0-9]{4}             | File System: Lustre                              |
+|              |  CM           |  BS/AV*         |  [0-9]{4}             | File System: Common (ext3,ext4,xfs...)           |
+|              |  NF           |  BS/AV*         |  [0-9]{4}             | File System: Network: NFS                        |
+|  OS          |               |                 |                       | Operating System                                 |
+|              |  DA           |  BS/AV*         |  [0-9]{4}             | Operating System: Daemon/Services                |
+|              |  AD           |  BS/AV*         |  [0-9]{4}             | Operating System: Administration                 |
+|              |  AU           |  BS/AV*         |  [0-9]{4}             | Operating System: Security: Authentication       |
+|  SF          |               |                 |                       | Software                                         |
+|              |  SL           |  BS/AV*         |  [0-9]{4}             | Slurm                                            |
+|              |  PM           |  BS/AV*         |  [0-9]{4}             | HA: Pacemaker                                    |
+|              |  HB           |  BS/AV*         |  [0-9]{4}             | HA: HeartBeat                                    |
+|              |  FT           |  BS/AV*         |  [0-9]{4}             | FTP                                              |
+|              |  MU           |  BS/AV*         |  [0-9]{4}             | Munge                                            |
+|              |  MY           |  BS/AV*         |  [0-9]{4}             | Mysql                                            |
+|              |  CY           |  BS/AV*         |  [0-9]{4}             | Cyclops                                          |
+|  DV          |               |                 |                       | Software Development                             |
+|              |  LM           |  BS/AV*         |  [0-9]{4}             | LMOD                                             |
+|              |  CP           |  BS/AV*         |  [0-9]{4}             | Compiling                                        |
+
+  * (*) Level 3rd is composed by Basic (BS) or Advanced (AV) Procedure
+    - Basic: Minimal Procedure, it contains steps to do a simple action.
+    - Advance: Compendium of items Basic or/and Advance necesary for make task, procedures and concrete actions.

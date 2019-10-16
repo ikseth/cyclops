@@ -1,0 +1,169 @@
+===== List procedures =====
+
+|< 100% >|
+^  Code  ^  Descripcion ^          |            |                                                  |             |             |
+|  AD    |              |          |            | Administrativo                                   |             |             |
+|  NT    |              |          |            | Red                                              |             |             |
+|        |  CS          |  BS/AV*  |  [0-9]  | Red: Cisco                                       |             |             |
+|        |              |          |            |                                                  | NTCSAV0001  | ?           |
+|        |  IF          |  BS/AV*  |  [0-9]  | Red: Infiniband                                  |             |             |
+|        |  BC          |  BS/AV*  |  [0-9]  | Red: Broadcom                                    |             |             |
+|  HR    |              |          |            | Hardware                                         |             |             |
+|        |  ET          |  BS/AV*  |  [0-9]  | Hardware: Ethernet                               |             |             |
+|        |  IB          |  BS/AV*  |  [0-9]  | Hardware: Infiniband                             |             |             |
+|        |  HD          |  BS/AV*  |  [0-9]  | Hardware: Disco Duro                             |             |             |
+|        |  CT          |  BS/AV*  |  [0-9]  | Hardware: Controladora                           |             |             |
+|        |  BL          |  BS/AV*  |  [0-9]  | Hardware: Blade                                  |             |             |
+|        |  CP          |  BS/AV*  |  [0-9]  | Hardware: CPU                                    |             | HRCPAV0001  |
+|        |  ME          |  BS/AV*  |  [0-9]  | Hardware: Memoria                                |             |             |
+|        |  SW          |  BS/AV*  |  [0-9]  | Hardware: Switch                                 |             |             |
+|        |  BI          |  BS/AV*  |  [0-9]  | Hardware: BIOS                                   | HRBIAV0001  |             |
+|        |  PW          |  BS/AV*  |  [0-9]  | Hardware: Alimentacion                           |             |             |
+|  FS    |              |          |            | Sistema de Ficheros                              |             |             |
+|        | LU           |          |            | Lustre Shutdown                                  | FSLUAV0001  |             |
+|        | LU           |          |            | Lustre MDT failure                               | FSLUAV0002  |             |
+|        | LU           |          |            | lustre OST failure                               | FSLUAV0003  |             |
+|        |              |          |            | Client lustre offline                            | FSLUAV0004  |             |
+|        |  CM          |  BS/AV*  |  [0-9]  | Sistema de Ficheros: Comunes (ext3,ext4,xfs...)  |             |             |
+|        |              |          |            |                                                  | fscmbs0001  |             |
+|        |  NF          |  BS/AV*  |  [0-9]  | Sistema de Ficheros: NFS                         |             |             |
+|  OS    |              |          |            | Sistema Operativo                                |             |             |
+|        |  DA          |  BS/AV*  |  [0-9]  | Daemon                                           |             |             |
+|  SF    |              |          |            | Aplicativo                                       |             |             |
+|        |  SL          |  BS/AV*  |  [0-9]  | Aplicativo: Slurm                                |             |             |
+|        |              |          |            |                                                  | SFHBAV0001  |             |
+|        |  CB          |  BS/AV*  |  [0-9]  | Aplicativo: ClusterDB                            |             |             |
+|        |              |          |            |                                                  |             |             |
+|        |  PM          |  BS/AV*  |  [0-9]  | Aplicativo: Pacemaker                            |             |             |
+|        |              |          |            |                                                  | SFPMAV0001  |             |
+|        |              |          |            |                                                  | SFPMAV0002  |             |
+|        |  HB          |  BS/AV*  |  [0-9]  | Aplicativo: HeartBeat                            |             |             |
+|        |              |          |            |                                                  | SFHBAV0001  |             |
+|        |  FT          |  BS/AV*  |  [0-9]  | Aplicativo: FTP                                  |             |             |
+|        |              |          |            |                                                  | SFFTAV0001  |             |
+|        |  MU          |  BS/AV*  |  BS/AV*    | Aplicativo: Munge                                |             |             |
+|        |              |          |            |                                                  | SFMUAV0001  |             |
+
+  * (*) El nivel 3 se compone de Basico (BS) o Avanzado (AV)
+    - Basico: Procedimiento minimo que contiene el o los pasos a seguir para realizar una accion.
+    - Avanzado: Conjunto de todos aquellos procedimientos básicos necesarios para afrontar una incidencia.
+
+
+====== Soporte: Procedimientos ======
+
+
+===== Especiales =====
+
+
+===== Administrativos =====
+
+
+   - [[operation:procedures:ADAE0001|ADAE0001: VPN]]
+
+===== Técnicos =====
+
+== Hardware ==
+- [[operation:procedures:hrblav0001|hrblav0001: Cambio de nodo]]
+== Network  ==
+== Hardware ==
+== File System  ==
+<hidden Lustre>
+<hidden Lustre : Básicos>
+       - [[operation:procedures:osrhbs0001|osrhbs0001: Chequeo Lustre]]
+       - [[operation:procedures:FSLUBS0002|FSLUBS0002:Estado Lustre]]
+       - [[operation:procedures:FSLUBS0003|FSLUBS0003:Start servicio Lustre]]
+       - [[operation:procedures:FSLUBS0004|FSLUBS0004:Reinicio Lustre]]
+       - [[operation:procedures:FSLUBS0005|FSLUBS0005:Montar Unidad]]
+       - [[operation:procedures:FSLUBS0006|FSLUBS0006:Start Servidores Lustre]]
+</hidden>
+<hidden Lustre : Avanzados>
+       - [[operation:procedures:FSLUAV0001|FSLUAV0001:Check Failure]]
+       - [[operation:procedures:FSLUAV0002|FSLUAV0002:Star Lustre]]
+       - [[operation:procedures:FSLUAV0003|FSLUAV0003:Problemas OST]]
+       - [[operation:procedures:FSLUAV0004|FSLUAV0004:Cliente lustre offline]]
+</hidden>
+</hidden>
+<hidden Comunes>
+<hidden Comunes:Básicos>
+      - [[operation:procedures:FSCMBS0001|FSCMBS0001:Espacio en disco]]
+</hidden>
+<hidden Comunes: Avanzados>
+</hidden>
+</hidden>
+== Operating System ==
+<hidden Daemon>
+<hidden Daemon : Básicos>
+       - [[operation:procedures:OSDABS0001|OSDABS0001: Daemon Status]]
+       - [[operation:procedures:OSDABS0003|OSDABS0003: Chequear servicio]]
+</hidden>
+<hidden Daemon : Avanzados>
+       - [[operation:procedures:OSDAAV0001|OSDAAV0001: Service ssh failure]]
+       - [[operation:procedures:OSDAAV0002|OSDAAV0002: Service http failure]]
+       - [[operation:procedures:OSDAAV0003|OSDAAV0003: Service cron failure]]
+       - [[operation:procedures:OSDAAV0004|OSDAAV0004: Service munge failure]]
+</hidden>
+</hidden>
+<hidden RedHat>
+<hidden RedHat : Básicos>
+       
+</hidden>
+<hidden RedHat : Avanzados>
+       - [[operation:procedures:OSRHAV0006|OSRHAV0006: Node not avalible]]
+</hidden>
+</hidden>
+== Software ==
+<hidden Slurm >
+<hidden Slurm : Básicos>
+       - [[operation:procedures:SFSLBS0001|SFSLBS0001: Chequeo Slurm]]
+       - [[operation:procedures:SFSLBS0002|SFSLBS0002: Start Slurm]]
+       - [[operation:procedures:SFSLBS0003|SFSLBS0003: Estado de Jobs]]
+
+</hidden>
+<hidden Slurm : Avanzados>
+</hidden>
+</hidden>
+<hidden Pacemaker>
+<hidden Pacemaker: Básicos>
+       - [[operation:procedures:SFPMBS0001|SFPMBS0001: Chequeo HA Pacemaker]]
+       - [[operation:procedures:SFPMBS0002|SFPMBS0002: Start HA Pacemaker]]
+       - [[operation:procedures:SFPMBS0003|SFPMBS0003: Reinicio HA Pacemaker]]
+       - [[operation:procedures:SFPMBS0004|SFPMBS0004: Start Servico HA de Pacemaker]]
+       - [[operation:procedures:SFPMBS0005|SFPMBS0005: Stop Pacemaker]]
+       - [[operation:procedures:SFPMBS0006|SFPMBS0006: Recolocar recursos en el nodo preferido]]
+       - [[operation:procedures:SFPMBS0007|SFPMBS0007: Limpiar errores de un recurso]]
+</hidden>
+<hidden Pacemaker: Avanzados>
+       - [[operation:procedures:SFPMAV0001|SFPMAV0001: Solución Balanceo Pacemaker]]
+       - [[operation:procedures:SFPMAV0002|SFPMAV0002: servicio is not running]]
+       - [[operation:procedures:SFPMAV0003|SFPMAV0003: Restofence[NODE]X is not running ]]
+ 
+</hidden>
+</hidden>
+<hidden Heartbeat>
+<hidden Heartbeat: Básicos>
+       - [[operation:procedures:SFHBBS0001|SFHBBS0001: Chequeo HA Heartbeat]]
+       - [[operation:procedures:SFHBBS0002|SFHBBS0002: Start Heartbeat]]
+       - [[operation:procedures:SFHBBS0003|SFHBBS0003: Stop Heartbeat]]
+</hidden>
+<hidden Heartbeat: Avanzados>
+       - [[operation:procedures:SFHBAV0001|SFHBAV0001: Heartbeat failure]]
+</hidden>
+</hidden>
+<hidden Munge>
+       - [[operation:procedures:SFMUBS0001|SFMUBS0001: Chequeo Munge]]
+       - [[operation:procedures:SFMUBS0002|SFMUBS0002:Start Munge]]
+       - [[operation:procedures:SFMUBS0003| SFMUBS003:Reinicio Munge]]
+</hidden>
+<hidden FTP>
+<hidden FTP: Básicos>
+       - [[operation:procedures:SFFTBS0001|SFFTBS0001: Chequeo FTP]]
+       - [[operation:procedures:SFFTBS0002|SFFTBS0002: Start FTP]]
+       - [[operation:procedures:SFFTBS0003|SFFTBS0003: Stop FTP]]
+ </hidden>
+<hidden FTP: Avanzados>
+       - [[operation:procedures:SFFTAV0001|SFFTAV0001:  FTP]]
+ </hidden>
+
+</hidden>
+
+

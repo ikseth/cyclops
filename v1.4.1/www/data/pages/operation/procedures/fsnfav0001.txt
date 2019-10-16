@@ -1,0 +1,53 @@
+====== NFS File System FAIL ======
+
+===== Datos Generales =====
+
+
+|< 50% >|
+^  Código       ^  Nombre Procedimiento   ^  Verificado    ^  Operativo    ^  Fecha Creación   ^  Fecha Ultima Modificación  ^  Versión  ^
+|  FSNFAV0001   |  NFS File System FAIL  |  @#FA5858:<fc white>NO</fc>   |   @#EAFFD5:SI  |  21/12/2015       |  18/09/2017                 |    0.1    | 
+
+
+  * ** <fc red> IMPORTANTE: </fc> INFORMACION DEL ENTORNO : ** {{popup>:documentation:cyclops:architecture?[keepOpen]|HPC Architecture and Risk Definitions}}
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 30% 10% 50%>|
+^  Grupo     ^  Nodos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación  ^
+|  login     |  {{popup>:documentation:cyclops:architecture?[keepOpen]|System}}                |  Nodos de Acceso de usuarios y ejecución del modelo meteorológico                        |  @#FA5858:<fc white>MUY ALTA</fc>            |  Parada del entorno productivo  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 30% 10% 50%>| 
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Todos           |  Todos aquellos vinculados al entorno productivo                 |  ALTA         |  Posibilidad de caída del entorno productivo  |
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+
+  - Notificar la incidencia:
+
+==== Alcance ====
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION                   ^  HORARIO EJECUCION                                                                     ^
+
+==== Ejecución ====
+
+  * ** Se ejecutan los siguientes pasos: **
+  - Conectarse externamente a un nodo de gestión: [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+    - En caso de no poder conectarse: [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+  - Conectarse internamente al nodo afectado: [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+  - Comprobar el entorno productivo: [[operation:procedures:SFCYAV0001|SFCYAV0001 : Comprobar Entorno Productivo]]
+    - En caso de que este operativo, contener el nodo afectado: [[operation:procedures:HRBLAV0003|HRBLAV0003 : Contención de un nodo]]
+
+==== Notificación Final ====
+
+  - Notificar la incidencia:
+  - FINAL
+
+

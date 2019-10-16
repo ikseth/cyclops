@@ -1,0 +1,56 @@
+====== Procedimientos Técnicos - Avanzados ======
+
+===== Datos Generales =====
+ 
+|< 50% >|
+^  Código      ^  Nombre Procedimiento  ^  Verificado                  ^  Operativo    ^  Fecha Creación  ^  Fecha Ultima Modificación  ^  Versión  ^
+|  HRBLAV0005  |  Contención de Nodo    |  @#EAFFD5:SI  |  @#EAFFD5:SI  |  24/11/2015      |  24/11/2015                 |  0.1      |
+
+  * ** <fc red> IMPORTANTE: </fc> INFORMACION DEL ENTORNO : ** {{popup>:documentation:cyclops:architecture?[keepOpen]|HPC Architecture and Risk Definitions}}
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 30% 10% 50%>| 
+^  Grupo              ^  Nodos                      ^  Descripción  ^  Criticidad                        ^  Implicación                                                                      ^
+
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 30% 10% 50%>| 
+^  Grupo    ^  Nodos                  ^  Descripción  ^  Criticidad                        ^  Implicación                                                                      ^
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+  * Procedimiento Dependiente //El procedimiento Padre es el responsable de la notificación//
+
+==== Alcance ====
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION                   ^  HORARIO EJECUCION                                                                     ^
+
+==== Ejecución ====
+
+  * ** Se ejecutan los siguientes pasos: **
+
+  - Desde el nodo de gestión:
+    - Comprobar el estado del nodo a través de cyclops: [[operation:procedures:SFCYBS0001|SFCYBS0001 : Monitorizar el estado de los Nodos]]
+      - En caso de obtenerse información sobre el nodo (información detallada del estado de los sensores configurados)
+        - ** FINALIZAR ESTA EJECUCIÓN CON ESTADO "CORRECTO"** , y continuar fuese necesario con las alertas aun existentes. 
+      - En caso de no obtenerse información sobre el nodo:
+        - Verificar la conexión vía SSH contra el nodo afectado ( Ejecutar la sección //"segunda conexión"// del siguiente procedimiento ): [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]] 
+          - En  caso de realizarse la conexión exitosamente:
+            - Comprobar el estado del nodo a través de cyclops: [[operation:procedures:SFCYBS0001|SFCYBS0001 : Monitorizar el estado de los Nodos]]
+              - En caso de obtenerse información sobre el nodo (información detallada del estado de los sensores configurados)
+                - ** FINALIZAR ESTA EJECUCIÓN CON ESTADO "CORRECTO"** , y continuar fuese necesario con las alertas aun existentes.
+              - En caso de NO obtenerse información:
+                - ** FINALIZAR ESTA EJECUCIÓN CON ESTADO "NO CORRECTO"** , y continuar fuese necesario con las alertas aun existentes.
+          - En caso de NO realizarse la conexión exitosamente:
+              - ** FINALIZAR ESTA EJECUCIÓN CON ESTADO "NO CORRECTO"** , y continuar fuese necesario con las alertas aun existentes.
+
+==== Notificación Final ====
+
+  * Procedimiento Dependiente //El procedimiento Padre es el responsable de la notificación//

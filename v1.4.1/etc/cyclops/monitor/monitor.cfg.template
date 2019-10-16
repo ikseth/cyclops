@@ -1,0 +1,6 @@
+#MON TYPE;INDEX;NAME;SCRIPT;MON GROUP;DESTINATION
+#SECURTIY
+SEC;1;user activity;sensors.users.mon.sh;;user_activity
+#SERVICES
+#HOSTS
+#ENVIRONMENT DEVICES

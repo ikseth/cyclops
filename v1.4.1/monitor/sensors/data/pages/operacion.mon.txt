@@ -1,0 +1,17 @@
+<html>
+<meta http-equiv="refresh" content="120">
+</html>
+===== Nodos operacion =====
+
+|< 100% 6% 4%>|
+|  @#DEE6FF:11:25:13  |  @#C9D6FF:Uptime  |  @#C9D6FF:monitor  |  @#C9D6FF:bios_log  |  @#C9D6FF:cpu  |  @#C9D6FF:df_space  |  @#C9D6FF:swap  |  @#C9D6FF:lsidisk  |  @#C9D6FF:network  |  @#C9D6FF:storage  |  @#C9D6FF:srv_status  |  @#C9D6FF:corosync  |  @#C9D6FF:HA_services  |  @#C9D6FF:heartbeat  |  @#C9D6FF:lustre  |  @#C9D6FF:munge  |  @#C9D6FF:collectd  |  @#C9D6FF:openibd  |  @#C9D6FF:crond  |  @#C9D6FF:ntpd  |  @#C9D6FF:vsftpd  |  @#C9D6FF:syslog-ng  |
+|  @#FA5858:nimbus0  |  @#EAFFD5:48d  |  @#EAFFD5:11:25:13  |  @#EAFFD5:  |  @#EAFFD5:  |  @#FAAC58:/var/lib/systemimager 81% /opt/intel 84%  |  @#EAFFD5:  |  @#EAFFD5:  |  @#EAFFD5:  |  @#EAFFD5:  |  @#EAFFD5:38  |  @#EAFFD5:  |  @#EAFFD5:  |    |  @#FA5858:lustre  |    |    |  @#EAFFD5:  |  @#EAFFD5:  |  @#EAFFD5:  |    |  @#EAFFD5:  |
+|  @#E28EFF:nimbus1  |  @#E28EFF:unknown  |
+|  @#F2F2F2:nimbus2  |  @#F2F2F2:off  |
+|  @#F2F2F2:nimbus3  |  @#F2F2F2:off  |
+|  @#F2F2F2:nimbus4  |  @#F2F2F2:off  |
+|  @#F2F2F2:nimbus5  |  @#F2F2F2:off  |
+|  @#F2F2F2:nimbus6  |  @#F2F2F2:off  |
+|  @#F2F2F2:nimbus7  |  @#F2F2F2:off  |
+|  @#F2F2F2:nimbus8  |  @#F2F2F2:off  |
+|  @#F2F2F2:nimbus9  |  @#F2F2F2:off  |

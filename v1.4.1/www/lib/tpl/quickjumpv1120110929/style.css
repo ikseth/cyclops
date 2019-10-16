@@ -1,0 +1,343 @@
+/* clearfix hack from Perishable Press (.com)
+ */
+.clearfix:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+	}
+.clearfix { display: inline-block; }
+	
+br.clear {
+ clear: both;
+}
+
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* stop commented backslash hack */
+
+body {
+	background-color: #FFF;
+	margin: 0px;
+}
+
+#top_header {
+	min-height: 50px;
+	margin: 0px;
+	padding	: 0px;
+	width: 100%;
+	background-color		: #e5e5e5;
+	border-bottom				: 2px solid #444;
+}
+
+#top_header > h1 {
+	font-family					: Georgia,Serif;
+	padding							: 20px 8px 8px 8px;
+	width								: 45%;
+	float								: left;
+}
+
+#top_header > h1 a {
+	color								: #000;
+	text-decoration			: none;
+}
+
+#top_header > h1 a:hover {
+	text-decoration			: underline;
+}
+
+#top_header > p#account_info {
+	float								: left;
+	display							: block;
+	width								: 50%;
+	margin-top					: 20px;
+	margin-bottom				: 0px;
+	text-align					: right;
+}
+
+#toc_area {
+	background-color: #444;
+	color: #FFF;
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	display: none;
+}
+
+#toc_area #toc_inner {
+	margin: 0;
+	padding: 8px 16px;
+}
+
+#toc_area .secedit2 {
+	display: block;
+	float: right;
+	margin: 0;
+	padding: 2px 5px !important;
+	background-color: #999;
+	text-align: center;
+	border-radius: 5px;
+	font-size: 0.8em;
+}
+
+#toc_area > p {
+	margin: 0px;
+}
+
+
+#toc_area a,
+#toc_area h1,
+#toc_area h2,
+#toc_area h3,
+#toc_area h4,
+#toc_area h5,
+#toc_area h6 {
+	color							: #FFF;
+	font-weight				: bold;
+}
+
+#toc_area h1 {
+	font-size: 1.3em;
+}
+
+#toc_area h2 {
+	font-size: 1.2em;
+}
+
+#toc_area h3 {
+	font-size: 1.1em;
+}
+
+#toc_area h4,
+#toc_area h5,
+#toc_area h6 {
+	font-size: 1.0em;
+}
+
+#toc_area div.secedit2 {
+	padding-top: 1.5em;
+}
+
+#toc_area a {
+	font-weight: normal;
+	text-decoration: none;
+}
+
+#toc_area a:hover {
+	text-decoration: underline;
+}
+
+#toc_area div.column {
+	float							: left;
+	min-height				: 100px;
+	width							: 20%;
+	margin						: 2px 2%;
+}
+
+#toc_toggle {
+	margin						: 0px;
+	padding						: 0px;
+}
+
+#toc_toggle > a {
+	margin: 0px;
+	margin-left: 80%;
+	border: 1px solid #444;
+	color : #FFF;
+	text-decoration	: none;
+	background-color : #444;
+	border-top : none;
+	display : inline-block;
+	padding	: 2px 5px;
+	border-radius: 0 0 8px 8px;
+}
+
+#main_pane {
+	margin						: 20px auto;
+	width							: 90%;
+}
+
+#main_pane > #main_pane_header {
+	width							: 98%;
+	padding-bottom		: 6px;
+	border-bottom			: 1px solid #E4E4E4;
+}
+
+#main_pane > #main_pane_header form#search {
+	display: block;
+	float: right;
+}
+
+#main_pane > #main_pane_header form#search input {
+	float: none;
+}
+
+#main_pane > #main_pane_header form#search input[type=submit] {
+	padding: 0;
+	margin: 1px;
+	font-size: 1.5em;
+	background-color: #E5E5E5;
+	border-radius: 20px;
+}
+
+#main_pane > #main_pane_header form#search input[type=submit]:active {
+	color: #FFF;
+	background-color: #111;
+}
+
+#main_pane > #main_pane_header input#navSearch {
+	color: #999;
+}
+
+#main_pane > #main_pane_header input.button,
+#main_pane > #main_pane_header button.button {
+	background-color	: transparent;
+	border						: none;
+	padding						: 1px;
+	display						: inline;
+}
+
+#main_pane > p#main_pane_breadcrumbs {
+	margin						: 4px 5px 20px 4px;
+}
+
+#footer {
+	color: #444;
+	margin						: 20px auto;
+	width							: 90%;
+	border-top				: 1px solid #E4E4E4;
+	padding-top				: 20px;
+	text-align				: center;
+}
+
+
+#footer ul > li {
+	display						: inline-block;
+	margin-right			: 15px;
+}
+
+#content { margin: 0px; }
+
+#content .page { padding: 30px 30px 30px 20px; }
+
+
+/* ------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------------- */s
+
+#content .page,
+#content .page * { font-family:Verdana,sans-serif; line-height: 150%; }
+
+#content .page h1,
+#content .page h2,
+#content .page h3,
+#content .page h4,
+#content .page h5 { font-family: Georgia, serif;
+                    font-weight: normal;
+                    line-height: 1.1em; }
+
+#content .page h1 { font-size: 2.0em; border-bottom: 1px solid #000; font-family: Georgia, serif; }
+#content .page h2 { font-size: 1.7em; border-bottom: 1px dashed #808080; margin-top: 40px; }
+#content .page h3 { font-size: 1.5em; border-bottom: 1px dotted #DEDEDE; margin-top: 30px; }
+#content .page h4 { font-family: Verdana, sans-serif; font-size: 1.2em; font-weight: bold; }
+#content .page h5 { font-size: 1.1em; font-weight: bold; }
+
+#content .page h1 a,
+#content .page h2 a,
+#content .page h3 a,
+#content .page h4 a,
+#content .page h5 a { color: inherit;
+                      text-decoration: inherit;
+                      font-family: inherit; }
+
+
+#content .page .clearer { clear: right; }
+
+#content .page .success { border: 1px solid green; }
+
+#content .page li { margin-top: 6px; margin-bottom: 6px; margin-left: 15px; }
+
+#content .page hr { clear: right; }
+
+#content .page pre { font-family: "Courier New", "Courier New", Courier, monospace; border: 1px dashed  blue; padding: 2px; }
+#content .page pre.code { /*overflow: scroll;*/ background-color: #FFF; overflow: auto; }
+
+#content .page a.wikilink2 { color: red; text-decoration: none; border-bottom: 1px dashed red; }
+
+#content .page .secedit { float: right; font-size: 0.8em; }
+#content .page .secedit .button { padding: 2px; }
+
+#content .page div.toc { display: block; float: right; background-color: #FFF; margin: 5px; padding: 4px; border: 2px solid #F1F1F1; }
+
+#content .page div.toc #toc__inside ul { font-size: 0.9em; margin-left: 4px; }
+#content .page div.toc #toc__inside ul li { text-align: left; float: none; display: list-item; }
+
+#content .page #draft__status { width: 100%; margin: 15px 0px; font-weight: bold; color: #42A90F; }
+#content .page #tool__bar .toolbutton { margin: 1px; padding: 3px; }
+#content .page #dw__editform #wiki__text { width: 99%; float: left; background-color: #F5F5F5; font-family: "Courier New", "Courier New", Courier, monospace; }
+
+#content .page #dw__editform #size__ctl img { cursor: pointer; margin-right: 8px; }
+
+#content .page #dw__editform .license {
+	display: block;
+	clear: both;
+	color: #333;
+	font-style: italic;
+	margin-top: 20px;
+}
+
+#content .page #dw__editform .license a {
+	color: #333;
+}
+
+#content .page #dw__login fieldset { border: none; }
+#content .page #dw__login legend { display: none; }
+#content .page #dw__login label { display: block; padding: 10px; font-size: 1.4em; }
+#content .page #dw__login input.edit { font-size: 1.2em; border: 2px solid #000; }
+#content .page #dw__login input.button { float: right; }
+
+#content .page #dw__register fieldset { border: none; }
+#content .page #dw__register fieldset * { text-align: right; }
+#content .page #dw__register legend { display: none; }
+#content .page #dw__register label { display: block; padding: 4px; font-size: 1.4em; }
+#content .page #dw__register input.edit { font-size: 1.2em; border: 2px solid #000; text-align: left; }
+#content .page #dw__register input.button { float: right; }
+
+#content .page div#wiki__editbar {
+	clear: both;
+}
+
+#content .page ol li { margin-top: 20px;
+                       margin-bottom: 20px; }
+
+#content .page ol li ul li { margin-top: 6px;
+                            margin-bottom: 6px; }
+
+#content .page ol li ol li { margin-top: 6px;
+                             margin-bottom: 6px;
+                             list-style-type: lower-roman; }
+
+#content .page ul li ol li { margin-top: 6px;
+                             margin-bottom: 6px; }
+
+
+#content .page ol li ol li ol li { list-style-type: lower-alpha; }
+
+#content .page h1 a#preview { font-size: 1.1em;
+                            font-weight: bold;
+                            text-align: center; }
+
+#content .page div.preview { background-color: #FAFAFA;
+                             margin-top: 30px;
+                             padding: 10px;
+                             border: 2px inset #F1F1F1; }
+
+
+#content .page table td.diff-blockheader { padding-top: 30px; border-bottom: 2px solid #000; font-weight: bold; }
+#content .page table td.diff-deletedline { background-color: #FFDDDD; }
+#content .page table td.diff-addedline { background-color: #DDFFDD; }
+
+#content #config__manager .outkey { font-size: 0.8em; }

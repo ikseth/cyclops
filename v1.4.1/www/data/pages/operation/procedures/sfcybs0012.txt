@@ -1,0 +1,15 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Cyclops - Tools : despliegue de configuraciones (kconf) **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo ^  Nodos  ^  Descripción             ^  Criticidad          ^  Implicación                                     ^
+|  Todos         |  Todos  | Desplegar las configuraciones requeridas en un nuevo nodo  |  ALTA  | La herramienta esta en versión BETA, no es capaz de validar un parámetro no correcto, puede dejar fuera nodos operativos.  |
+
+
+===== Procedimiento =====
+
+  * Ejecutar el siguiente comando: <code>
+/opt/cyclops/tools/preops/node.deploy.sh [NODO|RANGO NODOS]</code>

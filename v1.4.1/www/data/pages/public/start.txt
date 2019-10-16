@@ -1,0 +1,21 @@
+
+\\
+\\
+{{ :public:maincyclopstitle.png?450&nolink }}                                                                                                                                                                                                                                
+
+|< 100% >|                                                                                                                                                                                                                                                                             
+|  <html>
+<marquee behavior="scroll" direction="left">No new messages</marquee>
+</html>  |
+
+
+|< 100% 34% 33% 33% 33% >|                                                                                                                                                                                                                                                    
+|  ** Company Link or logo **             |  {{ :public:publicaccess.png?100&nolink |  }}                                                                                            ||                                                                   
+|  @#7a8c5a:                                                                                                                                                                                           |||                                                                   
+|  [[:public:users:start|{{ :public:userarea.png?200 | }}]]  |  [[:public:cluster:start|{{ :public:clusterstatus.png?200 }}]]  |  [[:public:users:statistics:start|{{ :public:statistics.png?200 | }}]]  |                                                                   
+|  @#7a8c5a:                                                                                                                                                                                           |||                                                                   
+
+|< 100% >|                                                                                                                                                                                                                                                                   
+|  {{ :public:docs.png?100&nolink | }}              |                                                                                                                                                                                                                        
+|  @#7a8c5a:                                        |                                                                                                                                                                                                                        
+|  {{ :public:publicaccess.png?100&nolink |  }}     |

@@ -1,0 +1,15 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Cyclops : Purga de la cache del interfaz web (dokuwiki) **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo ^  Nodos  ^  Descripción             ^  Criticidad          ^  Implicación                                     ^
+|  cyclops  |  NODOS MONITORIZACION |  Eliminación de la cache del interfaz web  |  ALTA  | En ocasiones no se actualizan paginas y enlaces, este procedimiento lo soluciona  |
+
+
+===== Procedimiento =====
+
+  * Ejecutar el siguiente comando: <code>
+touch /opt/cyclops/www/data/cache</code>

@@ -1,0 +1,37 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - Cyclops : Comprobar si existen procesos zombie **  
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo         ^  Nodos            ^  Descripción                                              ^  Criticidad  ^  Implicación  ^
+|  Todos         |  Todos            |                                                           |  @#EAFFD5: BAJA            |               |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >| 
+^  Grupo         ^  Nodos            ^  Descripción                                              ^  Criticidad      ^  Implicación  ^ 
+|  Ninguno       |  Ninguno          |                                                           |  @#EAFFD5: BAJA  |  Ninguna conocida  |
+
+===== Procedimiento =====
+
+  - Ejecutar el comando siguiente sobre el nodo o nodos requeridos:<code>
+/opt/cyclops/tools/approved/zombie.restore.sh -v human -t zombie -n [nodo|rango nodos]
+</code>
+
+<hidden Ejemplo Salida positiva>
+<code>
+./zombie.restore.sh -v human -t zombie -n nodo0
+date        time   hostname  user  ppid  pid    status  process    kill status
+07-10-2015  10:15  nodo0   root  2617  2618   Z       <defunct>  NO ACTION REQUIRED
+07-10-2015  10:15  nodo0   root  2617  25413  Z       <defunct>  NO ACTION REQUIRED
+</code>
+</hidden> 
+
+<hidden Ejemplo Salida negativa>
+<code>
+./zombie.restore.sh -v human -t zombie -n nodo5201
+NO zombie DETECTED IN nodo5201
+</code>
+</hidden>

@@ -1,0 +1,98 @@
+/** @file     progrecss/style.css
+ *  @brief    Default stylesheets for progrecss plugin
+ *  @author   Luis Machuca Bezzaza <luis [dot] machuca [at] gulix [dot] cl>
+ *  @version  1.8
+ *  @license  GPL v2
+ */
+ 
+/** This file provides three (3) default styles for the "progrecss"
+ *  (CSS-based progress bars) plugin for Dokuwiki.
+ */
+ 
+
+.progrecss_default {
+	display: inline-block; 
+}
+
+.progrecss_default .border {
+    display: inline-block;
+    border: 2px dotted gray;
+}
+
+
+.progrecss_default .border .bar {
+    display: inline-block;
+    background-color: #dddddd;
+    padding: 0 1em;
+    color: __existing__ !important;
+}
+
+.progrecss_default .caption {
+	display: inline-block;
+	font-family: Helvetica, Arial;
+	font-size: 75%;
+	text-align: center;
+	color: gray;
+	}
+
+
+.progrecss_gauge {
+    display: inline-block;
+    }
+
+.progrecss_gauge .border {
+    display: inline-block;
+    height: 80%;
+    font-size: 80%;
+    padding: 0;
+    border: 1px solid __text_alt__;
+    box-shadow: 2px 2px 2px __text_neu__ !important;
+    }
+
+.progrecss_gauge .border .bar {
+    display: inline-block;
+    padding: 0;
+    padding-right: 5px;
+    border: 1px solid __text_neu__ !important;
+    border-right: 4px solid __text_neu__ !important;
+    border-top-right-radius: 6px / 0.5em !important;
+    border-bottom-right-radius: 6px / 0.5em !important;
+    color: gray;
+    font-size: 75%;
+}
+
+
+.progrecss_inline {
+  position: relative;
+  display: inline-block;
+  line-height: 1.4em;
+  }
+
+.progrecss_inline .border {
+  display: inline-block;
+  height: 0.3em;
+  margin-bottom: 0;
+  background-color: __missing__;
+  border: 1px solid __missing__;
+  border-radius: 2px;
+  }
+ 
+.progrecss_inline .border .bar {
+  display: inline-block;
+  height: 0.1em;
+  background-color: __existing__;
+  text-align: center;
+  vertical-align: top;
+  font-size: 50%;
+  color: gray;
+  }
+
+.progrecss_inline .caption {
+  display: block;
+  height: 1em;
+  color: gray;
+  font-size: 70%;
+  vertical-align: baseline;
+  }
+
+

@@ -1,0 +1,22 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Hardware - Infiniband : Actualizar firmware - metodo clusterdb **  
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo     ^  Dispositivos                      ^  Descripción                                                                             ^  Criticidad          ^  Implicación  ^
+|  Todos     |  Interfaz IB                      |   Actualizacion de Tarjetas de red                                 |  @#EAFFD5: BAJA      |  Puede requerirse método manual si falla este  |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Todos         |  Depende         |                                                                  |  @#EAFFD5: BAJA       |  Perdida de conectividad  |
+
+===== Procedimiento =====
+
+  * Ejecutar el siguiente comando:<code>
+ibms_fw upgrade --equipment [NOMBRE NODO|RANGO DE NODOS]</code>
+
+  * ** <fc red> NOTA: </fc> ** Si se usa cyclops, poner el nodo en estado unlink para tener desmotado todos los servicios que usan infiniband.

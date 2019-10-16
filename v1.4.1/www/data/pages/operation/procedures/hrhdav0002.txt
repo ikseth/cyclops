@@ -1,0 +1,60 @@
+====== Smart Disk Alert ======
+
+===== Datos Generales =====
+
+ 
+|< 50% >|
+^  Código       ^  Nombre Procedimiento  ^  Verificado    ^  Operativo    ^  Fecha Creación   ^  Fecha Ultima Modificación  ^  Versión  ^
+|  HRHDAV0002   |  Smart Disk Alert  |  @#FA5858:NO   |  @#EAFFD5: SI  |  17/09/2015       |  03/11/2015                 |    0.2    | 
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo         ^  Nodos                    ^  Descripción         ^  Criticidad            ^  Implicación                                                 ^
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^ 
+|  Ninguno       |  Ninguno          |                                                                  |  @#EAFFD5: BAJA       |  Ninguno conocido  |
+
+===== Procedimiento =====
+
+==== Notificación Inicial ====
+
+  - Notificar la incidencia:
+
+==== Alcance ====
+
+  * ** Este procedimiento solo se ejecutara por los siguientes actores en las siguientes circunstancias: **
+
+|< 50% >|
+^  ACTOR          ^  EJECUCION  ^  HORARIO EJECUCION           ^ 
+
+<box orange>Antes de la ejecución de este procedimiento hay que verificar el correcto funcionamiento del "espejo" del nodo afectado</box> 
+
+==== Ejecución ====
+
+  * ** Se ejecutan los siguientes pasos: **
+  - Obtener los números de serie utilizando la sección de auditoria del interfaz web:<code>Pantalla principal > Audit > Host List Information</code>
+      * Nodo afectado
+      * Disco Dañado
+  - Conectarse externamente a un nodo de gestión: [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+    - En caso de no poder conectarse: [[operation:procedures:SPXXXX0004|SPXXXX0004 : Perdida de Conexión con la monitorización]]
+  - Conectarse internamente al nodo afectado: [[operation:procedures:SPXXXX0002|SPXXXX0002 : Conexión SSH al Sistema]]
+<hidden En caso de ser un nodo de servicio/operación>
+    - Verificar el estado de su nodo //espejo// [[operation:procedures:SFCYBS0001|SFCYBS0001 : Monitorizar el estado de los Nodos]]
+      - En caso de que este operativo:
+        - Realizar un apagado ** soft ** del nodo afectado: [[operation:procedures:HRBLBS0003|HRBLBS0003 : Apagado Nodo]]
+        - Poner el nodo en la monitorización en modo "repair" [[operation:procedures:SFCYBS0002|SFCYBS0002 : Cambiar el estado de los Nodos en Cyclops]]
+      - En caso de que no lo este:
+        - Referirse a los procedimientos asociados a las alertas del nodo espejo y una vez solucionados volver a realizar este procedimiento
+</hidden>
+<hidden En caso de ser un nodo de computo>
+    - Poner el nodo en la monitorización en modo "repair" [[operation:procedures:SFCYBS0002|SFCYBS0002 : Cambiar el estado de los Nodos en Cyclops]]
+    - Apagar el nodo de manera ** soft ** [[operation:procedures:HRBLBS0003|HRBLBS0003 : Apagado Nodo]]
+</hidden>
+==== Notificación Final ====
+
+  - Notificar la incidencia:
+  - FINAL

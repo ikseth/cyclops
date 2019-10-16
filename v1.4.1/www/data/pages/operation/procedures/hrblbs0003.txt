@@ -1,0 +1,45 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Hardware - Nodes : Apagado Nodo **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >|  
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^
+|  Gestión       |  nodo[0-1]     |  Permiten la administración del servicio                         |  @#FA5858: MUY ALTA    |Puede llegar a generar un parón total del sistema y la producción  |
+|  Login         |  nodo[2-3]     |  Acceso de los usuarios al sistema productivo                    |  @#FFFF00: MEDIA       |Puede dejar sin acceso a los usuarios    |
+|  Lustre        |  nodo[4-5]     |  Servidores de Lustre (sistema de ficheros)                      |  @#FA5858: MUY ALTA    |Puede llegar a generar un parón de la producción  |
+|  Computo/Aire  |  nodo[10-13]   |  Uso del servicio por el sistema productivo                      |  @#FAAC58: ALTA        |Merma en el rendimiento productivo  |
+|  Computo/Agua  |  nodo[0-9]{4}  |  Uso del servicio por el sistema productivo                      |  @#FAAC58: ALTA        |Merma en el rendimiento productivo  |
+
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción            ^  Criticidad          ^  Implicación  ^ 
+|  Todos        |  Todos           |                         |  @#FA5858: MUY ALTA  |El apagado de un nodo puede implicar la caida completa del sistema productivo  |
+
+===== Procedimiento =====
+
+  * Se ejecuta el siguiente comando desde los nodos de gestión:
+
+  * ** OPCION A: ** Apagado Soft desde el sistema operativo<code>
+ssh nodo[numero identificador] halt -p
+</code>
+
+  * ** OPCION B: ** Apagado Soft - Envio de señal ACPI al sistema operativo para su apagado<code>
+clmctrl poweroff [nombre de nodo|rango de nodos]
+</code>
+
+  * ** OPCION C: ** Apagado Hard - Apagado Hardware, desconexión energética<code>
+clmctrl hardpoweroff [nombre de nodos|rango de nodos]
+</code>
+
+** <fc red>NOTA:</fc> **
+  * ** El apagado hardware (OPCION C)** puede implicar la perdida de datos e incluso el daño en componentes hardware.
+  * ** Realizar solo en casos que no funcione la OPCION A ó B **
+  * ** <fc red> IMPORTANTE: </fc> ** Si se requiere el apagado de un blade, hay que apagar a parte del nodo afectado el nodo espejo, para su calculo referirse a [[:documentation:operation:terminology:mirrornode|Nodo espejo]]
+
+** <fc orange>NOTA:</fc> **
+  * Se puede confirmar el estado durante el apagado y/o arranque en el procedimiento:
+    * [[:operation:procedures:OSADBS0001| OSADBS0001 : Conexión Remota a Consola Nodo]]

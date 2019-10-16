@@ -1,0 +1,30 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - ClusterDB : Extract Host **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo Lustre  ^  Nodos  ^  Descripción             ^  Criticidad          ^  Implicación                                     ^
+|  Todos         |  Todos  | Mapping hostnames - IPs  |  @#FA5858: MUY ALTA  | El sistema necesita la asignación de host a IPs  |
+
+
+===== Procedimiento =====
+
+  * Este procedimiento es necesario ejecutarlo desde:
+    * Los nodos de gestión MANAGEMENT NODES
+
+  * Los pasos a seguir son:
+
+  - Se establece una conexión ssh contra cualquiera de los nodos de gestión
+  - Accedemos al directorio que contiene el scripts:<code>
+cd /usr/lib/clustmngt/clusterdb/bin/
+</code>
+   - Ejecutamos el script :<code>
+./extractHosts
+</code>
+   -Copiamos nueva configuración al resto de nodos:<code>
+pdcp -w node[RANGE] /etc/hosts /etc/hosts
+</code>
+   
+

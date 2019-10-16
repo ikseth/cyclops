@@ -1,0 +1,4 @@
+#### SERVICE SLURM JOB MONITOR CFG FILE ####
+_slurm_cluster_name="MAIN"  ## CYC MONITOR SLURM BANNER ##
+_ctl_main_node=""  ## MAIN NODE (SLURM HA CONFIG) ##
+_ctl_bkp_node=""   ## BKP NODE ( SLURM HA CONFIG) ##

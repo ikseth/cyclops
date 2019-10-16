@@ -1,0 +1,24 @@
+====== Specifications ======
+
+===== 1.4.1 Version [RAZOR]  =====
+
+==== Compatibility ====
+
+|< 100% >|
+^  Operating System   ^  Certificated  |  Redhat/Centos 6 & 7                                                             ||
+| :::                  | :::          |  Opensuse 12/13                                                                   ||
+| :::                  | :::          |  SLES 11/12                                                                       ||
+| :::                  ^  Compatible  |  Debian/Ubuntu                         |  Cyclops Server, and base sensors compatible  |
+| :::                  | :::          |  SLES 9                                |  Only Client base sensors compatible          |
+|                      |              |                                                                                   ||
+^  FileSystem          ^  Compatible  |  Linux Base ( ext2,3,4 )                                                          ||
+| :::                  | :::          |  Lustre                                |  Opensource and Bull Suit SCS4 (shine compatible)   |
+| :::                  | :::          |  DRBD                                                                             ||
+|                      |              |                                                                                   ||
+^  Hardware            ^  Compatible  ^  Server Control                    |  ipmitool compatible                      |
+| :::                  | :::          ^  Hard Disk                          |  smart & lsi (MegaCli64 compatible)       |
+| :::                  | :::          ^  Environment Devices         |  ipmitool compatible                      |
+|                      |              |                                                                                   ||
+^  Networking  ^  Compatible  |  None ( Indirect Status Monitoring )                                             ||
+|                      |              |                                                                                   ||
+^  Software            ^  Compatible  |  Slurm 2.6/14.x                                                                   ||

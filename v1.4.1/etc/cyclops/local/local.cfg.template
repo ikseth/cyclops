@@ -1,0 +1,12 @@
+#### LOCAL CYCLOPS CONFIG FILE
+
+_cyc_local_etc_path="/etc/cyclops/local"			## LOCAL CYCLOPS CONF PATH
+
+_cyc_local_base_path="/opt/cyclops/local"			## LOCAL CYCLOPS BASE PATH
+_cyc_local_scrp_path=$_cyc_local_base_path"/scripts"		## LOCAL SCRIPTS CYCLOPS PATH
+_cyc_local_tool_path=$_cyc_local_base_path"/tool"		## LOCAL TOOLS CYCLOPS PATH
+_cyc_local_log_path=$_cyc_local_base_path"/log"			## LOCAL LOG CYCLOPS PATH
+_cyc_local_temp_path=$_cyc_local_base_path"/temp"		## LOCAL TEMP CYCLOPS PATH
+_cyc_local_lock_path=$_cyc_local_base_path"/lock"		## LOCAL LOCK CYCLOPS PATH
+
+

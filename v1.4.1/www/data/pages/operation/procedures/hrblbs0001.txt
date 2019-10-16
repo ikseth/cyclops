@@ -1,0 +1,31 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Hardware - Nodes : Encendido [NODE] **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >|  
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad  ^  Implicación  ^
+|  Gestión       |  MANAGEMENT NODES     |  Permiten la administración del servicio                         |  @#FA5858: MUY ALTA    |Puede llegar a generar un parón total del sistema y la producción  |
+|  Login         |  LOGIN NODES (CRITICAL)     |  Acceso de los usuarios al sistema productivo                    |  @#FFFF00: MEDIA       |Puede dejar sin acceso a los usuarios    |
+|  Lustre        |  LOGIN NODES     |  Servidores de Lustre (sistema de ficheros)                      |  @#FA5858: MUY ALTA    |Puede llegar a generar un parón de la producción  |
+|  Computo/Aire  |  node[RANGE]   |  Uso del servicio por el sistema productivo                      |  @#FAAC58: ALTA        |Merma en el rendimiento productivo  |
+|  Computo/Agua  |  node[RANGE]  |  Uso del servicio por el sistema productivo                      |  @#FAAC58: ALTA        |Merma en el rendimiento productivo  |
+
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad  ^  Implicacion  ^ 
+|  Todos       |  Todos            |                                                           |             |               |
+
+===== Procedimiento =====
+
+  * Se ejecuta el siguiente comando desde los nodos de gestión:
+  - Encendemos el nodo con el siguiente comando desde [NODE] de gestión activo: <code>
+[root@[MANAGEMENT NODES] ~]# clmctrl poweron node[RANGE]
+</code>
+
+** NOTA: **
+  * Se puede confirmar el estado durante el pagado y/o arranque en el procedimiento:
+    * [[:operation:procedures:OSADBS0001| OSADBS0001 : Conexion Remota a Consola Nodo]]

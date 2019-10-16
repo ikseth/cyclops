@@ -1,0 +1,6 @@
+ 
+<hidden Operacion: Slurm Job Activity>
+|< 100% >|
+|  @#F7D358:Partition  |  @#F7D358:Job ID  |  @#F7D358:Node  |  @#F7D358:Name  |  @#F7D358:User  |  @#F7D358:Nodes  |  @#F7D358:Time  |  @#F7D358:State  |  @#F7D358:Reason  |
+
+</hidden>

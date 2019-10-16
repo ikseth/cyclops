@@ -1,0 +1,19 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Software - LMOD : Cargar modulo **  
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+^  Grupo  ^  Nodos        ^  Descripción                                               ^  Criticidad  ^  Implicación   ^
+|  Login  |  nodo[2-5]  |  Descargar modulo LMOD  |  Ninguna     |  Ninguna       |
+
+  * ** <fc red> IMPORTANTE: </fc> INFORMACION DEL ENTORNO : ** {{popup>:documentation:cyclops:architecture?[keepOpen]|HPC Architecture and Risk Definitions}}
+
+===== Procedimiento =====
+
+  - Para descargar un solo modulo:
+    * Se ejecuta el siguiente comando:<code>
+module load [modulo cargado]
+</code>
+

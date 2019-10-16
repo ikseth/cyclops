@@ -1,0 +1,19 @@
+<html>
+<meta http-equiv="refresh" content="120">
+</html>
+|< 80em 6% 4%>|
+| |   @#A9D9FF:Uptime  |  @#A9D9FF:cpu  |  @#A9D9FF:network  |  @#A9D9FF:corosync  |  @#A9D9FF:HA_services  |  @#A9D9FF:heartbeat  |  @#A9D9FF:slurm  |  @#A9D9FF:lustre  |  @#A9D9FF:munge  |  @#A9D9FF:collectd  |  @#A9D9FF:openibd  |  @#A9D9FF:snmptrapd  |  @#A9D9FF:ntpd  |  @#A9D9FF:vsftpd  |  @#A9D9FF:syslog-ng  |
+|  @#A9DAFF:nimbus0  |  7d  |  @#5FB404:6%  |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |    |    |  @#5FB404:mount  |    |    |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |    |  @#A5DF00:  |
+|  @#A9DAFF:nimbus1  |  5d  |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |    |    |  @#5FB404:mount  |    |    |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |    |  @#A5DF00:  |
+|  @#A9DAFF:nimbus2  |  7d  |  @#A5DF00:  |  @#A5DF00:  |    |    |  @#A5DF00:  |    |  @#5FB404:mount  |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |    |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |
+|  @#A9DAFF:nimbus3  |  8d  |  @#A5DF00:  |  @#A5DF00:  |    |    |  @#A5DF00:  |    |  @#5FB404:mount  |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |    |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |
+|  @#A9DAFF:nimbus4  |  0d  |  @#A5DF00:  |  @#A5DF00:  |    |    |  @#A5DF00:  |    |  @#5FB404:mount  |    |  @#A5DF00:  |  @#A5DF00:  |    |  @#A5DF00:  |    |  @#A5DF00:  |
+|  @#A9DAFF:nimbus5  |  6d  |  @#A5DF00:  |  @#A5DF00:  |    |    |  @#A5DF00:  |    |  @#5FB404:mount  |    |  @#A5DF00:  |  @#A5DF00:  |    |  @#A5DF00:  |    |  @#A5DF00:  |
+|  @#A9DAFF:nimbus6  |  7d  |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |    |    |  @#A5DF00:  |    |  @#A5DF00:  |  @#A5DF00:  |    |  @#A5DF00:  |    |  @#A5DF00:  |
+|  @#A9DAFF:nimbus7  |  7d  |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |    |    |  @#A5DF00:  |    |  @#A5DF00:  |  @#A5DF00:  |    |  @#A5DF00:  |    |  @#A5DF00:  |
+|  @#A9DAFF:nimbus8  |  7d  |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |    |    |  @#A5DF00:  |    |  @#A5DF00:  |  @#A5DF00:  |    |  @#A5DF00:  |    |  @#A5DF00:  |
+|  @#A9DAFF:nimbus9  |  7d  |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |    |    |  @#A5DF00:  |    |  @#A5DF00:  |  @#A5DF00:  |    |  @#A5DF00:  |    |  @#A5DF00:  |
+|  @#A9DAFF:nimbus10  |  8d  |  @#FF9500:49%  |  @#A5DF00:  |    |    |    |  @#A5DF00:  |  @#5FB404:mount  |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |    |  @#A5DF00:  |    |  @#A5DF00:  |
+|  @#A9DAFF:nimbus11  |  8d  |  @#FF9500:48%  |  @#A5DF00:  |    |    |    |  @#A5DF00:  |  @#5FB404:mount  |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |    |  @#A5DF00:  |    |  @#A5DF00:  |
+|  @#A9DAFF:nimbus12  |  8d  |  @#FF9500:48%  |  @#A5DF00:  |    |    |    |  @#A5DF00:  |  @#5FB404:mount  |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |    |  @#A5DF00:  |    |  @#A5DF00:  |
+|  @#A9DAFF:nimbus13  |  8d  |  @#FF9500:49%  |  @#A5DF00:  |    |    |    |  @#A5DF00:  |  @#5FB404:mount  |  @#A5DF00:  |  @#A5DF00:  |  @#A5DF00:  |    |  @#A5DF00:  |    |  @#A5DF00:  |

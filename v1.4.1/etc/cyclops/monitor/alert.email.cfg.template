@@ -1,0 +1,5 @@
+_email_alert_subject_prefix="ORGANIZATION NAME - SYSTEM NAME"
+_email_alert_subject="GENERAL MONITORING ALERT EMAIL"
+_email_alert_smtp_ip=""
+_email_alert_smtp_port=""
+_email_alert_addr="" # addr comma separated

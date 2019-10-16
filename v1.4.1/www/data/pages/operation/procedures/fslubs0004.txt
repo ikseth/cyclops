@@ -1,0 +1,36 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** File System - Lustre : Reinicio del Servio Lustre **  
+
+===== Sistemas Objetivo =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo Lustre     ^  Nodos                      ^  Descripción                                                                             ^  Criticidad                                 ^  Implicación  ^
+|  Lustre Gestión   |  node[RANGE]                  | Mantiene la configuración del sistema de Lustre                                          |  @#FA5858:@#FA5858:<fc white>MUY ALTA</fc>  |               |
+|  Lustre MDS       |  node[RANGE]                  | Mantienen un registro de transacciones de archivos y cambios en el sistema de archivos.  |  @#FAAC58: ALTA                             |               |
+|  Lustre OSS       |  node[RANGE]                  | Responsables de la interconexión y operaciones con los dispositivos de almacenamiento    |  @#FAAC58: ALTA                             |               |
+|  Lustre Clientes  |  node[RANGE]  | Tienen acceso al sistema de archivos                                                     |  @#EAFFD5: BAJA                             |               |
+
+===== Sistemas Colaterales =====
+
+|< 100% 10% 10% 32% 8% 30% >|
+^  Grupo         ^  Nodos           ^  Descripción                                                     ^  Criticidad                                 ^  Implicacion                                                       ^
+|  Gestión       |  MANAGEMENT NODES     |  Permiten la administración del servicio                         |  @#EAFFD5: BAJA                             |  Los Administradores no pueden acceder directamente a lustre       |
+|  Login         |  LOGIN NODES (CRITICAL)     |  Acceso de los usuarios al sistema productivo                    |  @#EAFFD5: BAJA                             |  Los usuarios no pueden acceder al sistema de ficheros             |
+|  Lustre        |  node[RANGE]     |  Funcionamiento del servicio                                     |  @#FA5858:@#FA5858:<fc white>MUY ALTA</fc>  |  Posibilidad de caída completa del sistema productivo              |
+|  Computo/Aire  |  node[RANGE]   |  Uso del servicio por el sistema productivo                      |  @#FFFF00: MEDIA                            |  Merma en el rendimiento productivo                                |
+|  Computo/Agua  |  node[RANGE]  |  Uso del servicio por el sistema productivo                      |  @#FFFF00: MEDIA                            |  Merma en el rendimiento productivo                                |
+
+===== Procedimiento =====
+
+  * Este procedimiento es recomendable ejecutarlo desde:
+    * Los nodos de gestión MANAGEMENT NODES
+    * Los nodos de servicio de lustre node[RANGE]. 
+
+  * Los pasos a seguir son:
+    - Ejecutamos desde el nodo objetivo el siguiente comando:<code>
+shine restart
+</code>
+
+**NOTA:**
+  * Este comando reinicia el servicio lustre en los servidores, pero puede no montar el sistema de archivos en los clientes.

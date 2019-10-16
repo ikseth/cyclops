@@ -1,0 +1,7 @@
+base     dokubook
+author   Samuel Fischer
+email    sf@notomorrow.de
+date     2016-09-16
+name     Dokubook Template
+desc     Mediawikilike style
+url      https://www.dokuwiki.org/template:dokubook

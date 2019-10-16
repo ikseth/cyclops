@@ -1,0 +1,48 @@
+====== Versions ======
+
+===== 2014 =====
+
+  * Alpha Version
+
+===== 2015 =====
+
+==== August ====
+
+  - [[.:weekv03082015|week version 03.08.2015]]
+  - [[.:weekv10082015|week version 10.08.2015]]
+  - [[.:weekv31082015|week version 31.08.2015]]
+
+==== September ====
+
+  - [[.:weekv07092015|week version 07.09.2015]]
+  - [[.:weekv14092015|week version 14.09.2015]]
+  - [[.:weekv28092015|week version 28.09.2015]]
+
+==== October ====
+
+  - [[.:weekv05102015|week version 05.10.2015]]
+
+==== November ====
+
+  - [[.:weekv02112015|week version 02.11.2015]]
+  - [[.:weekv09112015|week version 09.11.2015]]
+  - [[.:weekv23112015|week version 23.11.2015]]
+
+==== December ====
+
+  - [[.:weekv07122015|week version 07.12.2015]]
+  - [[.:weekv14122015|week version 14.12.2015]]
+  - [[.:weekv21122015|week version 21.12.2015]]
+
+
+===== 2016 =====
+
+==== January ====
+
+  - [[.:weekv11012016|week version 11.01.2016]]
+  - [[.:weekv18012016|week version 18.01.2016]]
+  - [[.:weekv25012016|week version 25.01.2016]]
+
+==== February ====
+
+  - [[.:weekv08022016|week version 08.02.2016]]

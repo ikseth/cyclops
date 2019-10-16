@@ -1,0 +1,8 @@
+====== Slurm Statistics ======
+
+
+===== Jobs Totals =====
+ 
+  * [[operation:statistics:slurm:totals:date|Main]] , Group by date. 
+  * [[operation:statistics:slurm:totals:user|User]] , Group by users and date.
+  * [[operation:statistics:slurm:totals:partition|Partition]] , Group by partition and date.

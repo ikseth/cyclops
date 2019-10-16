@@ -1,0 +1,21 @@
+====== Procedimientos Técnicos - Básicos ======
+
+** Sistema Operativo - Administración : Checking HTTP/HTTPS Connection **  (Sin utilidad )
+
+===== Sistemas Objetivo =====
+
+|< 100% >| 
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad     ^  Implicación  ^ 
+|  Todos         |  Todos          |                                                                  |  @#EAFFD5:BAJA  |               |
+
+
+===== Sistemas Colaterales =====
+
+|< 100% >| 
+^  Grupo         ^  Nodos          ^  Descripción                                                     ^  Criticidad     ^  Implicación  ^ 
+|  Gestión       |  [MANAGEMENT NODES]    |  Permiten la administración del sistema                          |  @#EAFFD5:BAJA  |  El servicio de consola puede quedarse en estado inestable  |
+
+===== Procedimiento =====
+
+  * Sin utilidad actual.
