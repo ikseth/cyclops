@@ -246,7 +246,7 @@ show_procedure_link()
 {
 	#### NOT YET ACTIVE , COMMAND CHECK LINK BETWEN EXISTING PROCEDURE CODES WITH EXISTING IA RULES ####
 
-	for _procedure in $( cat /etc/cyclops/procedure.ia.codes.cfg | cut -d';' -f1 | awk '{ print $0 }' ) ; do _exist=$( ls -1 /opt/cyclops/monitor/sensors/status/ia/ | grep $_procedure | wc -l ) ; echo $_procedure":"$_exist  ; done
+	for _procedure in $( cat $_sensors_ia_codes_file | cut -d';' -f1 | awk '{ print $0 }' ) ; do _exist=$( ls -1 /opt/cyclops/monitor/sensors/status/ia/ | grep $_procedure | wc -l ) ; echo $_procedure":"$_exist  ; done
 }
 
 print_output()

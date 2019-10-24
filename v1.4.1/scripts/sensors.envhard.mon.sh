@@ -181,6 +181,37 @@ mon_ipmi_device()
 
 }
 
+mon_smcli_device()
+{
+	_dev_output=""
+	_dev_state=$( echo $_dev_mng_state | tr '[:lower:]' '[:upper:]' )
+
+	_sensor_smcli_output=$( SMcli -n $_dev_name -quick -c  "show storagearray ;" 2>/dev/null )
+
+	case "$_dev_state" in
+	UP)
+		if [ -z "$_sensor_smcli_output" ]
+		then
+			_dev_state="FAIL err.connect"
+			_exit_code=2
+		else
+			for _sensor_sh in $( cat $_config_path_env/$_dev_type".env.cfg" )
+			do
+				_sensor_sh_file=$( echo $_sensor_sh | cut -d';' -f2 )
+				_dev_output=$_dev_output""$( source $_sensors_env_scripts/$_sensor_sh_file | cut -d':' -f2 )";"
+			done
+		fi
+
+		echo "$_dev_num;$_dev_type;$_dev_name;$_dev_state;$_dev_output" | sed 's/;$//'
+	;;
+	DRAIN|REPAIR)
+		echo "$_dev_num;$_dev_type;$_dev_name;$_dev_state"
+	;;
+	DIAGNOSE)
+		echo "$_dev_num;$_dev_type;$_dev_name;$_dev_state"
+	;;
+	esac
+}
 
 mon_launch()
 {
@@ -253,31 +284,6 @@ print_output()
                 echo "${_output}"
         ;;
         esac
-}
-
-
-ia_processing_old()
-{
-
-        echo "${_output}" | sort -n | tr '@' ';' | sed -e '/^$/d' | cut -d';' -f3- |
-                awk -F\; '$0 ~ "OK" || $0 ~ "UP" || $0 ~ "DOWN" || $0 ~ "FAIL" || $0 ~ "UNKN" { _err=0 ; for (i=1;i<=NF;i++) { if ($i ~ "DOWN") { _err=1 ; print $1";D;"(i-2) } else ;if ($i ~ "FAIL") { _err=1 ; print $1";F;"(i-2)} else ;if ($i ~ "UNKN") { _err=1 ; print $1";U;"(i-2)}} ; if ( _err == 0 ) { print $1";K;0"}} ' |
-                cut -d' ' -f2- > $_sensors_ia_tmp_path/$_pid"."$_sensors_ia_tmp_name
-
-        _ia_alert=$($_sensors_ia_env_script_file $_pid)
-
-        if [ ! -z "$_ia_alert" ]
-        then
-                _exit_code=2
-                _ia_hidden_state="initialState=\"visible\""
-
-                ## Generating alert --
-
-                _file_mail=$_sensors_alerts_path"/$PPID.nodes.mail."$(date +%Y%m%dt%H%M%S )".txt"
-                #echo -e $_ia_alert | sed -e 's/--//' > $_file_mail     
-        else
-                _ia_alert=";OK NODE STATUS - OPERATIVE;"
-                _ia_hidden_state=""
-        fi
 }
 
 ia_processing()

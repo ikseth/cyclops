@@ -20,8 +20,9 @@
 #    You should have received a copy of the GNU General Public License
 #    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
 
-############# VARIABLES ###################
-#
+###########################################
+#              VARIABLES  		  #
+###########################################
 
 IFS="
 "
@@ -33,19 +34,39 @@ _exit_code=0
 
 _par_show="default"
 
-## GLOBAL --
-
+_cyc_reactive_trigger="0"
 _config_path="/etc/cyclops"
 
-if [ ! -f $_config_path/global.cfg ]
+###########################################
+#              LIB LOAD  		  #
+###########################################
+
+if [ -f "/etc/cyclops/global.cfg" ]
 then
-        echo "Global config file don't exits"
-        exit 1
+	source /etc/cyclops/global.cfg
+	[ -f "$_color_cfg_file" ] && source $_color_cfg_file || _exit_code="116"
+	[ -f "$_libs_path/node_ungroup.sh" ] && source $_libs_path/node_ungroup.sh || _exit_code="114"
+	[ -f "$_libs_path/node_group.sh" ] && source $_libs_path/node_group.sh || _exit_code="113"
+	[ ! -f "$_sensors_sot" ] && echo "ERR: Revise cyclops instalation" && _exit_code="120" 
+
+	case "$_exit_code" in
+        11[3-5])
+                echo "ERR: Necesary lib file doesn't exits, please revise your cyclops installation" 1>&2
+                exit $_exit_code 
+        ;;
+        116)
+                echo "WARNING: Color file doesn't exits, you see sad data format" 1>&2
+        ;;
+	120)
+		echo "ERR: Revise cyclops instalation" 1>&2
+		exit $_exit_code 
+	;;
+        esac
 else
-        source $_config_path/global.cfg
+        echo "ERR: Global config file don't exits" 1>&2
+        exit 111
 fi
 
-source $_color_cfg_file
 
 ## CYC GLOBAL STATUS -- 
 
@@ -53,31 +74,35 @@ _cyc_audit_status=$( 	awk -F\; '$1 == "CYC" && $2 == "0003" && $3 == "AUDIT" { p
 _cyc_reactive_status=$( awk -F\; '$1 == "CYC" && $2 == "0007" && $3 == "REACTIVE" { print $4 }' $_sensors_sot 2>/dev/null )
 _cyc_razor_status=$( 	awk -F\; '$1 == "CYC" && $2 == "0014" && $3 == "RAZOR" { print $4 }' $_sensors_sot 2>/dev/null )
 
-## CYC LOCAL
-
-_cyc_reactive_trigger="0"
-
 ###########################################
 #              PARAMETERs  		  #
 ###########################################
 
 
-while getopts ":m:v:iph:" _optname
+while getopts ":m:n:v:iph:" _optname
 do
 
 	case "$_optname" in
-		"m")
+		"m"|"n")
 			_opt_mon="yes"
 			_par_mon=$OPTARG
-			if [  "$_par_mon" == "all" ] ||  grep ";"$_par_mon";" $_type 2>&1 >/dev/null
-			then
-				echo 2>&1 >/dev/null
+
+                        _ctrl_grp=$( echo $_par_mon | grep @ 2>&1 >/dev/null ; echo $? )
+
+                        if [ "$_ctrl_grp" == "0" ]
+                        then
+                                _par_node_grp=$( echo "$_par_mon" | tr ',' '\n' | grep ^@ | sed 's/@//g' | tr '\n' ',' )
+                                _par_node=$( echo $_par_mon | tr ',' '\n' | grep -v ^@ | tr '\n' ',' )
+                                _par_node_grp=$( awk -F\; -v _grp="$_par_node_grp" '{ split (_grp,g,",") ; for ( i in g ) {  if ( $2 == g[i] || $3 == g[i] || $4 == g[i] ) { _n=_n""$2","  }}} END { print _n }' $_type )
+                                _par_node_grp=$( node_group $_par_node_grp )
+                                #_par_mon=$_par_mon""$_par_node_grp
+				_long=$( node_ungroup $_par_node_grp | tr ' ' '\n' )
+
+                                [ -z "$_par_mon" ] && echo "ERR: Don't find nodes in [$_par_node_grp] definited group(s)/family(s)" && exit 1
 			else
-				echo "-m [node|family|type] Monitoring one node, family or type of nodes"
-				echo "		options are indicated in $_type"
-				echo "		all: get all nodes from all families"
-				exit 1
-			fi
+				_long=$( node_ungroup $_par_mon | tr ' ' '\n' )
+                        fi
+
 		;;
 		"v")
 			_opt_show="yes"
@@ -159,145 +184,85 @@ done
 
 shift $((OPTIND-1))
 
-#### LIB LOAD ####
-
-[ -f "$_libs_path/node_group.sh" ] && source $_libs_path/node_group.sh				## LIB FOR GROUP LIST OF NODES
-
-############## MONITOR SCRIPT GENERATION  #########################
+###########################################
+#              FUNCTIONS  		  #
+###########################################
 
 mon_sh_create()
-{
-
-	_node_rol=`awk -F\; -v node="$_node_name" '$2 == node { print $4 }' $_type`
-
-	_nodename_tag="UP"
-
-	echo "#!/bin/bash"
-	echo "#### $_node_name Monitoring Script $( date ) ####"			
-	echo  							
-	echo "#### variables monitoring module ####"
-	[ -f "$_sensors_var_file" ] && cat $_sensors_var_file || echo "#### ERR: NO $_sensors_var_file EXISTS" 
-	echo "#### variables local node ####"
-	echo
-	if [ -f "$_cyc_clt_etc_path/local.main.cfg" ] 
-	then
-		awk '$1 !~ "#" && $1 ~ "=" { 
-			split($1,field,"=") ; 
-			if ( field[2] !~ /[.][a-zA-Z0-9]+$/ ) { var[field[1]]=field[2] }
-			print "export "$1 ;  
-		} END {
-			print "\n#### creating directories if we needed ####"
-			for ( v in var ) {
-				print "[ ! -d \"$"v"\" ] && mkdir -p $"v
-			}		
-		}' $_cyc_clt_etc_path/local.main.cfg 
-	else
-		echo "#### WRNG: NO $_cyc_clt_etc_path/local.main.cfg EXISTS"
-	fi
-	echo  						
-	[ -f "$_sensors_config_path/sensors.begin.sh" ] && cat $_sensors_config_path/sensors.begin.sh || echo "#### WRNG: NO $_sensors_config_path/sensors.begin.sh MON SCRIPT BASE EXISTS" 
-	echo 							
-
-	echo "#### begin cyc razor data ####"
-	echo "echo \"$_node_family;$_node_group;$_node_os;$_node_power;$_node_available\" >$_cyc_clt_rzr_cfg/$_node_name.rol.cfg"
-
-	if [ "$_cyc_razor_status" == "ENABLED" ] 
-	then
-		echo "$_cyc_clt_rzr_scp -a enable"
-		if [ -f "$_config_path_nod/$_node_family.rzr.lst" ] 
-		then
-			echo "echo -e \"$( cat $_config_path_nod/$_node_family.rzr.lst | egrep -v "^$|^#" | tr '\n' '@' | sed 's/@/\\n/g' )\" >$_cyc_clt_rzr_cfg/$_node_family.rzr.lst" 
-		else
-			echo "echo >$_cyc_clt_rzr_cfg/$_node_family.rzr.lst"
-		fi
-	else
-		echo "$_cyc_clt_rzr_scp -a disable"
-	fi
-	echo "#### end cyc razor data ####"
-	echo
-
-	for _daemon in $( cat $_config_path_nod/$_node_family.mon.cfg )
-	do
-		echo "#### $_daemon monitor script ####"		
-
-		if [ -f $_sensors_script_path/$_node_os/sensor.$_daemon.sh ]
-		then
-			cat $_sensors_script_path/$_node_os/sensor.$_daemon.sh | 
-			grep -v \# 				
-		else
-			cat $_sensors_script_path/$_node_os/sensor.daemon_generic.sh |
-			sed -e 's/#@DAEMON@//' -e "s/DAEMON/$_daemon/" | 
-			grep -v \# 					
-		fi
-
-		echo "################################"	
-	
-	done
-
-	echo 								
-	[ -f "$_sensors_config_path/sensors.end.sh" ] && cat $_sensors_config_path/sensors.end.sh || echo "#### WRNG: NO $_sensors_config_path/sensors.end.sh MON SCRIPT BOTTOM EXISTS" 
-
-}
-
-mon_sh_create_par()
 {
 
         _node_rol=$(awk -F\; -v node="$_node_name" '$2 == node { print $4 }' $_type)
         _nodename_tag="UP"
         _sensor_pri=""
 
-
 	echo "#!/bin/bash"
         echo "### "$_node_name" Monitoring Script" $( date )                    
+	echo
+        echo "#### variables monitoring module ####"
+        [ -f "$_sensors_var_file" ] && cat $_sensors_var_file || echo "#### ERR: NO $_sensors_var_file EXISTS" 
+        echo "#### variables local node ####"
         echo                                                    
-        cat $_sensors_var_file
-        echo                                            
-        #cat $_sensors_config_path/sensors.begin.sh
-        echo                                                    
+        if [ -f "$_cyc_clt_etc_path/local.main.cfg" ]
+        then
+                awk '$1 !~ "#" && $1 ~ "=" { 
+                        split($1,field,"=") ; 
+                        if ( field[2] !~ /[.][a-zA-Z0-9]+$/ ) { var[field[1]]=field[2] }
+                        print "export "$1 ;  
+                } END {
+                        print "\n#### creating directories if we needed ####"
+                        for ( v in var ) {
+                                print "[ ! -d \"$"v"\" ] && mkdir -p $"v
+                        }               
+                }' $_cyc_clt_etc_path/local.main.cfg
+        else
+                echo "#### WRNG: NO $_cyc_clt_etc_path/local.main.cfg EXISTS"
+	fi
 
-        echo "#### begin cyc razor data ####"
+	echo
+	[ -f "$_sensors_config_path/sensors.begin.sh" ] && cat $_sensors_config_path/sensors.begin.sh || echo "#### WRNG: NO $_sensors_config_path/sensors.begin.sh MON SCRIPT BASE EXISTS" 
+        echo 
+
+	echo "#### begin cyc razor data ####"
         echo "echo \"$_node_family;$_node_group;$_node_os;$_node_power;$_node_available\" >$_cyc_clt_rzr_cfg/$_node_name.rol.cfg"
 
         if [ "$_cyc_razor_status" == "ENABLED" ]
         then
                 echo "$_cyc_clt_rzr_scp -a enable"
-                [ -f "$_config_path_nod/$_node_family.rzr.lst" ] && echo "echo -e \"$( cat $_config_path_nod/$_node_family.rzr.lst | egrep -v "^$|^#" | tr '\n' '@' | sed 's/@/\\n/g' )\" >$_cyc_clt_rzr_cfg/$_node_family.rzr.lst"
+                if [ -f "$_config_path_nod/$_node_family.rzr.lst" ]
+                then
+                        echo "echo -e \"$( cat $_config_path_nod/$_node_family.rzr.lst | egrep -v "^$|^#" | tr '\n' '@' | sed 's/@/\\n/g' )\" >$_cyc_clt_rzr_cfg/$_node_family.rzr.lst" 
+                else
+                        echo "echo >$_cyc_clt_rzr_cfg/$_node_family.rzr.lst"
+                fi
         else
                 echo "$_cyc_clt_rzr_scp -a disable"
         fi
+
         echo "#### end cyc razor data ####"
         echo
 
-        for _daemon in $( cat $_config_path_nod/$_node_family.mon.cfg )
+        for _resource in $( cat $_config_path_nod/$_node_family.mon.cfg )
         do
+		_daemon=$( echo "$_resource" | cut -d';' -f1 ) 
+		_settings=$( echo "$_resource" | awk -F\; '{ for (i=2;i<=NF;i++) { printf " "$i }} END { print "" }' ) 
 
-                let "_sensor_pri++"
-
-                echo "$_daemon()"
+                echo "func_""$_daemon()"
                 echo "{"
                 echo "#### $_daemon monitor script ####"                
 
-                if [ -f $_sensors_script_path/$_node_os/sensor.$_daemon.sh ]
-                then
-                        cat $_sensors_script_path/$_node_os/sensor.$_daemon.sh |
-                        grep -v \#
-                else
-                        cat $_sensors_script_path/$_node_os/sensor.daemon_generic.sh |
-                        sed -e 's/#@DAEMON@//' -e "s/DAEMON/$_daemon/" |
-                        grep -v \#
-                fi
+		cat $_sensors_script_path/$_node_os/sensor.$_daemon.sh |
+		grep -v \#
 
                 echo "################################" 
                 echo "}"
 
-                _sensor_func_list=$_sensor_func_list""$_sensor_pri":"$_daemon"\n"
-
+                _sensor_func_list=$_sensor_func_list""$_daemon" "$_settings"\n"
         done
 
         echo "launch()"
         echo "{"
-        echo -e "${_sensor_func_list}" | awk -F\: '$2 != "" { print "echo \""$1":$( "$2" ) \" &" }'
-        echo "wait"
+        echo -e "${_sensor_func_list}" | awk -F\: -v _op="$_opt_par" 'BEGIN { if ( _op == "yes" ) { _c="&" } else { _c="" }} $1 != "" { print "echo \""NR":$( func_"$1" ) \" "_c }'
+        [ "$_opt_par" == "yes" ] && echo "wait"
         echo "}"
 
         echo "_mon_output=\$( launch )"
@@ -321,12 +286,13 @@ mon_check_status()
 			_bios_user=$( echo $_bios_data | cut -d';' -f3 )
 			_bios_pass=$( echo $_bios_data | cut -d';' -f4 )
 
-			_power_status=$( ipmitool -I lanplus -N 3 -R 2 -U $_bios_user -P $_bios_pass -H $_bios_host power status 2>&1 )
+			_ipmicmd=$( which ipmitool 2>/dev/null )
+			[ -z "$_ipmicmd" ] && _power_status="Error: no ipmi cmd" || _power_status=$( $_ipmicmd -I lanplus -N 3 -R 2 -U $_bios_user -P $_bios_pass -H $_bios_host power status 2>&1 )
 
 			case "$_power_status" in
 			*"Chassis Power is on")
 
-				[ "$_opt_par" == "yes" ] && mon_sh_create_par > $_sensors_data/$_node_name.mon.sh || mon_sh_create > $_sensors_data/$_node_name.mon.sh
+				mon_sh_create > $_sensors_data/$_node_name.mon.sh
 				chmod 775 $_sensors_data/$_node_name.mon.sh
 
 				mon_node
@@ -341,7 +307,7 @@ mon_check_status()
 			*"Error: Unable to establish LAN session"*)
 				_admin_status="up_bmc_down"
 
-				[ "$_opt_par" == "yes" ] && mon_sh_create_par > $_sensors_data/$_node_name.mon.sh || mon_sh_create > $_sensors_data/$_node_name.mon.sh
+				mon_sh_create > $_sensors_data/$_node_name.mon.sh
 				chmod 775 $_sensors_data/$_node_name.mon.sh
 
 				mon_node
@@ -349,7 +315,7 @@ mon_check_status()
 			"Authentication type NONE not supported"*)
 				_admin_status="bmc_auth"
 
-				[ "$_opt_par" == "yes" ] && mon_sh_create_par > $_sensors_data/$_node_name.mon.sh || mon_sh_create > $_sensors_data/$_node_name.mon.sh
+				mon_sh_create > $_sensors_data/$_node_name.mon.sh
                                 chmod 775 $_sensors_data/$_node_name.mon.sh
 
                                 mon_node
@@ -357,7 +323,7 @@ mon_check_status()
 			*"Get Session Challenge command failed"*)
 				_admin_status="bmc_session"
 
-				[ "$_opt_par" == "yes" ] && mon_sh_create_par > $_sensors_data/$_node_name.mon.sh || mon_sh_create > $_sensors_data/$_node_name.mon.sh
+				mon_sh_create > $_sensors_data/$_node_name.mon.sh
 				chmod 775 $_sensors_data/$_node_name.mon.sh
 
 				mon_node
@@ -365,20 +331,26 @@ mon_check_status()
 			*"Unable to establish IPMI v2 / RMCP+ session"*)
 				_admin_status="bmc_session"
 
-				[ "$_opt_par" == "yes" ] && mon_sh_create_par > $_sensors_data/$_node_name.mon.sh || mon_sh_create > $_sensors_data/$_node_name.mon.sh
+				mon_sh_create > $_sensors_data/$_node_name.mon.sh
                                 chmod 775 $_sensors_data/$_node_name.mon.sh
 
                                 mon_node
 			;;
 			"Password: Address lookup for power failed"*)
-				_admin_staus="bmc_session"
+				_admin_status="bmc_session"
 				
-				[ "$_opt_par" == "yes" ] && mon_sh_create_par > $_sensors_data/$_node_name.mon.sh || mon_sh_create > $_sensors_data/$_node_name.mon.sh
+				mon_sh_create > $_sensors_data/$_node_name.mon.sh
                                 chmod 775 $_sensors_data/$_node_name.mon.sh
 
-				echo "DEBUG: ipmierror: biosdata($_bios_data) : biosfile($_bios_mng_cfg_file) : biosuser($_bios_user) : biospass($_bios_pass) : bioshost($_bios_host)" >> /opt/cyclops/logs/sensor.nodes.mon.debug.log
-
                                 mon_node
+			;;
+			"Error: no ipmi cmd")
+				_admin_status="bmc_no_cmd"
+
+				mon_sh_create > $_sensors_data/$_node_name.mon.sh
+				chmod 775 $_sensors_data/$_node_name.mon.sh
+
+				mon_node
 			;;
 			*)
 
@@ -393,14 +365,14 @@ mon_check_status()
 		;;
 		none)
 
-			[ "$_opt_par" == "yes" ] && mon_sh_create_par > $_sensors_data/$_node_name.mon.sh || mon_sh_create > $_sensors_data/$_node_name.mon.sh
+			mon_sh_create > $_sensors_data/$_node_name.mon.sh
                         chmod 775 $_sensors_data/$_node_name.mon.sh
 
                         mon_node
 		;;
 		*)
 
-			[ "$_opt_par" == "yes" ] && mon_sh_create_par > $_sensors_data/$_node_name.mon.sh || mon_sh_create > $_sensors_data/$_node_name.mon.sh
+			mon_sh_create > $_sensors_data/$_node_name.mon.sh
 			chmod 775 $_sensors_data/$_node_name.mon.sh
 
 			mon_node
@@ -425,13 +397,14 @@ mon_check_status()
                         _bios_user=$( echo $_bios_data | cut -d';' -f3 )
                         _bios_pass=$( echo $_bios_data | cut -d';' -f4 )
 
-                        _power_status=$( ipmitool -I lanplus -N 3 -R 2 -U $_bios_user -P $_bios_pass -H $_bios_host power status 2>&1 )
+			_ipmicmd=$( which ipmitool 2>/dev/null )
+			[ -z "$_ipmicmd" ] && _power_status="no ipmi cmd" || _power_status=$( $_ipmicmd -I lanplus -N 3 -R 2 -U $_bios_user -P $_bios_pass -H $_bios_host power status 2>&1 )
 
                         case "$_power_status" in
                         *"Chassis Power is on")
 				_nodename_tag=$( echo $_node_available | tr '[:lower:]' '[:upper:]' )
 
-				[ "$_opt_par" == "yes" ] && mon_sh_create_par > $_sensors_data/$_node_name.mon.sh || mon_sh_create > $_sensors_data/$_node_name.mon.sh
+				mon_sh_create > $_sensors_data/$_node_name.mon.sh
 				chmod 775 $_sensors_data/$_node_name.mon.sh
 
 				mon_node
@@ -460,7 +433,7 @@ mon_check_status()
                 none)
 			_nodename_tag=$( echo $_node_available | tr '[:lower:]' '[:upper:]' )
 
-			[ "$_opt_par" == "yes" ] && mon_sh_create_par > $_sensors_data/$_node_name.mon.sh || mon_sh_create > $_sensors_data/$_node_name.mon.sh
+			mon_sh_create > $_sensors_data/$_node_name.mon.sh
 			chmod 775 $_sensors_data/$_node_name.mon.sh
 
 			mon_node
@@ -476,7 +449,7 @@ mon_check_status()
                 *)
 			_nodename_tag=$( echo $_node_available | tr '[:lower:]' '[:upper:]' )
 
-			[ "$_opt_par" == "yes" ] && mon_sh_create_par > $_sensors_data/$_node_name.mon.sh || mon_sh_create > $_sensors_data/$_node_name.mon.sh
+			mon_sh_create > $_sensors_data/$_node_name.mon.sh
 			chmod 775 $_sensors_data/$_node_name.mon.sh
 
 			mon_node
@@ -500,13 +473,14 @@ mon_check_status()
                         _bios_user=$( echo $_bios_data | cut -d';' -f3 )
                         _bios_pass=$( echo $_bios_data | cut -d';' -f4 )
 
-                        _power_status=$( ipmitool -I lanplus -N 3 -R 2 -U $_bios_user -P $_bios_pass -H $_bios_host power status 2>&1 )
+			_ipmicmd=$( which ipmitool 2>/dev/null )
+			[ -z "$_ipmicmd" ] && _power_status="Error: no ipmi cmd" || _power_status=$( $_ipmicmd -I lanplus -N 3 -R 2 -U $_bios_user -P $_bios_pass -H $_bios_host power status 2>&1 )
 
                         case "$_power_status" in
                         *"Chassis Power is on"|"Error:"*)
 				_nodename_tag=$( echo $_node_available | tr '[:lower:]' '[:upper:]' )
 
-				[ "$_opt_par" == "yes" ] && mon_sh_create_par > $_sensors_data/$_node_name.mon.sh || mon_sh_create > $_sensors_data/$_node_name.mon.sh
+				mon_sh_create > $_sensors_data/$_node_name.mon.sh
 				chmod 775 $_sensors_data/$_node_name.mon.sh
 
 				mon_node
@@ -522,7 +496,7 @@ mon_check_status()
                 none)
 			_nodename_tag=$( echo $_node_available | tr '[:lower:]' '[:upper:]' )
 
-			[ "$_opt_par" == "yes" ] && mon_sh_create_par > $_sensors_data/$_node_name.mon.sh || mon_sh_create > $_sensors_data/$_node_name.mon.sh
+			mon_sh_create > $_sensors_data/$_node_name.mon.sh
 			chmod 775 $_sensors_data/$_node_name.mon.sh
 
 			mon_node
@@ -530,7 +504,7 @@ mon_check_status()
                 *)
 			_nodename_tag=$( echo $_node_available | tr '[:lower:]' '[:upper:]' )
 
-			[ "$_opt_par" == "yes" ] && mon_sh_create_par > $_sensors_data/$_node_name.mon.sh || mon_sh_create > $_sensors_data/$_node_name.mon.sh
+			mon_sh_create > $_sensors_data/$_node_name.mon.sh
 			chmod 775 $_sensors_data/$_node_name.mon.sh
 
 			mon_node
@@ -651,6 +625,9 @@ mon_node()
 		bmc_auth)
 			echo $_node_ia |  sed -e "s/hostname:/$_nodename_tag /" -e 's/@ uptime:[A-Z]* [0-9]*d@/;MARK bmc auth err @/' -e 's/\@\ [0-9a-z_-]*\:/;/g' -e "s/^/$_node_family\;/" -e "s/^/$_output_line;/" -e 's/@//'
 		;;
+		bmc_no_cmd)
+			echo $_node_ia |  sed -e "s/hostname:/$_nodename_tag /" -e 's/@ uptime:[A-Z]* [0-9]*d@/;MARK bmc no cmd @/' -e 's/\@\ [0-9a-z_-]*\:/;/g' -e "s/^/$_node_family\;/" -e "s/^/$_output_line;/" -e 's/@//'
+		;;
 		bmc_session)
 			if [ "$_node_err" == "3" ] 
 			then
@@ -691,7 +668,6 @@ mon_node()
 			fi
 		;;
 	esac
-
 
 }
 
@@ -778,26 +754,29 @@ family_processing()
 
 	_output_line=0
 
-	for _node_list in $( grep $_find_nodes $_type | grep -v \# | sort -t\; -k3,3 | cut -d';' -f2- )
+	for _node_name in $( echo "${_long}" )
 	do
+		_node_list=$( awk -F\; -v _n="$_node_name" '$2 == _n { print $3";"$4";"$5";"$6";"$7 }' $_type ) 
 
-        	_node_name=$( echo $_node_list | cut -d';' -f1 )
-        	_node_family=$( echo $_node_list | cut -d';' -f2 )
-		_node_group=$( echo $_node_list | cut -d';' -f3 )
-		_node_os=$( echo $_node_list | cut -d';' -f4 )
-		_node_power=$( echo $_node_list | cut -d';' -f5 )
-		_node_available=$( echo $_node_list | cut -d';' -f6 )
+		if [ ! -z "$_node_list" ]
+		then
+			_node_family=$( echo $_node_list | cut -d';' -f1 )
+			_node_group=$( echo $_node_list | cut -d';' -f2 )
+			_node_os=$( echo $_node_list | cut -d';' -f3 )
+			_node_power=$( echo $_node_list | cut -d';' -f4 )
+			_node_available=$( echo $_node_list | cut -d';' -f5 )
 
-	        if [ "$_family_old" != $_node_family ]
-        	then
-                	let "_output_line++"    
-               		cat $_config_path_nod/$_node_family.mon.cfg | tr '\n' '@' | sed -e 's/@$/\\n/' -e 's/^/family@/' -e "s/^/$_output_line;/"
-                	_family_old=$_node_family
-        	fi
+			if [ "$_family_old" != "$_node_family" ]
+			then
+				let "_output_line++"    
+				awk -F\; -v _ol="$_output_line" 'BEGIN { _head=_ol";family@" } { if ( $2 != "" ) { _head=_head""$1"_"$2"@" } else { _head=_head""$1"@" }} END { print _head }' $_config_path_nod/$_node_family.mon.cfg
+				_family_old=$_node_family
+			fi
 
-        	let "_output_line++" 
+			let "_output_line++" 
 		
-		mon_check_status &
+			mon_check_status &
+		fi
 
 	done | sort 
 
@@ -805,8 +784,7 @@ family_processing()
 
 wiki_format()
 {
-
-	## PRE-PROCESSING OUTPUT --
+	###### PRE-PROCESSING OUTPUT ------
 
 	if [ "$_exit_code" -eq 0 ] || [ "$_exit_code" -eq 12 ] 
 	then
@@ -841,7 +819,7 @@ wiki_format()
 	[ -z "$_maxup_node" ] && _maxup_node="none" && _maxup_color=$_color_disable || _maxup_color=$_color_up
 	[ -z "$_minup_node" ] && _minup_node="none" && _minup_color=$_color_disable || _minup_color=$_color_up
 
-	## DRAWING OUTPUT --
+	###### DRAWING OUTPUT ------
 
 	echo "."
 	echo "."
@@ -878,16 +856,13 @@ sed -e "s/@/;$_color_title/g" -e "s/family/$_color_title&/" -e 's/^/\|\ \ /' -e 
 #              MAIN EXEC                  #
 ###########################################
 
+[ -z "$_par_mon" ] && _par_mon=$( awk -F\; '$1 ~ "^[0-9]+$" { print $2 }' $_type )
 
-[ -z "$_par_mon" ] && _par_mon="all"
-[ "$_par_mon" == "all" ] && _find_nodes=";" || _find_nodes=";"$_par_mon";"
-
-## MONITOR LAUNCH --
+###### MONITOR LAUNCH -------
 
 _output=$(family_processing)
 
-## IA PROCESSING --
-
+###### IA PROCESSING --------
 
 if [ "$_opt_ia" == "yes" ]
 then
@@ -947,9 +922,7 @@ then
 
 fi
 
-
-## VISUAL FORMATING --
-
+###### VISUAL FORMATING ------
 
 case $_par_show in
 	"commas")
@@ -987,14 +960,10 @@ case $_par_show in
 		echo "${_ia_alert}"
 		echo
 		echo "MON OUTPUT"
-		echo
-#		echo -e "${_output}" | sed -e 's/@/;/g' -e 's/^ //' | sort -n | cut -d';' -f2-
 		echo 
 		echo -e "${_output}"
 		echo
 	;;
 esac
-
-
 
 exit $_exit_code

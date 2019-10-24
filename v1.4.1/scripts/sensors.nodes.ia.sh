@@ -27,13 +27,19 @@ IFS="
 
 _config_path="/etc/cyclops"
 
-if [ -z $_config_path/global.cfg ]
+if [ -f $_config_path/global.cfg ]
 then
-        echo "Global config file don't exits"
-        exit 1
-else
         source $_config_path/global.cfg
-	source $_libs_path/node_group.sh
+	[ -f "$_libs_path/node_group.sh" ] && source $_libs_path/node_group.sh || _exit_code="113"
+        case "$_exit_code" in
+        11[3-5])
+                echo "ERR: Necesary lib file doesn't exits, please revise your cyclops installation" 1>&2
+                exit $_exit_code
+        ;;
+        esac
+else
+	echo "ERR: Global config file don't exits" 1>&2
+        exit 111
 fi
 
 _system_status="OK"
@@ -58,7 +64,7 @@ alerts_gen()
 
 		[ ! -z "$_alert_sens_ms" ] && _alert_sens_ms="["$_alert_sens_ms"]"
 
-		_alert_sens=$( awk -v _id="$_alert_sens_id" '{ _line++ ; if ( _id == _line ) {  print $1 }}' $_config_path_nod/$_alert_family.mon.cfg )
+		_alert_sens=$( awk -v _id="$_alert_sens_id" '{ _line++ ; if ( _id == _line ) {  if ( $2 != "" ) { print $1"_"$2 } else { print $1 } }}' $_config_path_nod/$_alert_family.mon.cfg )
 		_alert_id=$( awk -F\; 'BEGIN { _id=0 } $1 == "ALERT" { if ( $3 > _id ) { _id=$3 }} END { _id++ ; print _id }' $_sensors_sot )
 
 		_alert_status=$( awk -F\; -v _node="$_alert_host" -v _sens="$_alert_sens" 'BEGIN { _c=0 } { gsub(/ \[.*\]/,"",$5) } $4 == _node && $5 == _sens { _c++ } END { print _c }' $_sensors_sot )
@@ -116,7 +122,7 @@ ia_analisis()
 			_node_name=$(    echo $_line | cut -d';' -f1 )
 			_node_family=$(  awk -F\; -v _node=$_node_name '$2 == _node { print $3 }' $_type)
 			_service_num=$(  echo $_line | cut -d';' -f3 )
-			_service_name=$( awk -F\; -v _sn="$_service_num" 'NR == _sn { print $1 }' $_config_path_nod/$_node_family.mon.cfg )
+			_service_name=$( awk -F\; -v _sn="$_service_num" 'NR == _sn { if ( $2 != "" ) { print $1"_"$2 } else { print $1 }}' $_config_path_nod/$_node_family.mon.cfg )
 
 			_var_line_level=$( awk -F\; -v _name="$_node_name" -v _service="$_service_name" '
 				BEGIN { 

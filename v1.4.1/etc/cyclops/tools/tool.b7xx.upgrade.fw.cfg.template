@@ -1,7 +1,0 @@
-_fw_base_path="/etc/bfup/fw/B710"
-
-_bios=$_fw_base_path"/"[biosfile]
-_bios_reg=[path]/[biosregionfile]
-_bmc_fw=$_fw_base_path"/"[bmcfirmwarefile]
-_cpld_main=$_fw_base_path"/"[cpldmainfile]
-_cpld_ioexp=$_fw_base_path"/"[cpldioexpfile]
