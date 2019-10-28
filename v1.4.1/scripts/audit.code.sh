@@ -419,7 +419,7 @@ format_timeline()
 							_ectrl=0 ;
 							if ( d < tsb  ) { 
 								if ( d + 86400 > tsb ) {
-									_tls=_tls"|" 
+									_tls=_tls">" 
 								} else { 
 									_tls=_tls" " 
 								}
@@ -436,19 +436,19 @@ format_timeline()
 										}
 									} 
 								}
-								if ( _ectrl == 1 && _cctrl == 1 ) { _tls=_tls"+" }
+								if ( _ectrl == 1 && _cctrl == 1 ) { _tls=_tls"X" }
 								if ( _ectrl == 0 && _cctrl == 1 ) { _tls=_tls"-" }
 								if ( _ectrl == 1 && _cctrl == 0 ) { _cctrl=1     }
 								if ( _ectrl == 0 && _cctrl == 0 ) { _tls=_tls" " }
-								if ( _dctrl == 1 ) { _cctrl=0 ; _dctrl=0 }
-								if ( _dbrk == ((y*100+m)*100)+_day ) { break }
+								if ( _dctrl == 1 ) { _cctrl=0 }
+								if ( _dbrk == ((y*100+m)*100)+_day ) { _cctrl=0 ;  break }
 							}
 						}
 						head[_dayini]=_day
 						_tls=_tls"|" 
 					}
 				}
-				_body=_body""sprintf("[%13.13s] :  %s\n", c, _tls)
+				_body=_body""sprintf("[%13.13s] : |%s\n", c, _tls)
 			}
 			_lh=asorti(head, headidx)
 			for (h=1;h<=_lh;h++) { 
