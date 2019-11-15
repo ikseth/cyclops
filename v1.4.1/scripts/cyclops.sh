@@ -192,7 +192,7 @@ do
 			[ "$_cyclops_action" == "start" ] && _cyclops_action="show" || exit 1
 
 			case "$_par_show" in
-			node|device|group|family|sensor|messages|procedures|critical)
+			node|device|group|family|sensor|messages|procedures|critical|stock)
 				echo "" &>/dev/null
 			;;
 			*)
@@ -396,7 +396,8 @@ do
 				echo "		diagnose: checking device, disable all alerts on it"
 				echo "		link: linking node to system, action before up mode"
 				echo "		unlink: unlinking node to system, action before drain mode"
-				echo "		status: check actually mon status from node/family/grouWp"
+				echo "		status: check actually mon status from node/family/group"
+				echo "		ignore: exclude node from any module action, only can change to other node state"
 				echo "	-n [nodename] Choose one node or range of nodes"
 				echo "		use -v to see avaible types"
 				echo "		nodename: can use regexp, BEWARE, test before launch command"
@@ -435,6 +436,7 @@ do
 				echo "		family: show node cyclops family assignament"
 				echo "		sensor: family/group/node/device active sensors"
 				echo "		messages: show dashboard messages list"
+				echo "		stock: available sensors"
 				echo "		procedures: Show procedure status, configured codes, existing pages, etc"
 				echo "		critical: Show Defined Critical Environment"
 				echo
@@ -654,7 +656,7 @@ mng_node_status()
 			mng_node_status_do
                 fi
 	;;
-	content|repair|diagnose|link|unlink|exclude|poweroff)
+	content|repair|diagnose|link|unlink|exclude|poweroff|ignore)
 
 		[ "$_opt_node" == "no" ] && echo "-n parameter needed, node or node range mandatory" && exit 1
 
@@ -729,6 +731,7 @@ mng_node_status()
 		echo "          diagnose: checking device, disable all alerts on it"
 		echo "		link: linking node to system, action before node go to up"
 		echo "		status: check actually mon status from node/s"
+		echo "		ignore: exclude node from any module action, only can change to other node state"
 	;;
 	esac
 }
@@ -828,6 +831,14 @@ show_config()
 	;;
 	critical)
 		cat $_critical_res | grep -v ^\# | cut -d';' -f2- | sed 's/;/,/4g' | sed '1 i\Total Nodes;Min Nodes;Family;Critical Sensors\n-----------;---------;------;----------------' | column -s\; -t 
+	;;
+	stock)
+		for _dir in $( ls -1 $_sensors_script_path ) 
+		do 
+			_stock_snsf=$( ls -1 $_sensors_script_path/$_dir ) 
+			_stock_sns=$(  ls -1 $_sensors_script_path/$_dir | cut -d'.' -f2 )
+			echo "${_stock_sns}" | sed "s/^/$_dir:/"
+		done
 	;;
 	*)
 	;;
@@ -1155,7 +1166,7 @@ mng_cyclops()
 			 } END {
  				for ( i in status ) {
 					if ( i ~ /up/ ) { _f1c=_cg }
-					if ( i ~ /diagnose|link|unlink|repair/ ) { _f1c=_cy }
+					if ( i ~ /diagnose|link|unlink|repair|ignore/ ) { _f1c=_cy }
 					if ( i ~ /drain/ ) { _f1c=_ca }
 					if ( i ~ /content/ ) { _f1c=_cr }
 					printf "%s%-12s%s: %s\n", _f1c, toupper(i), _nf, status[i] ;

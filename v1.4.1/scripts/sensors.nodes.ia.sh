@@ -64,7 +64,7 @@ alerts_gen()
 
 		[ ! -z "$_alert_sens_ms" ] && _alert_sens_ms="["$_alert_sens_ms"]"
 
-		_alert_sens=$( awk -v _id="$_alert_sens_id" '{ _line++ ; if ( _id == _line ) {  if ( $2 != "" ) { print $1"_"$2 } else { print $1 } }}' $_config_path_nod/$_alert_family.mon.cfg )
+		_alert_sens=$( awk -F\; -v _id="$_alert_sens_id" '{ _line++ ; if ( _id == _line ) {  if ( $2 != "" ) { print $1"_"$2 } else { print $1 } }}' $_config_path_nod/$_alert_family.mon.cfg )
 		_alert_id=$( awk -F\; 'BEGIN { _id=0 } $1 == "ALERT" { if ( $3 > _id ) { _id=$3 }} END { _id++ ; print _id }' $_sensors_sot )
 
 		_alert_status=$( awk -F\; -v _node="$_alert_host" -v _sens="$_alert_sens" 'BEGIN { _c=0 } { gsub(/ \[.*\]/,"",$5) } $4 == _node && $5 == _sens { _c++ } END { print _c }' $_sensors_sot )

@@ -287,9 +287,11 @@ cyclops_status()
 
 audit_status()
 {
+	local _audit_type=$1
+	[ "$_audit_type" == "activity" ] && local _audit_fsts="ALERT" 
 
-	_cmd_audit_status="-v eventlog -f bitacora "$( [ ! -z "$_par_node" ] && echo "-n $_par_node" )
-	_audit_status=$( eval exec $_script_path/audit.nod.sh $_cmd_audit_status 2>/dev/null | awk -F\; -v _tsb="$_date_tsb" -v _tse="$_date_tse" -v _fil="$_par_filter" '
+	_cmd_audit_status="-v eventlog -f $_audit_type "$( [ ! -z "$_par_node" ] && echo "-n $_par_node" )
+	_audit_status=$( eval exec $_script_path/audit.nod.sh $_cmd_audit_status 2>/dev/null | awk -F\; -v _tsb="$_date_tsb" -v _tse="$_date_tse" -v _fil="$_par_filter" -v _sf="$_audit_fsts" '
 		BEGIN { 
 			_lf=split(_fil,filtro,",")
 			if ( _lf != 0 ) {
@@ -300,7 +302,7 @@ audit_status()
 				}
 				_cp=_lf-_cn
 			} 
-		} $1 >= _tsb && $1 <= _tse {
+		} $1 >= _tsb && $1 <= _tse && $4 ~ _sf {
 			if ( _lf == 0 ) {
 				print strftime("%Y-%m-%d;%H:%M",$1)";"$3";"$4";"$6";"$5
 			} else {
@@ -380,6 +382,7 @@ audit_status()
 				if ( campo[5] == "FAIL" ) { _f5c=_yc ; _f3c=_yc ; _f2c=_yc }
 				if ( campo[4] == "ISSUE" ) { _f4c=_rc ; _f3c=_rc ; _f2c=_rc } 
 				if ( campo[5] == "SOLVED" ) { _f5c=_gc ; _f3c=_gc ; _f2c=_gc }
+				if ( campo[5] == "UNKNOWN" ) { _f5c=_cc ; _f3c=_cc ; _f2c=_cc ; campo[5]="UNKN" }
 				if ( campo[5] == "DOWN" ) { _f5c=_rc ; _f3c=_rc ; _f2c=_rc }
 				if ( campo[3] == "cyclops" ) { _f3c=_cc }
 				printf "%10s %s%5s%s %-4s %s%-14.14s%s %s%-12.12s%s %s%-6.6s%s %s%s\n", _date, _f2c, _time, _nf, _p, _f3c, campo[3], _nf, _f4c, campo[4], _nf, _f5c, campo[5], _nf, _f, _w;
@@ -488,12 +491,12 @@ node_real_status()
 		_node_list=$( awk -F\; -v _nl="$_node_list" '
 			BEGIN { 
 				split (_nl,n,",") 
-			} $1 !~ "#" { 
+			} $1 !~ "#" && $7 != "ignore" { 
 				for ( i in n ) { if ( $2 == n[i] ) { print $0 } }
 			}' $_type 
 			)
 	else
-		_node_list=$( cat $_type | grep -v "#" )
+		[ -f $_type ] && _node_list=$( awk -F\; '$1 ~ "^[0-9]+$" && $7 != "ignore" { print $0 }' $_type ) || exit 1 
 	fi
 
 	_node_last_up=$( [ -f "$_mon_nod_file" ] && /usr/bin/stat -c %Y $_mon_nod_file || echo 0 )
@@ -540,7 +543,7 @@ node_real_status()
 					_ns=$_nsi
 				} ;
 				split($2,n," ");
-				if ( $2 ~ "UP" || $2 ~ "DOWN" || $2 ~ "FAIL" ) {
+				if ( $2 ~ "UP" || $2 ~ "DOWN" || $2 ~ "FAIL" || $2 ~ "UNK" ) {
 					_ns=n[1]
 				} else {
 					split(_ns,st," ") ; 
@@ -1320,13 +1323,16 @@ do
 	audit)
 		case "$_par_typ" in
 		bitacora)
-			audit_status
+			audit_status bitacora
 		;;
 		codes)
 			audit_codes
 		;;
+		alerts)
+			audit_status activity
+		;;
 		*)
-			audit_status
+			audit_status bitacora
 		;;
 		esac
 	;;

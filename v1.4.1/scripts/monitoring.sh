@@ -752,8 +752,8 @@ mon_section_services()
 mon_section_nodes_background()
 {
 
-	#$_script_path"/"$_nod_mon_script -p -i -v $_opt_show -m $_nod_mon_parameters > $_sensors_temp_path/$_nod_mon_wiki_dst.txt	## PARALLEL MON LAUNCH
-	$_script_path"/"$_nod_mon_script -i -v $_opt_show -m $_nod_mon_parameters > $_sensors_temp_path/$_nod_mon_wiki_dst.txt		## SERIAL MON LAUNCH
+	$_script_path"/"$_nod_mon_script -p -i -v $_opt_show -m $_nod_mon_parameters > $_sensors_temp_path/$_nod_mon_wiki_dst.txt	## PARALLEL MON LAUNCH
+	#$_script_path"/"$_nod_mon_script -i -v $_opt_show -m $_nod_mon_parameters > $_sensors_temp_path/$_nod_mon_wiki_dst.txt		## SERIAL MON LAUNCH
 	echo $_nod_mon_field_num";"$? >> $_sensors_temp_path/$_nod_mon_script.$_pid.tmp
 	cp $_sensors_temp_path/$_nod_mon_wiki_dst.txt  $_mon_path/$_nod_mon_wiki_dst.txt
 

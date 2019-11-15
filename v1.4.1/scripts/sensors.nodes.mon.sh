@@ -204,7 +204,7 @@ mon_sh_create()
         echo                                                    
         if [ -f "$_cyc_clt_etc_path/local.main.cfg" ]
         then
-                awk '$1 !~ "#" && $1 ~ "=" { 
+                awk '$1 !~ "#" && $1 ~ "=" && $1 !~ /\./ { 
                         split($1,field,"=") ; 
                         if ( field[2] !~ /[.][a-zA-Z0-9]+$/ ) { var[field[1]]=field[2] }
                         print "export "$1 ;  
@@ -227,7 +227,7 @@ mon_sh_create()
 
         if [ "$_cyc_razor_status" == "ENABLED" ]
         then
-                echo "$_cyc_clt_rzr_scp -a enable"
+                echo "[ -f \"$_cyc_clt_rzr_scp\" ] && $_cyc_clt_rzr_scp -a enable"
                 if [ -f "$_config_path_nod/$_node_family.rzr.lst" ]
                 then
                         echo "echo -e \"$( cat $_config_path_nod/$_node_family.rzr.lst | egrep -v "^$|^#" | tr '\n' '@' | sed 's/@/\\n/g' )\" >$_cyc_clt_rzr_cfg/$_node_family.rzr.lst" 
@@ -235,7 +235,7 @@ mon_sh_create()
                         echo "echo >$_cyc_clt_rzr_cfg/$_node_family.rzr.lst"
                 fi
         else
-                echo "$_cyc_clt_rzr_scp -a disable"
+                echo "[ -f \"$_cyc_clt_rzr_scp\" ] && $_cyc_clt_rzr_scp -a disable"
         fi
 
         echo "#### end cyc razor data ####"
@@ -411,9 +411,9 @@ mon_check_status()
 
 				if [ "$_cyc_razor_status" == "ENABLED" ] 
 				then
-					ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name "$_cyc_clt_rzr_scp -a enable ; echo \"$_node_family;$_node_group;$_node_os;$_node_power;$_node_available\" >$_cyc_clt_rzr_cfg/$_node_name.rol.cfg" 
+					ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name "$_cyc_clt_rzr_scp -a enable ; echo \"$_node_family;$_node_group;$_node_os;$_node_power;$_node_available\" >$_cyc_clt_rzr_cfg/$_node_name.rol.cfg" 2>/dev/null 
 				else
-					ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_cyc_clt_rzr_scp -a disable 
+					ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_cyc_clt_rzr_scp -a disable 2>/dev/null 
 				fi
                         ;;
 			*"Chassis Power is off")
@@ -440,9 +440,9 @@ mon_check_status()
 
 			if [ "$_cyc_razor_status" == "ENABLED" ] 
 			then
-				ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name "$_cyc_clt_rzr_scp -a enable ; echo \"$_node_family;$_node_group;$_node_os;$_node_power;$_node_available\" >$_cyc_clt_rzr_cfg/$_node_name.rol.cfg" 
+				ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name "$_cyc_clt_rzr_scp -a enable ; echo \"$_node_family;$_node_group;$_node_os;$_node_power;$_node_available\" >$_cyc_clt_rzr_cfg/$_node_name.rol.cfg" 2>/dev/null 
 			else
-				ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_cyc_clt_rzr_scp -a disable 
+				ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_cyc_clt_rzr_scp -a disable 2>/dev/null 
 			fi
 
                 ;;
@@ -456,9 +456,9 @@ mon_check_status()
 
 			if [ "$_cyc_razor_status" == "ENABLED" ] 
 			then
-				ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name "$_cyc_clt_rzr_scp -a enable ; echo \"$_node_family;$_node_group;$_node_os;$_node_power;$_node_available\" >$_cyc_clt_rzr_cfg/$_node_name.rol.cfg" 
+				ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name "$_cyc_clt_rzr_scp -a enable ; echo \"$_node_family;$_node_group;$_node_os;$_node_power;$_node_available\" >$_cyc_clt_rzr_cfg/$_node_name.rol.cfg" 2>/dev/null 
 			else
-				ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_cyc_clt_rzr_scp -a disable 
+				ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_cyc_clt_rzr_scp -a disable 2>/dev/null 
 			fi
                 ;;
                 esac
@@ -511,6 +511,9 @@ mon_check_status()
                 ;;
                 esac
 	;;
+	ignore)
+		echo "" 2>&1 /dev/null
+	;;
 	*)
 		_admin_status="unknown"
 
@@ -553,7 +556,7 @@ mon_node()
 
 	case "$_err" in
 	0)
-                scp "$_sensors_config_path/torquemada.sensor.sh" "$_node_name":"$_sensor_remote_path"/ 2>&1 >/dev/null
+                scp "$_sensors_config_path/torquemada.sensor.sh" "$_node_name":"$_sensor_remote_path"/ 2>/dev/null >/dev/null
                 _status_conf_files=$( ls -1 $_sensors_config_path | grep $_node_name | wc -l )
 
                 [ "$_status_conf_files" != "0" ] && scp -r "$_sensors_config_path/$_node_name"* "$_node_name":"$_sensor_remote_path"/ 2>&1 >/dev/null

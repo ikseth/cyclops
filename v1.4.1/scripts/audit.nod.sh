@@ -409,7 +409,7 @@ read_data()
 		[ -z "$_par_node" ] && _long=$( cat $_type $_dev | awk -F\; '$1 ~ "[0-9]" { print $2 }' )
 		if [ "$_par_show" == "eventlog" ] || [ "$_par_show" == "humanlog" ]
 		then
-			_long=${_long}"\n"$( awk -F\; '$0 !~ "#" { print $1 }' $_config_path_aud/bitacoras.cfg  )
+			_long=${_long}""$( awk -F\; 'BEGIN { print "" } $0 !~ "#" { print $1 }' $_config_path_aud/bitacoras.cfg  )
 		fi
 
 		_count=0
