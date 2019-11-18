@@ -174,7 +174,7 @@ ps_zombie_check()
 			for(i=17;i<=NF;i++) { 
 				_lf=_lf""$i" " 
 			} ;
-			print systime()";"_hn";"$3";"$4";"$2";["_lf"];"$5";NO ACTION REQUIRED" 
+			print systime()";"_hn";"$3";"$4";"$5";"$2";["_lf"];NO ACTION REQUIRED" 
 		}'
 }
 
@@ -197,7 +197,7 @@ ps_zombie_kill()
 					_ksp="CAN NOT KILL THEM ["_ksc","_kscp"]" 
 				}
 			} 
-			print systime()";"_hn";"$3";"$4";"$2";["_lf"];"$5";"_ksp 
+			print systime()";"_hn";"$3";"$4";"$5";"$2";["_lf"];"_ksp 
 		}'
 
 }
@@ -220,7 +220,7 @@ ps_orphan_check()
 			for(i=17;i<=NF;i++) { 
 				_lf=_lf""$i" " 
 			} ;
-			print systime()";"_hn";"$3";"$4";"$2";["_lf"];"$5";NO ACTION REQUIRED" 
+			print systime()";"_hn";"$3";"$4";"$5";"$2";["_lf"];NO ACTION REQUIRED" 
 		}'
 
 }
@@ -265,7 +265,7 @@ ps_orphan_kill()
 			} ;
 			_ksc=system("kill -9 "$4" 2>&1 >/dev/null" )
 			if ( _ksc == 0 ) { _ksp="KILLED" } else { _ksp="CAN NOT KILL IT ["_ksc"]" } 
-			print systime()";"_hn";"$3";"$4";"$2";["_lf"];"$5";"_ksp 
+			print systime()";"_hn";"$3";"$4";"$5";"$2";["_lf"];"_ksp 
 		}'
 }
 
