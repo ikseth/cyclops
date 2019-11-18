@@ -244,7 +244,7 @@ mon_sh_create()
         for _resource in $( cat $_config_path_nod/$_node_family.mon.cfg )
         do
 		_daemon=$( echo "$_resource" | cut -d';' -f1 ) 
-		_settings=$( echo "$_resource" | awk -F\; '{ for (i=2;i<=NF;i++) { printf " "$i }} END { print "" }' ) 
+		_settings=$( echo "$_resource" | awk -F\; '{ for (i=2;i<=NF;i++) { printf " \47%s\47", $i }} END { print "" }' ) 
 
                 echo "func_""$_daemon()"
                 echo "{"

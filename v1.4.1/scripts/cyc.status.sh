@@ -263,7 +263,7 @@ cyclops_status()
 
 	_sot_codes=$( awk -F\; '$1 ~ "[0-9]+" { print $0 }' $_sensors_sot_codes_file )
 	
-	awk -F\; -v _sc="${_sot_codes}" -v _cg="$_sh_color_green" -v _cy="$sh_color_gray" -v _nf="$_sh_color_nformat" '
+	awk -F\; -v _sc="${_sot_codes}" -v _cg="$_sh_color_green" -v _cy="$_sh_color_gray" -v _nf="$_sh_color_nformat" '
 		BEGIN {
 			split(_sc,sc,"\n") 
 			for ( s in sc ) {
