@@ -61,13 +61,15 @@ alerts_gen()
 		_alert_sens_id=$( echo $_alert_incidence | cut -d';' -f3 )
 		_alert_sens_ms=$( echo $_alert_incidence | cut -d';' -f4 )
 		_alert_family=$( awk -F\; -v _node="$_alert_host" '$2 == _node { print $3 }' $_type )
+		
+		[ -z "$_alert_family" ] && return 1
 
 		[ ! -z "$_alert_sens_ms" ] && _alert_sens_ms="["$_alert_sens_ms"]"
 
 		_alert_sens=$( awk -F\; -v _id="$_alert_sens_id" '{ _line++ ; if ( _id == _line ) {  if ( $2 != "" ) { print $1"_"$2 } else { print $1 } }}' $_config_path_nod/$_alert_family.mon.cfg )
 		_alert_id=$( awk -F\; 'BEGIN { _id=0 } $1 == "ALERT" { if ( $3 > _id ) { _id=$3 }} END { _id++ ; print _id }' $_sensors_sot )
 
-		_alert_status=$( awk -F\; -v _node="$_alert_host" -v _sens="$_alert_sens" 'BEGIN { _c=0 } { gsub(/ \[.*\]/,"",$5) } $4 == _node && $5 == _sens { _c++ } END { print _c }' $_sensors_sot )
+		_alert_status=$( awk -F\; -v _node="$_alert_host" -v _sens="$_alert_sens" 'BEGIN { _c=0 } { gsub(/ *\[.*\]| *$/,"",$5) } $4 == _node && $5 == _sens { _c++ } END { print _c }' $_sensors_sot )
 
 		[ "$_alert_status" == "0" ] && echo "ALERT;NOD;$_alert_id;$_alert_host;$_alert_sens $_alert_sens_ms;$( date +%s );0" >> $_sensors_sot 
 
@@ -90,7 +92,11 @@ alerts_del()
 	do
 		_alert_ok_status=$( awk -F\; -v _node="$_alert_ok_host" 'BEGIN { _count=0 } $4 == _node { _count++ } END { print _count }' $_sensors_sot )
 	
-		[ "$_alert_ok_status" -ne 0 ] && sed -i -e "/^ALERT;NOD;[0-9]*;$_alert_ok_host;.*;3/d" -e "s/\(^ALERT;NOD;[0-9]*;$_alert_ok_host;.*;\)[01]$/\12/" $_sensors_sot	
+		if [ "$_alert_ok_status" != "0" ] 
+		then
+			awk -F\; -v _on="$_alert_ok_host" '$1 == "ALERT" && $2 == "NOD" && $4 == _on { print systime()";DELETE;"$0 }' $_sensors_sot >> $_mon_log_path/alerts.manage.log
+			sed -i -e "/^ALERT;NOD;[0-9]*;$_alert_ok_host;.*;3/d" -e "s/\(^ALERT;NOD;[0-9]*;$_alert_ok_host;.*;\)[01]$/\12/" $_sensors_sot	
+		fi
 		
 		# AUDIT LOG TRACERT 
 		# [ "$_audit_status" == "ENABLE" ] && echo "$( date +%s );NOD;system health;host sensors recovery;OK"  >> $_audit_data_path/$_alert_ok_host.activity.txt ### REFACTORING PLEASE
@@ -121,6 +127,8 @@ ia_analisis()
 		do
 			_node_name=$(    echo $_line | cut -d';' -f1 )
 			_node_family=$(  awk -F\; -v _node=$_node_name '$2 == _node { print $3 }' $_type)
+			
+			[ -z "$_node_family" ] && return 1
 			_service_num=$(  echo $_line | cut -d';' -f3 )
 			_service_name=$( awk -F\; -v _sn="$_service_num" 'NR == _sn { if ( $2 != "" ) { print $1"_"$2 } else { print $1 }}' $_config_path_nod/$_node_family.mon.cfg )
 

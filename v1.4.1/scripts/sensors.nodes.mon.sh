@@ -241,6 +241,20 @@ mon_sh_create()
         echo "#### end cyc razor data ####"
         echo
 
+	echo "#### begin hardware extractors type ####"
+
+	case "$_node_power" in
+	ipmi)
+		echo '#### main ipmitool sensor extractors needs ####'
+		echo '_ipmi_cmd=$( which ipmitool 2>/dev/null )'	
+		echo '[ ! -z "$_ipmi_cmd" ] && _ipmi_sensor=$( $_ipmi_cmd sensor )'
+	;;
+	none)
+		echo '#### no main extractors needs #####'
+	;;
+	esac
+	echo "#### end hardware extractros type ####"
+
         for _resource in $( cat $_config_path_nod/$_node_family.mon.cfg )
         do
 		_daemon=$( echo "$_resource" | cut -d';' -f1 ) 
@@ -261,7 +275,7 @@ mon_sh_create()
 
         echo "launch()"
         echo "{"
-        echo -e "${_sensor_func_list}" | awk -F\: -v _op="$_opt_par" 'BEGIN { if ( _op == "yes" ) { _c="&" } else { _c="" }} $1 != "" { print "echo \""NR":$( func_"$1" ) \" "_c }'
+        echo -e "${_sensor_func_list}" | awk -F\: -v _op="$_opt_par" 'BEGIN { if ( _op == "yes" ) { _c="&" } else { _c="" }} $1 != "" { if ( NR > 2 ) { print "echo \""NR":$( func_"$1" ) \" "_c } else { print "echo \""NR":$( func_"$1" ) \"" }}'
         [ "$_opt_par" == "yes" ] && echo "wait"
         echo "}"
 
@@ -757,32 +771,49 @@ family_processing()
 
 	_output_line=0
 
-	for _node_name in $( echo "${_long}" )
-	do
-		_node_list=$( awk -F\; -v _n="$_node_name" '$2 == _n { print $3";"$4";"$5";"$6";"$7 }' $_type ) 
+	_node_data=$( awk -F\; -v _nl="${_long}" '
+		BEGIN { 
+			split(_nl,ln,"\n") 
+		} { 
+			for ( i in ln ) { 
+				if ( $2 == ln[i] ) {  
+					family[$3]=family[$3]"\n"$2";"$3";"$4";"$5";"$6";"$7 
+				} 
+			} 
+		} END { 
+			_fl=asorti(family, famidx) ; 
+			for (a=1;a<=_fl;a++) { 
+				_t=famidx[a] ; 
+				print family[_t] 
+			}
+		}' $_type | sed '/^$/d' )
 
-		if [ ! -z "$_node_list" ]
-		then
-			_node_family=$( echo $_node_list | cut -d';' -f1 )
-			_node_group=$( echo $_node_list | cut -d';' -f2 )
-			_node_os=$( echo $_node_list | cut -d';' -f3 )
-			_node_power=$( echo $_node_list | cut -d';' -f4 )
-			_node_available=$( echo $_node_list | cut -d';' -f5 )
+	if [ ! -z "$_node_data" ]
+	then
+		for _node_list in $( echo "${_node_data}" )
+		do
+			#_node_list=$( awk -F\; -v _n="$_node_name" '$2 == _n { print $3";"$4";"$5";"$6";"$7 }' $_type ) 
+
+			_node_name=$( echo $_node_list | cut -d';' -f1 )
+			_node_family=$( echo $_node_list | cut -d';' -f2 )
+			_node_group=$( echo $_node_list | cut -d';' -f3 )
+			_node_os=$( echo $_node_list | cut -d';' -f4 )
+			_node_power=$( echo $_node_list | cut -d';' -f5 )
+			_node_available=$( echo $_node_list | cut -d';' -f6 )
 
 			if [ "$_family_old" != "$_node_family" ]
 			then
 				let "_output_line++"    
-				awk -F\; -v _ol="$_output_line" 'BEGIN { _head=_ol";family@" } { if ( $2 != "" ) { _head=_head""$1"_"$2"@" } else { _head=_head""$1"@" }} END { print _head }' $_config_path_nod/$_node_family.mon.cfg
+				awk -F\; -v _ol="$_output_line" 'BEGIN { _head=_ol";family@" } { if ( $2 != "" ) { _head=_head""$1"_"$2"@" } else { _head=_head""$1"@" }} END { gsub("@$","",_head) ; print _head }' $_config_path_nod/$_node_family.mon.cfg
 				_family_old=$_node_family
 			fi
 
 			let "_output_line++" 
 		
 			mon_check_status &
-		fi
-
-	done | sort 
-
+		done  
+		wait
+	fi
 }
 
 wiki_format()
@@ -804,7 +835,7 @@ wiki_format()
 	then
 		_total_nodes=$( cat $_type | wc -l )
 	else
-		_total_nodes=$( cat $_type | awk -F\; -v _fam="$_par_mon" 'BEGIN { _count=0 } $4 == _fam || $3 == _fam { _count++ } END { print _count }'  )	
+		_total_nodes=$( echo "${_long}" | wc -l )	
 	fi
 
 	_active_nodes=$( echo -e "${_output}" | grep -v \@ | cut -d';' -f3 | grep ^UP | wc -l )
@@ -830,7 +861,7 @@ wiki_format()
 	echo "	" 
 	echo 
 	echo "|< 100% 15% 11% 11% 11% 11% 11% 15% 15% >|"
-	echo "|  $_family_status ** <fc $_family_font_color > $( echo $_par_mon | tr [:lower:] [:upper:] ) </fc> **  |  $_title_status Time  |  $_title_status Total Nodes  |  $_title_status Active Nodes  |  $_title_status Sensor Alerts  |  $_title_status Warnings  |  $_title_status Max Uptime  |  $_title_status Min Uptime    |"
+	echo "|  $_family_status ** <fc $_family_font_color > $( echo $_par_mon | tr [:lower:] [:upper:] | tr -d '@' ) </fc> **  |  $_title_status Time  |  $_title_status Total Nodes  |  $_title_status Active Nodes  |  $_title_status Sensor Alerts  |  $_title_status Warnings  |  $_title_status Max Uptime  |  $_title_status Min Uptime    |"
 	echo "|  :::  |  $( date +%H.%M.%S )  |  $_total_nodes              |  $_active_nodes_color $_active_nodes  |  $_sensor_alerts_color $_sensor_alerts  |  $_warnings_color $_warnings_active  |  $_maxup_color $_maxup_node  |  $_minup_color $_minup_node  |"
 
 	if [ "$_exit_code" -ne 0 ] && [ "$_exit_code" -ne 12 ] 
@@ -842,7 +873,7 @@ wiki_format()
 	fi
 
 	echo
-	echo "<hidden $_par_mon $_ia_hidden_state>"
+	echo "<hidden $( echo $_par_mon | tr -d '@' ) $_ia_hidden_state>"
 	### REFACTORING NEXT LINE ( awk -F\; -v _awp="$_audit_wiki_path" -v _wfp="$_wiki_audit_path" 'BEGIN { OFS=";" } $3 != "" { split ($3,a," ") ; if( system( "[ -f "_awp"/"a[2]".audit.txt ] " )  == 0 ) { $3=a[1]" {{popup>"_wfp":"a[2]".audit?[%100x700%]&[keepOpen] |"a[2]"}}" }} { print $0 }' ) ## INSERT AUDIT LINK TO NODE MON
 	echo -e "${_output}" | sort -n | cut -d';' -f2- |
 		sed '/^$/d' |
