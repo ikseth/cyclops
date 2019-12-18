@@ -142,7 +142,7 @@ mon_analisys()
         _env_status_pg_alert=0
 	
 
-        for _env_status_pg_line in $( cat $_critical_res | grep -v ^\# )
+        for _env_status_pg_line in $( awk -F\; '$1 != "#" && $1 ~ "[0-9]+" { print $0 }' $_critical_res )
         do
 		let "_analisys_index++"
                 _env_status_pg_total_nod=$( echo $_env_status_pg_line | cut -d';' -f2 )
@@ -163,15 +163,12 @@ mon_analisys()
                         if [ "$_env_status_pg_total" -lt "$_env_status_pg_min_nod" ]
 			then
                                 _env_status_pg_status="NOT OPERATIVE"
-				if [ "$_env_status_pg_global" == "OPERATIVE" ] || [ "$_env_status_pg_global" == "OPERATIVE WITH WARNINGS" ] 
-				then
-					_env_status_pg_global="NOT OPERATIVE"
-				fi
+				_env_status_pg_global="NOT OPERATIVE"
 			else
 				if [ "$_env_status_pg_total" -lt "$_env_status_pg_total_nod" ]
 				then
 					_env_status_pg_status="OPERATIVE WITH WARNINGS"
-					[ "$_env_status_pg_global" == "0" ] && _env_status_pg_global="OPERATIVE WITH WARNINGS"
+					[ "$_env_status_pg_global" == "OPERATIVE" ] && _env_status_pg_global="OPERATIVE WITH WARNINGS"
 				else
 					_env_status_pg_status="OPERATIVE"
 				fi

@@ -1522,46 +1522,68 @@ mon_node_operative_pg()
 
 mon_env_status_pg()
 {
-
-	_mon_nod_input=$( echo "${_nod_print}" | tr '|' ';' | awk -F\; 'NF > 5 { print $0 }' | sed -e 's/ //g' -e "s/$_color_up/UP /g" -e "s/$_color_fail/FAIL /g" -e "s/$_color_ok/OK /g" -e "s/$_color_down/DOWN /g" -e 's/@#[0-9A-F]*\://g' -e 's/^;//' -e 's/ ;/;/g' -e 's/;$//' )
-	_env_status_pg_status="OPERATIVE"
-	_env_status_pg_color=$_color_ok
-	_env_status_pg_alert=0
-
-	for _env_status_pg_line in $( cat $_critical_res | grep -v ^\# )
-	do
-		_env_status_pg_total_nod=$(  echo $_env_status_pg_line | cut -d';' -f2 )
-		_env_status_pg_min_nod=$(    echo $_env_status_pg_line | cut -d';' -f3 )
-		_env_status_pg_family=$(     echo $_env_status_pg_line | cut -d';' -f4 )
-		_env_status_pg_res_list=$(   echo $_env_status_pg_line | cut -d';' -f5- )
-		_env_status_pg_total_real=$( awk -F\; -v _f="$_env_status_pg_family" 'BEGIN { _count=0 } $3 == _f || $4 == _f { _count++ } END { print _count }' $_type )
-
-		_env_status_pg_input=$(  echo "${_mon_nod_input}" | grep -B 1 "^$_env_status_pg_family;" )
-		_env_status_pg_filter=$( echo "${_env_status_pg_input}" | awk -F\; -v cols="$_env_status_pg_res_list" 'BEGIN { OFS=";" ; split(cols,out,";") } NR==1 { for (i=1;i<=NF;i++) ix[$i]=i } NR>1 { for (i in out) printf "%s%s", $ix[out[i]], OFS ; print "" }' )
-		_env_status_pg_health=$( echo "${_env_status_pg_filter}" | awk -F\; 'BEGIN { _node=0 } { if ( $0 ~ /FAIL|DOWN|DIAGNOSE|MAINTENANCE|CONTENT|REPAIR/ ) _node++ } END { print _node }' )
-
-		if [ "$_env_status_pg_health" -ne 0 ]
-		then
-			let "_env_status_pg_total=_env_status_pg_total_real - _env_status_pg_health"
-
-			if [ "$_env_status_pg_total" -lt $_env_status_pg_total_nod ] 
-			then
-				_env_status_pg_status="OPERATIVE"
-				_env_status_pg_color=$_color_fail
-				_active_sound="yes" 
-				_env_status_pg_sound="{{mp3play>:wiki:high_alert.mp3?autostart&loop}}"
-			fi
-
-			if [ "$_env_status_pg_total" -lt $_env_status_pg_min_nod ] 
-			then
-				_env_status_pg_status="NOT OPERATIVE"
-				_env_status_pg_color=$_color_down 
-				_active_sound="yes" 
-				_env_status_pg_sound="{{mp3play>:wiki:alarm.mp3?autostart&loop}}"
-			fi
-
-		fi
-	done
+        _mon_nod_input=$( echo "${_nod_print}" | tr '|' ';' | awk -F\; 'NF > 5 { print $0 }' | sed -e 's/ //g' -e "s/$_color_up/UP /g" -e "s/$_color_fail/FAIL /g" -e "s/$_color_ok/OK /g" -e "s/$_color_down/DOWN /g" -e 's/@#[0-9A-F]*\://g' -e 's/^;//' -e 's/ ;/;/g' -e 's/;$//' ) 
+        _env_status_pg_global="21"
+        _env_status_pg_alert=0
+        
+        for _env_status_pg_line in $( cat $_critical_res | grep -v ^\# )
+        do      
+                _env_status_pg_total_nod=$(  echo $_env_status_pg_line | cut -d';' -f2 )
+                _env_status_pg_min_nod=$(    echo $_env_status_pg_line | cut -d';' -f3 )
+                _env_status_pg_family=$(     echo $_env_status_pg_line | cut -d';' -f4 )
+                _env_status_pg_res_list=$(   echo $_env_status_pg_line | cut -d';' -f5- )
+                _env_status_pg_total_real=$( awk -F\; -v _f="$_env_status_pg_family" 'BEGIN { _count=0 } $3 == _f || $4 == _f { _count++ } END { print _count }' $_type )
+                
+                _env_status_pg_input=$(  echo "${_mon_nod_input}" | grep -B 1 "^$_env_status_pg_family;" )
+                _env_status_pg_filter=$( echo "${_env_status_pg_input}" | awk -F\; -v cols="$_env_status_pg_res_list" 'BEGIN { OFS=";" ; split(cols,out,";") } NR==1 { for (i=1;i<=NF;i++) ix[$i]=i } NR>1 { for (i in out) printf "%s%s", $ix[out[i]], OFS ; print "" }' )
+                _env_status_pg_health=$( echo "${_env_status_pg_filter}" | awk -F\; 'BEGIN { _node=0 } { if ( $0 ~ /FAIL|DOWN|DIAGNOSE|MAINTENANCE|CONTENT|REPAIR/ ) _node++ } END { print _node }' )
+                
+                if [ "$_env_status_pg_health" -ne 0 ] && [ "$_env_status_pg_global" != "2" ]
+                then    
+                        let "_env_status_pg_total=_env_status_pg_total_real - _env_status_pg_health"
+                        
+                        if [ "$_env_status_pg_total" -lt "$_env_status_pg_min_nod" ]
+                        then    
+                                _env_status_pg_global=2
+                        else    
+                                if [ "$_env_status_pg_total" -lt "$_env_status_pg_total_nod" ] 
+                                then    
+                                        _env_status_pg_global=1
+				else
+					[ "$_env_status_pg_global" != "1" ] && _env_status_pg_global=0
+                                fi
+                        fi
+		else
+			[ "$_env_status_pg_global" != "1" ] && _env_status_pg_global=0
+                fi
+        done
+        
+        case "$_env_status_pg_global" in
+        "0")      
+                _env_status_pg_status="OPERATIVE"
+                _env_status_pg_color=$_color_ok
+        ;;
+        "1")      
+                _env_status_pg_status="OPERATIVE"
+                _env_status_pg_color=$_color_fail
+                _active_sound="yes"
+                _env_status_pg_sound="{{mp3play>:wiki:high_alert.mp3?autostart&loop}}"
+        ;;
+        "2")      
+                _env_status_pg_status="NOT OPERATIVE"
+                _env_status_pg_color=$_color_down
+                _active_sound="yes"
+                _env_status_pg_sound="{{mp3play>:wiki:alarm.mp3?autostart&loop}}"
+        ;;
+	"21")
+                _env_status_pg_status="DISABLE"
+                _env_status_pg_color=$_color_disable
+	;;
+        *)
+                _env_status_pg_status="UNKNOWN"
+                _env_status_pg_color=$_color_unk
+        ;;
+        esac
 }
 
 

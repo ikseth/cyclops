@@ -36,6 +36,7 @@ _par_show="default"
 
 _cyc_reactive_trigger="0"
 _config_path="/etc/cyclops"
+_ssh_timeout="65s"
 
 ###########################################
 #              LIB LOAD  		  #
@@ -425,9 +426,9 @@ mon_check_status()
 
 				if [ "$_cyc_razor_status" == "ENABLED" ] 
 				then
-					ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name "$_cyc_clt_rzr_scp -a enable ; echo \"$_node_family;$_node_group;$_node_os;$_node_power;$_node_available\" >$_cyc_clt_rzr_cfg/$_node_name.rol.cfg" 2>/dev/null 
+					timeout $_ssh_timeout ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name "$_cyc_clt_rzr_scp -a enable ; echo \"$_node_family;$_node_group;$_node_os;$_node_power;$_node_available\" >$_cyc_clt_rzr_cfg/$_node_name.rol.cfg" 2>/dev/null 
 				else
-					ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_cyc_clt_rzr_scp -a disable 2>/dev/null 
+					timeout $_ssh_timeout ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_cyc_clt_rzr_scp -a disable 2>/dev/null 
 				fi
                         ;;
 			*"Chassis Power is off")
@@ -454,9 +455,9 @@ mon_check_status()
 
 			if [ "$_cyc_razor_status" == "ENABLED" ] 
 			then
-				ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name "$_cyc_clt_rzr_scp -a enable ; echo \"$_node_family;$_node_group;$_node_os;$_node_power;$_node_available\" >$_cyc_clt_rzr_cfg/$_node_name.rol.cfg" 2>/dev/null 
+				timeout $_ssh_timeout ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name "$_cyc_clt_rzr_scp -a enable ; echo \"$_node_family;$_node_group;$_node_os;$_node_power;$_node_available\" >$_cyc_clt_rzr_cfg/$_node_name.rol.cfg" 2>/dev/null 
 			else
-				ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_cyc_clt_rzr_scp -a disable 2>/dev/null 
+				timeout $_ssh_timeout ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_cyc_clt_rzr_scp -a disable 2>/dev/null 
 			fi
 
                 ;;
@@ -470,9 +471,9 @@ mon_check_status()
 
 			if [ "$_cyc_razor_status" == "ENABLED" ] 
 			then
-				ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name "$_cyc_clt_rzr_scp -a enable ; echo \"$_node_family;$_node_group;$_node_os;$_node_power;$_node_available\" >$_cyc_clt_rzr_cfg/$_node_name.rol.cfg" 2>/dev/null 
+				timeout $_ssh_timeout ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name "$_cyc_clt_rzr_scp -a enable ; echo \"$_node_family;$_node_group;$_node_os;$_node_power;$_node_available\" >$_cyc_clt_rzr_cfg/$_node_name.rol.cfg" 2>/dev/null 
 			else
-				ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_cyc_clt_rzr_scp -a disable 2>/dev/null 
+				timeout $_ssh_timeout ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_cyc_clt_rzr_scp -a disable 2>/dev/null 
 			fi
                 ;;
                 esac
@@ -565,18 +566,18 @@ check_cyc_client()
 mon_node()
 {
 
-	_err=$( ssh -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name  "$(typeset -f);check_cyc_client" $_base_path $_sensor_remote_path 2>/dev/null >/dev/null ; echo $? )
-	[ "$_err" == "0" ] && _err=$( scp -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_sensors_data"/"$_node_name".mon.sh" "$_node_name":"$_sensor_remote_path"/ 2>/dev/null >/dev/null ; echo $? )
+	_err=$( timeout $_ssh_timeout ssh -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name  "$(typeset -f);check_cyc_client" $_base_path $_sensor_remote_path 2>/dev/null >/dev/null ; echo $? )
+	[ "$_err" == "0" ] && _err=$( timeout $_ssh_timeout scp -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_sensors_data"/"$_node_name".mon.sh" "$_node_name":"$_sensor_remote_path"/ 2>/dev/null >/dev/null ; echo $? )
 
 	case "$_err" in
 	0)
-                scp "$_sensors_config_path/torquemada.sensor.sh" "$_node_name":"$_sensor_remote_path"/ 2>/dev/null >/dev/null
-                _status_conf_files=$( ls -1 $_sensors_config_path | grep $_node_name | wc -l )
+                timeout $_ssh_timeout scp "$_sensors_config_path/torquemada.sensor.sh" "$_node_name":"$_sensor_remote_path"/ 2>/dev/null >/dev/null
+                _status_conf_files=$( ls -1 $_sensors_config_path | awk -F\. -v _nn="$_node_name" -v _pf="$_sensors_config_path" 'BEGIN { _f="" } $1 == _nn { _f=_f" "_pf"/"$0 } END { print _f }' )
 
-                [ "$_status_conf_files" != "0" ] && scp -r "$_sensors_config_path/$_node_name"* "$_node_name":"$_sensor_remote_path"/ 2>&1 >/dev/null
+                [ ! -z "$_status_conf_files" ] && timeout $_ssh_timeout scp $_status_conf_files "$_node_name":"$_sensor_remote_path"/ 2>&1 >/dev/null
 
-                _node_remote_exec=$( ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_sensor_remote_path"/"$_node_name".mon.sh" 2>/dev/null )
-                _node_ia=$(echo $_node_remote_exec | sed -e 's/@$//')
+                _node_remote_exec=$( timeout $_ssh_timeout ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_sensor_remote_path"/"$_node_name".mon.sh" 2>/dev/null )
+                [ -z "$_node_remote_exec" ] &&  _node_ia="hostname:$_node_name@ mon_time:$(date +%H.%M.%S)@ uptime:FAIL mon timeout\n" || _node_ia=$(echo $_node_remote_exec | sed -e 's/@$//')
 
                 [ $(echo $_node_ia | grep FAIL 2>/dev/null | wc -l ) -ne 0 ] && _nodename_tag="FAIL"
                 [ $(echo $_node_ia | grep DOWN 2>/dev/null | wc -l ) -ne 0 ] && _nodename_tag="DOWN"
@@ -701,11 +702,11 @@ reactive_func()
 		if [ "$_nodename_tag" == "FAIL" ] || [ "$_nodename_tag" == "DOWN" ]
 		then
 
-			_node_rzr_status=$( ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_cyc_clt_rzr_scp -a check ; echo $? )
+			_node_rzr_status=$( timeout $_ssh_timeout ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_cyc_clt_rzr_scp -a check ; echo $? )
 
 			if [ "$_node_rzr_status" != "0" ] && [ "$_node_rzr_status" != "21" ] 
 			then
-				_node_rzr_status=$( ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_cyc_clt_rzr_scp -a $_admin_status ; echo $? )
+				_node_rzr_status=$( timeout $_ssh_timeout ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_cyc_clt_rzr_scp -a $_admin_status ; echo $? )
 
 				if [ "$_node_rzr_status" != "0" ] && [ "$_node_rzr_status" != "21" ]
 				then
@@ -728,10 +729,10 @@ reactive_func()
 	repair)
 		if [ "$_nodename_tag" == "FAIL" ] || [ "$_nodename_tag" == "DOWN" ]
 		then
-			_node_rzr_status=$( ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_cyc_clt_rzr_scp -a check ; echo $? )
+			_node_rzr_status=$( timeout $_ssh_timeout ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_cyc_clt_rzr_scp -a check ; echo $? )
 			if [ "$_node_rzr_status" != "0" ] && [ "$_node_rzr_status" != "21" ]
 			then
-				_node_rzr_status=$( ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_cyc_clt_rzr_scp -a repair ; echo $? )
+				_node_rzr_status=$( timeout $_ssh_timeout ssh  -o ConnectTimeout=12 -o StrictHostKeyChecking=no $_node_name $_cyc_clt_rzr_scp -a repair ; echo $? )
 
 				if [ "$_node_rzr_status" == "0" ] || [ "$_node_rzr_status" == "21" ]
 				then
