@@ -142,7 +142,7 @@ mon_analisys()
         _env_status_pg_alert=0
 	
 
-        for _env_status_pg_line in $( awk -F\; '$1 != "#" && $1 ~ "[0-9]+" { print $0 }' $_critical_res )
+        for _env_status_pg_line in $( awk -F\; '$1 ~ "^[0-9]+$" { print $0 }' $_critical_res )
         do
 		let "_analisys_index++"
                 _env_status_pg_total_nod=$( echo $_env_status_pg_line | cut -d';' -f2 )
