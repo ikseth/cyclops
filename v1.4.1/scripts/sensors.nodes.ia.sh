@@ -48,6 +48,7 @@ _rules_detected=0
 _ia_codes=""
 
 _audit_status=$( awk -F\; '$1 == "CYC" && $2 == "0003" && $3 == "AUDIT" { print $4 }' $_sensors_sot )
+_mail_status=$( awk -F\; '$1 == "CYC" && $2 == "0004" && $3 == "MAIL" { print $4 }' $_sensors_sot )
 
 #### FUNCTIONS ####
 
@@ -96,6 +97,7 @@ alerts_del()
 		then
 			awk -F\; -v _on="$_alert_ok_host" '$1 == "ALERT" && $2 == "NOD" && $4 == _on { print systime()";DELETE;"$0 }' $_sensors_sot >> $_mon_log_path/alerts.manage.log
 			sed -i -e "/^ALERT;NOD;[0-9]*;$_alert_ok_host;.*;3/d" -e "s/\(^ALERT;NOD;[0-9]*;$_alert_ok_host;.*;\)[01]$/\12/" $_sensors_sot	
+			[ "$_mail_status" == "DISABLED" ] && sed -i -e "/^ALERT;NOD;[0-9]*;$_alert_ok_host;.*;2/d" $_sensors_sot
 		fi
 		
 		# AUDIT LOG TRACERT 
