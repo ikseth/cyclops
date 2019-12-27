@@ -977,13 +977,30 @@ case $_par_show in
 		echo
 	;;
 	"hcol")
-		if [ -z "${_ia_header}" ]
+		if [ ! -z "${_ia_header}" ] && [ "$_opt_ia" == "yes" ]
 		then
 			echo "IA ANALISIS REPORT:"
-			echo -e "${_ia_header}"
-			echo -e "${_ia_alert}" | sed -e 's/--//' -e 's/@/;/g'
+			echo "-------------------"
+			echo -e "${_ia_header}" | sed 's/;//g'
+			echo
+			echo -e "${_ia_alert}" | sed -e 's/--//' -e 's/@/;/g' | column -t -s\;
+			echo "-------------------"
 		fi
-		echo -e "${_output}" | sort -n | cut -d';' -f2- | tr '@' ';' | sed -e '/^$/d' | awk -F\; 'BEGIN { _s=0 } $1 == "family" { _s=1 ; split($0,h,";") } $1 != "family" && _s=1 { for ( i in h ) { h[i]=h[i]";"$i }} END { for ( a in h ) { print a";"h[a] }}' | sort -n -t\; | cut -d';' -f2- | column -t -s\; 
+		echo -e "${_output}" | sort -n | cut -d';' -f2- | tr '@' ';' | sed -e '/^$/d' | awk -F\; '
+			BEGIN { 
+				_s=0 
+			} $1 == "family" { 
+				_s=1 ; 
+				split($0,h,";") 
+			} $1 != "family" && _s=1 { 
+				for ( i in h ) { 
+					h[i]=h[i]";"$i 
+				}
+			} END { 
+				for ( a in h ) { 
+					print a";"h[a] 
+				}
+			}' | sort -n -t\; | cut -d';' -f2- | column -t -s\; 
 	;;
 	"wiki")
 		wiki_format
