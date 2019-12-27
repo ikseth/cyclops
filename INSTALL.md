@@ -39,6 +39,7 @@ CYCLOPS 1.4.1v INSTALL
 	- pdsh
 	- sysstat
 	- rsync
+	- redhat-lsb-core
 	- mailx ( mail command - console mail client )
 
     - Apache customization
@@ -80,11 +81,12 @@ CYCLOPS 1.4.1v INSTALL
 
 	3. CREATE necesary directories
 		cd /opt/cyclops
-		mkdir -p logs lock temp audit/data
+		mkdir -p logs lock temp audit/data backups
 		cd /opt/cyclops/local
 		mkdir -p logs
 		cd /opt/cyclops/www/data
-		mkdir -p attic cache index locks media_attic media_meta meta tmp pages/operation/monitoring/history/noindex
+		mkdir -p attic cache index locks media_attic media_meta meta tmp
+		mkdir -p pages/operation/monitoring pages/operation/monitoring/history/noindex 
 		cd /opt/cyclops/monitor/sensors 
 		mkdir -p temp status/data/ environment/conf environment/data
 
@@ -113,6 +115,7 @@ CYCLOPS 1.4.1v INSTALL
 	- Copy /opt/cyclops/monitor/sensors/data/status/stateofthings.cyc.template /opt/cyclops/monitor/sensors/data/status/stateofthings.cyc
 	- Copy /etc/cyclops/audit/bitacoras.cfg.template to /etc/cyclops/audit/bitacoras.cfg
 	- Copy /etc/cyclops/audit/issuecodes.cfg.template to /etc/cyclops/audit/issuecodes.cfg
+	- Copy /etc/cyclops/statistics/sensors.report.cfg.template to /etc/cyclops/statistics/sensors.report.cfg
 		
 	6. INITIALIZE BITACORAS ( LOGBOOKS ):
 		for _file in $( awk -F\; '$1 !~ "#" { print $1 }' /etc/cyclops/audit/bitacoras.cfg ) ; do touch /opt/cyclops/audit/data/$_file.bitacora.txt ; done
@@ -283,7 +286,7 @@ CYCLOPS 1.4.1v INSTALL
        	- WARNING: Rename .template for each one it change , best practice is copy the file without .template and change new file.
 	- WARNING: Files with * are mandatory to be configurated previously to run cyclops 
 
-    6. HA CYCLOPS ENVIRONMENT NOTES [OPTIONAL]
+    7. HA CYCLOPS ENVIRONMENT NOTES [OPTIONAL]
     ----------------------------------------------------------------------------------------------------------
 
         - Repeat step 1. and 2.
@@ -294,7 +297,7 @@ CYCLOPS 1.4.1v INSTALL
         - Cyclops needs ha software like heartbeat or peacemaker to control ha resources
         - Cyclops needs floating ip to refer master node
 
-    7. ACTIVATE CYCLOPS SERVICES
+    8. ACTIVATE CYCLOPS SERVICES
     ----------------------------------------------------------------------------------------------------------
     
 	- Add Cron Entries like this REDHAT/CENTOS example:
@@ -326,7 +329,7 @@ CYCLOPS 1.4.1v INSTALL
 			
 		
 
-    8. NODES CONFIG
+    9. NODES CONFIG
     ----------------------------------------------------------------------------------------------------------
 
         - Configure ssh keys for no auth ssh connections
@@ -366,8 +369,9 @@ CYCLOPS 1.4.1v INSTALL
 		- Use template in /etc/cyclops/nodes , family.rzr.lst.template , then name was the next format:
 		- The order of razors is Hierarchical, from up ( first to do action ) to down ( last to do action )
 		- [ RECOMMENDED ] first insert razor with host pasive checks and last instert razor with host dramatical actions like shutdown/reboot
+		- if you have problems try: touch /opt/cyclops/local/etc/hctrl/[HOSTNAME].rol.cfg
 
-    9. TEST AND ENABLE CYCLOPS
+    10. TEST AND ENABLE CYCLOPS
     ----------------------------------------------------------------------------------------------------------
     
 	1. See available options with:
@@ -390,7 +394,7 @@ CYCLOPS 1.4.1v INSTALL
 	5. Enable Cyclops in operative mode with:
 		cyclops.sh -y enable -c
 
-    10. UPDATE CYCLOPS
+    11. UPDATE CYCLOPS
     ----------------------------------------------------------------------------------------------------------
 
 	- BEFORE UPDATE/UPGRADE BEWARE WITH THIS:
@@ -417,3 +421,8 @@ CYCLOPS 1.4.1v INSTALL
 		- rsync with -vrltDuc optins from temp dir to cyclops dir ( BEWARE use --dry-run rsync option to verify right update before do it )
 
 	NOTE: beware with update, sometimes owner or permissions could change, use chown or/and chmod commands to recovery right file and directory status, next step detail actions.
+
+	
+	FIXES
+	
+
