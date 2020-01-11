@@ -119,11 +119,11 @@ shift $((OPTIND-1))
 
 mon_launch_active()
 {
-	for _family in $( cat $_critical_res | grep -v ^\# | cut -d';' -f4 )  
+	#for _family in $( cat $_critical_res | grep -v ^\# | cut -d';' -f4 )  
+	for _family in $(  awk -F\; '$1 != "#" && $1 ~ "[0-9]+" { print $4 }' $_critical_res )  
 	do
 		let "_mon_index++"
 		_mon[$_mon_index]=$( $_sensors_mon_script_file -v wiki -m $_family ) & 
-#		_mon[$_mon_index]=$( cat /opt/cyclops/tools/testing/temp.mon.$_family.txt )
 	done
 	wait
 
@@ -142,7 +142,7 @@ mon_analisys()
         _env_status_pg_alert=0
 	
 
-        for _env_status_pg_line in $( awk -F\; '$1 ~ "^[0-9]+$" { print $0 }' $_critical_res )
+        for _env_status_pg_line in $( awk -F\; '$1 !~ "#" && $1 ~ "^[0-9]+$" { print $0 }' $_critical_res )
         do
 		let "_analisys_index++"
                 _env_status_pg_total_nod=$( echo $_env_status_pg_line | cut -d';' -f2 )
