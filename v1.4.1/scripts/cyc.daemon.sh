@@ -70,7 +70,7 @@
 ###########################################
 
 case "$1" in
-start|stop|status|config)
+start|stop|status|config|restart)
 	_opt_dae="yes"
 	_par_dae=$1
 	_par_act="daemon"
@@ -123,6 +123,7 @@ start|stop|status|config)
 					echo "	start: enable main cyclops service and configurated start module services"
 					echo "	stop: disable main cyclops service and configuraded start module services"
 					echo "	status: show main cyclops services status and modules"
+					echo "	restart: stop and start configured services"
 					echo "	config: show daemon config"
 					echo
 					echo "	-f : force action"
@@ -139,7 +140,7 @@ start|stop|status|config)
 					echo	
 					echo "-a [action] Cyclops daemon action"
 					echo "	enable: active module for start as service, start it if is stopped"
-					echo "	disable: disable module as service, stop it if is started"
+					echo "	disable|kill: disable module as service, stop it if is started"
 					echo "	restart: stop and start specific service"
 					echo "	status: show cyclops daemon status"
 					echo "	config: change service setting"
@@ -163,7 +164,7 @@ err_cyc_dae()
 	# CYC DAE ERR MSG FUNCTION	
 	case "$1" in
 	daemon)
-		echo "DEBUG: [$( date +%FT%T )] [$1] [ERR MSG] [$1] [$_check_pid]" 
+		echo "[$( date +%FT%T )] [$1] [ERR MSG] [$2] [$_check_pid]" 
 	;;
 	service)
 	;;
@@ -259,13 +260,13 @@ stop_cyc_dae()
 	for _dae_nam in $( awk -F\; '$1 ~ "[0-9]+" { print $4 }' $_config_path_sys/cyc.daemon.cfg )	
 	do
 		_mon_status=$( check_pid $_dae_nam 2>&1 >/dev/null ; echo $? )
+		_pid_file=$( get_pid_file $_dae_nam ) 
 
 		if [ "$_mon_status" == "0" ]
 		then
 			_pid=$( get_pid $_dae_nam )
 			if [ ! -z "$_pid" ] 
 			then	
-				_pid_file=$( get_pid_file $_dae_nam ) 
 				[ "$_opt_for" == "yes" ] && _stop_status=$( kill -TERM -- -$_pid ; echo $? ) || _stop_status=$( kill $_pid ; echo $? ) 
 				[ "$_stop_status" == "0" ] && [ -f "$_pid_file" ] && rm -f $_pid_file
 			fi
@@ -273,6 +274,8 @@ stop_cyc_dae()
 		else
 			_srv_status=$_sh_color_green"STOP"$_sh_color_nformat
 		fi
+
+		[ -f "$_pid_file" ] && rm -f $_pid_file
 
 		echo -e "	MODULE STATUS [ "$_srv_status" ] [ "$_dae_nam" ]"
 	done
@@ -325,8 +328,8 @@ status_cyc_dae()
 			[ "$_mod_status" == "1" ] && [ "$_dae_cfg" == "stop" ] && _dae_srv_status=$_sh_color_green"STOPPED"$_sh_color_nformat
 			[ "$_mod_status" == "2" ] && _dae_srv_status=$_sh_color_red"DEAD"$_sh_color_nformat
 
-			[ "$_dae_cfg" == "start" ] && _dae_sw_show=$_sh_color_green"ON "$_sh_color_nformat
-			[ "$_dae_cfg" == "stop" ] && _dae_sw_show=$_sh_color_red"OFF"$_sh_color_nformat
+			[ "$_dae_cfg" == "start" ] && _dae_sw_show=$_sh_color_green"ENABLED "$_sh_color_nformat
+			[ "$_dae_cfg" == "stop" ] && _dae_sw_show=$_sh_color_red"DISABLED"$_sh_color_nformat
 
 			echo -e "	MODULE STATUS: [ $_dae_srv_status ] [ $_dae_sw_show ] [ $_dae_nam ]"
 		done
@@ -345,8 +348,8 @@ status_cyc_dae()
 			[ "$_mod_status" == "1" ] && _dae_srv_status=$_sh_color_green"STOP"$_sh_color_nformat
 			[ "$_mod_status" == "2" ] && _dae_srv_status=$_sh_color_yellow"DEAD"$_sh_color_nformat
 
-			[ "$_dae_cfg" == "start" ] && _dae_sw_show=$_sh_color_green"ON "$_sh_color_nformat
-			[ "$_dae_cfg" == "stop" ] && _dae_sw_show=$_sh_color_red"OFF"$_sh_color_nformat
+			[ "$_dae_cfg" == "start" ] && _dae_sw_show=$_sh_color_green"ENABLED "$_sh_color_nformat
+			[ "$_dae_cfg" == "stop" ] && _dae_sw_show=$_sh_color_red"DISABLED"$_sh_color_nformat
 
 			echo -e "	MODULE STATUS: [ $_dae_srv_status ] [ "$_dae_sw_show" ] [ $_dae_nam ]"
 		done
@@ -365,8 +368,8 @@ status_cyc_dae()
 			[ "$_mod_status" == "1" ] && _dae_srv_status=$_sh_color_yellow"STOP"$_sh_color_nformat
 			[ "$_mod_status" == "2" ] && _dae_srv_status=$_sh_color_yellow"DEAD"$_sh_color_nformat
 
-			[ "$_dae_cfg" == "start" ] && _dae_sw_show=$_sh_color_green"ON "$_sh_color_nformat
-			[ "$_dae_cfg" == "stop" ] && _dae_sw_show=$_sh_color_red"OFF"$_sh_color_nformat
+			[ "$_dae_cfg" == "start" ] && _dae_sw_show=$_sh_color_green"ENABLED "$_sh_color_nformat
+			[ "$_dae_cfg" == "stop" ] && _dae_sw_show=$_sh_color_red"DISABLED"$_sh_color_nformat
 
 			echo -e "	MODULE STATUS: [ $_dae_srv_status ] [ "$_dae_sw_show" ] [ $_dae_nam ]"
 		done
@@ -433,7 +436,7 @@ cyc_service()
 		if [ "$_cyc_act_cfg" == "stop" ] || [ "$_cyc_act_cfg" == "kill" ] 
 		then
 			sed -i "s/\($_cyc_srv_cod;\)[a-z]*\(;[0-9]*;$_cyc_service\)/\1start\2/" $_config_path_sys/cyc.daemon.cfg 
-			echo -e "CYC DAEMON: ["$_cyc_action"] SERVICE ["$_cyc_service"] ["$_sh_color_red"OFF"$_sh_color_nformat"]:["$_sh_color_green"ON"$_sh_color_nformat"]"
+			echo -e "CYC DAEMON: ["$_cyc_action"] SERVICE ["$_cyc_service"] ["$_sh_color_red"DISABLED"$_sh_color_nformat"]:["$_sh_color_green"ENABLED"$_sh_color_nformat"]"
 		else
 			echo -e "CYC DAEMON: NO CHANGES ON SERVICE ["$_cyc_service"]"
 		fi
@@ -443,7 +446,7 @@ cyc_service()
 		then
 			[ "$_cyc_action" == "disable" ] && _cyc_act_chg="stop" || _cyc_act_chg="kill"	
 			sed -i "s/\($_cyc_srv_cod;\)start\(;[0-9]*;$_cyc_service\)/\1$_cyc_act_chg\2/" $_config_path_sys/cyc.daemon.cfg 
-			echo -e "CYC DAEMON: ["$_cyc_action"] SERVICE ["$_cyc_service"] ["$_sh_color_green"ON"$_sh_color_nformat"]:["$_sh_color_red"OFF"$_sh_color_nformat"]"
+			echo -e "CYC DAEMON: ["$_cyc_action"] SERVICE ["$_cyc_service"] ["$_sh_color_green"ENABLED"$_sh_color_nformat"]:["$_sh_color_red"DISABLED"$_sh_color_nformat"]"
 		else
 			echo -e "CYC DAEMON: NO CHANGES ON SERVICE ["$_cyc_service"]"
 		fi
@@ -581,6 +584,7 @@ cyc_service_stop()
 	;;
 	1)
 		_exit_func=0
+		[ -f "$_cyc_mpid_file" ] && rm $_cyc_mpid_file		
 	;;
 	2)
 		if [ -f "$_cyc_mpid_file" ]
@@ -613,11 +617,13 @@ cyc_service_stop()
 				echo -e "[$( date +%s )] CYCLOPS DAEMON STATUS: [ START ]"  >> $_mon_log_path/cyc.daemon.log 
 			else
 				err_cyc_dae daemon start log 
+				echo -e $_sh_color_red"ERR:"$_sh_color_nformat" FAILED STARTING CYCLOPS DAEMON"
 			fi
+			status_cyc_dae
 		;;
 		stop)
 			_dae_pid_status=$( check_pid cyclops 2>&1 >/dev/null ; echo $? )
-			[ "$_dae_pid_status" == "0" ] && stop_cyc_dae || err_cyc_dae daemon start log 
+			[ "$_dae_pid_status" == "0" ] && stop_cyc_dae || err_cyc_dae daemon stop log 
 		;;
 		status)
 			_dae_pid_status=$( check_pid cyclops 2>&1 >/dev/null ; echo $? )
@@ -625,6 +631,11 @@ cyc_service_stop()
 		;;
 		config)
 			awk -F\; 'BEGIN { print "CODE;CONFIG;FREQUENCY(sec);MODULE" } $1 ~ "[0-9]+" { print $0 }' $_config_path_sys/cyc.daemon.cfg | column -t -s\;
+		;;
+		restart)
+			$_script_path/cyc.daemon.sh stop
+			sleep 5s
+			$_script_path/cyc.daemon.sh start
 		;;
 		*)
 			#err_cyc_dae command exec log	
