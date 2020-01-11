@@ -38,38 +38,48 @@ sensor_sot_health()
         if [ -f "$_sensors_sot" ]
         then
                 _cyccodes=$( grep "^[0-9][0-9][0-9][0-9]" /etc/cyclops/system/cyc.codes.cfg | cut -d';' -f1 )
-                _cyccodes_status=$( awk -F\; -v _cc="${_cyccodes}" '
-                        BEGIN { 
-                                _ct=split(_cc,c,"\n") ; 
-                                _ok=0 ; 
-                                _bad=0 
-                        } $1 == "CYC" { 
-                                _to=0 ; 
-                                _tb=0 ; 
-                                for ( i in c ) { 
-                                        if ( c[i] == $2 ) { 
-                                                _to=1 
-                                        }
-                                } ; 
-                                if ( _to == 1 ) { 
-                                        _ok++ 
-                                } else { 
-                                        _bad++ 
-                                }
-                        } END { 
-                                if ( _ok == _ct ) { 
-                                        print "0" 
-                                } else { 
-                                        if ( _bad == _ct ) {
-                                                print "ALL"
-                                        } else {
-                                                print _bad
-                                        }
-                                } 
-                        }' $_sensors_sot )
+		_cyccnum=$( echo "${_cyccodes}" | wc -l )
+		if [ "$_cyc_num" == "0" ]
+		then
+			_cyccodes_status=$( awk -F\; -v _cc="${_cyccodes}" -v _cn="$_cyccnum" '
+				BEGIN { 
+					_ct=split(_cc,c,"\n") ; 
+					_ok=0 ; 
+					_bad=0 ; 
+				} $1 == "CYC" { 
+					_to=0 ; 
+					_tb=0 ; 
+					for ( i in c ) { 
+						if ( c[i] == $2 ) { 
+							_to=1 
+						}
+					} ; 
+					if ( _to == 1 ) { 
+						_ok++ 
+					} else {
+						_bad++
+					}
+				} END { 
+					if ( _ok == _ct ) { 
+						if ( _ok == _cn ) {
+							print "OK" 
+						} else {
+							print "INCOSISTENCE"
+						}
+					} else { 
+						if ( _bad == _ct ) {
+							print "ALL"
+						} else {
+							print _bad
+						}
+					} 
+				}' $_sensors_sot )
+		else
+			_cyccodes_status="ALL"
+		fi
 
                 case "$_cyccodes_status" in
-                0)
+                OK)
                         _cycstatusmsg="GOOD"
 			_exit_code=$_cyccodes_status
                 ;;
@@ -81,6 +91,11 @@ sensor_sot_health()
 		ALL)
                         _cycstatus="CRITICAL"
                         _cycstatuslog="$( date +%s ) : LIB CYCLOPS HEALTH : MISS ALL CYCLOPS CODES: VERIFY $_sensors_sot FILE"
+			_exit_code=99
+		;;
+		INCOSISTENCE)
+                        _cycstatus="CRITICAL"
+                        _cycstatuslog="$( date +%s ) : LIB CYCLOPS HEALTH : CYC BASE TOTAL CODES NOT TOTALLY AVAILABLE IN CYCLOPS WORK FILE: VERIFY $_sensors_sot FILE"
 			_exit_code=99
 		;;
                 *)
