@@ -37,6 +37,7 @@
 	[ -f "$_libs_path/node_ungroup.sh" ] && source $_libs_path/node_ungroup.sh || _exit_code="114"
 	[ -f "$_libs_path/init_date.sh" ] && source $_libs_path/init_date.sh || _exit_code="115"
 	[ -f "$_color_cfg_file" ] && source $_color_cfg_file || _exit_code="116"
+	[ -f "$_libs_path/cyc_health.sh" ] && source $_libs_path/cyc_health.sh || _exit_code="117"
 	
 
 	case "$_exit_code" in
@@ -201,7 +202,8 @@ cyclops_status()
 	if [ -f "$_sensors_sot" ]
 	then
 		_cyccodes=$( grep "^[0-9][0-9][0-9][0-9]" /etc/cyclops/system/cyc.codes.cfg | cut -d';' -f1 )
-		_cyccodes_status=$( awk -F\; -v _cc="${_cyccodes}" '
+		 _cyccnum=$( echo "${_cyccodes}" | wc -l )
+		_cyccodes_status=$( awk -F\; -v _cc="${_cyccodes}" -v _cn="$_cyccnum" '
 			BEGIN { 
 				_ct=split(_cc,c,"\n") ; 
 				_ok=0 ; 
@@ -221,9 +223,13 @@ cyclops_status()
 				}
 			} END { 
 				if ( _ok == _ct ) { 
-					print "0" 
+					if ( _ok == _cn ) {
+						print "OK"
+                                	} else {
+						print "INCOSISTENCE"
+					}
 				} else { 
-					if ( _bad == _ct ) {
+					if ( _bad == _ct || _bad == 0 ) {
 						print "ALL"
 					} else {
 						print _bad
@@ -232,12 +238,16 @@ cyclops_status()
 			}' $_sensors_sot )
 
 		case "$_cyccodes_status" in
-		0)
+		OK)
 			_cycstatus=$_sh_color_green"GOOD"$_sh_color_nformat
 		;;
 		[0-9]*|ALL)
 			_cycstatus=$_sh_color_red"BAD"$_sh_color_nformat
 			_cycstatus_msg="MISS $_cyccodes_status CYCLOPS CODES: VERIFY $_sensors_sot FILE, USE INSTALL README"
+		;;
+		INCOSISTENCE)
+			_cycstatus=$_sh_color_red"PROBLEM"$_sh_color_nformat
+			_cycstatuslog="LIB CYCLOPS HEALTH : CYC BASE TOTAL CODES NOT TOTALLY AVAILABLE IN CYCLOPS WORK FILE: VERIFY $_sensors_sot FILE"
 		;;
 		*)
 			_cycstatus=$_sh_color_red"CRITICAL"$_sh_color_nformat
