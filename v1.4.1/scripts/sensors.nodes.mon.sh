@@ -961,17 +961,23 @@ fi
 
 case $_par_show in
 	"commas")
-		[ "$_opt_ia" == "yes" ] && echo "MON IA ENABLED"
-		echo 
-		echo "IA ANALISIS REPORT:"
-		echo -e $_ia_header
-		echo -e "${_ia_alert}" | sed -e 's/--//' -e 's/@/;/g'
+		if [ "$_opt_ia" == "yes" ] 
+		then
+			echo "MON IA ENABLED"
+			echo 
+			echo "IA ANALISIS REPORT:"
+			echo -e $_ia_header
+			echo -e "${_ia_alert}" | sed -e 's/--//' -e 's/@/;/g'
+		fi
 		echo -e "${_output}" | sort -n | cut -d';' -f2- | tr '@' ';' | sed -e '/^$/d' -e '/family/ i\
 '
 	;;
 	"human")
-		echo -e "${_ia_header}"
-		echo -e "${_ia_alert}" | sed -e 's/^ //' -e 's/@/;/g' -e 's/^;//' -e 's/;$//' | column -s\; -t
+		if [ "$_opt_ia" == "yes" ]
+		then
+			echo -e "${_ia_header}"
+			echo -e "${_ia_alert}" | sed -e 's/^ //' -e 's/@/;/g' -e 's/^;//' -e 's/;$//' | column -s\; -t
+		fi
 		echo -e "${_output}" | sort -n -t\; | cut -d';' -f2- | tr '@' ';' | column -s\; -t | sed -e '/^$/d' -e '/family/ i\
 '
 		echo
@@ -985,6 +991,7 @@ case $_par_show in
 			echo
 			echo -e "${_ia_alert}" | sed -e 's/--//' -e 's/@/;/g' | column -t -s\;
 			echo "-------------------"
+			echo
 		fi
 		echo -e "${_output}" | sort -n | cut -d';' -f2- | tr '@' ';' | sed -e '/^$/d' | awk -F\; '
 			BEGIN { 
@@ -1000,7 +1007,37 @@ case $_par_show in
 				for ( a in h ) { 
 					print a";"h[a] 
 				}
-			}' | sort -n -t\; | cut -d';' -f2- | column -t -s\; 
+			}' | sort -n -t\; | cut -d';' -f2- | awk -F\; -v _cg="$_sh_color_green" -v _nf="$_sh_color_nformat" -v _cm="$_sh_color_yellow" -v _cd="$_sh_color_red" -v _cc="$_sh_color_gray" -v _cu="$_sh_color_cyc" '
+				NR == 1 {
+					_head=$0
+				} NR > 1  {
+					_line=_line""sprintf("%-12s\t", $1)
+					for (f=2;f<=NF;f++) {
+						_fn=split($f,sf," ")
+						if ( sf[1] ~ /OK|UP|FAIL|DOWN|MARK|CHECK|UNKN|DISABLE/ ) { 
+							if ( sf[1] ~ /OK|UP/ ) { 
+								if ( _fn > 1 ) { 
+									gsub(sf[1]" ","",$f) 
+								} else { 
+									gsub(" ","",$f) 
+								} ; 
+								_line=_line""sprintf("%s%12s%s\t", _cg, $f, _nf ) 
+							}
+							if ( sf[1] ~ /FAIL|DOWN/ ) { gsub(sf[1]" ","",$f) ; _line=_line""sprintf("%s%12s%s\t", _cd, $f, _nf ) }
+							if ( sf[1] ~ /CHECKING|MARK/ ) { gsub(sf[1]" ","",$f) ; _line=_line""sprintf("%s%12s%s\t", _cm, $f, _nf ) }
+							if ( sf[1] == "DISABLE" ) { gsub("DISABLE ","",$f) ; _line=_line""sprintf("%s%12s%s\t", _cc, $f, _nf ) }
+							if ( sf[1] == "UNKN" ) { gsub("UNK ","",$f) ; _line=_line""sprintf("%s%12s%s\t", _cu, $f, _nf ) }
+						} else {
+							_line=_line""sprintf("%s%12s%s\t", _nf, $f, _nf )	
+						}
+					}
+					_line=_line"\n"
+				} END {
+					printf "%s\n", _line
+				}
+
+			' | column -t -s\; 
+		echo
 	;;
 	"wiki")
 		wiki_format
