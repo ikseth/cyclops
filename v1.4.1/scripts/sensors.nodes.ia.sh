@@ -48,7 +48,7 @@ _rules_detected=0
 _ia_codes=""
 
 _audit_status=$( awk -F\; '$1 == "CYC" && $2 == "0003" && $3 == "AUDIT" { print $4 }' $_sensors_sot )
-_mail_status=$( awk -F\; '$1 == "CYC" && $2 == "0004" && $3 == "MAIL" { print $4 }' $_sensors_sot )
+_mail_status=$( awk -F\; '$1 == "CYC" && $2 == "0004" { print $4 }' $_sensors_sot )
 
 #### FUNCTIONS ####
 
