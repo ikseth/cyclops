@@ -1423,7 +1423,7 @@ mon_node_operative_pg()
 {
 	_nod_operative_field=$( echo "${_nod_commas_output}" | awk -F\; -v cols="hostname" 'BEGIN { OFS=";" ; split(cols,out,";") } $0 ~ "family" { for (i=1;i<=NF;i++) ix[$i]=i } $0 !~ "family" { for (i in out) printf "%s%s", $ix[out[i]], OFS ; print "" }' | sed 's/;$//' )
         _nod_operative=$( echo "${_nod_operative_field}" | grep -v hostname | awk 'BEGIN { _t=0 } $1 == "UP" { _t++ } END { print _t++ }' )
-        _nod_total=$( cat $_type | wc -l )
+        _nod_total=$( awk -F\; 'BEGIN { _c=0 } $1 ~ /^[0-9]+$/ && $7 != "ignore" { _c++ } END { print _c }' $_type )
 
 	let "_nod_operative_status=( _nod_operative * 100 ) / _nod_total"
 
