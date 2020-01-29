@@ -260,13 +260,18 @@ mon_sh_create()
         do
 		_daemon=$( echo "$_resource" | cut -d';' -f1 ) 
 		_settings=$( echo "$_resource" | awk -F\; '{ for (i=2;i<=NF;i++) { printf " \47%s\47", $i }} END { print "" }' ) 
+		_sensor_file="$_sensors_script_path/$_node_os/sensor.$_daemon.sh"
 
                 echo "func_""$_daemon()"
                 echo "{"
                 echo "#### $_daemon monitor script ####"                
 
-		cat $_sensors_script_path/$_node_os/sensor.$_daemon.sh |
-		grep -v \#
+		if [ -f "$_sensor_file" ]
+		then
+			awk '$1 !~ "#" ~ { print $0 }' $_sensor_file
+		else
+			echo "echo \"noname:DISABLE no sensor@\""
+		fi
 
                 echo "################################" 
                 echo "}"
