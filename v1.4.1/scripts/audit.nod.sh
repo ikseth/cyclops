@@ -106,6 +106,7 @@ source $_color_cfg_file
 ## CYCLOPS OPTION STATUS CHECK
 
 _audit_status=$( awk -F\; '$1 == "CYC" && $2 == "0003" && $3 == "AUDIT" { print $4 }' $_sensors_sot )
+_mail_status=$( awk -F\; '$1 == "CYC" && $2 == "0004" && $3 == "MAIL" { print $4 }' $_sensors_sot )
 _cyclops_ha=$( awk -F\; '$1 == "CYC" && $2 == "0006" { print $4}' $_sensors_sot )
 
 ###########################################
@@ -977,15 +978,18 @@ interactive_event()
 
 		_ask_msg=$( echo "$_ask_msg" | tr '[:upper:]' '[:lower:]' | sed -e 's/\;/,/g' | grep -o "[A-Za-z0-9\,\.\_\-\ ]*" | tr -d '\n' | iconv -f utf8 -t ascii//TRANSLIT )
 
-		echo -n "Want to send informative mail (Y/N)? : "
-                while read -r -n 1 -s _ask_email
-		do
-			case "$_ask_email" in
-			Y|y|N|n)
-				break
-			;;
-			esac
-		done
+		if [ "$_mail_status" == "ENABLED" ]
+		then
+			echo -n "Want to send informative mail (Y/N)? : "
+			while read -r -n 1 -s _ask_email
+			do
+				case "$_ask_email" in
+				Y|y|N|n)
+					break
+				;;
+				esac
+			done
+		fi
 
 		echo
 		echo "Information to be insert in bitacora module:"
@@ -995,7 +999,7 @@ interactive_event()
                 echo "Issue code: $( [ -z "$_ask_issue" ] && echo -n NONE || echo -n $_ask_issue )"
                 echo "Event state: $_ask_state"
                 echo "Descriptive Message: $_ask_msg"
-		echo "Send Email: $_ask_email"
+		[ "$_mail_status" == "ENABLED" ] && echo "Send Email: $_ask_email"
 
 		_msg_insert=$( logname )" : "$( [ ! -z "$_ask_issue" ] && echo -n $_ask_issue": " )""$( [ ! -z "$_ask_procedure" ] && echo -n $_ask_procedure" : "$_ask_proc_des" : " )""$_ask_msg
 
