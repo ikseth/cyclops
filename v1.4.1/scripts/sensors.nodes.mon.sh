@@ -268,7 +268,7 @@ mon_sh_create()
 
 		if [ -f "$_sensor_file" ]
 		then
-			awk '$1 !~ "#" ~ { print $0 }' $_sensor_file
+			awk '$1 !~ "#" { print $0 }' $_sensor_file
 		else
 			echo "echo \"noname:DISABLE no sensor@\""
 		fi
