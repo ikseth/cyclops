@@ -528,13 +528,13 @@ cyc_service_start()
 		return 1 #echo "WORKING ON IT"
 	;;
 	stats)
-		_daemon="$_script_path/cyc.stats.sh -t daemon >/dev/null 2>>$_mon_log_path/nimbus0.cyc.stats.err.log"
+		_daemon="$_script_path/cyc.stats.sh -t daemon >/dev/null 2>>$_mon_log_path/$HOSTNAME.cyc.stats.err.log"
 	;;
 	history)
 		_daemon="$_script_path/historic.mon.sh -d 2>>$_mon_log_path/historic.err.log"
 	;;
 	backup)
-		_daemon="$_script_path/backup.cyc.sh -t all &>>$_mon_log_path/nimbus0.bkp.log"
+		_daemon="$_script_path/backup.cyc.sh -t all &>>$_mon_log_path/$HOSTNAME.bkp.log"
 	;;
 	procedures)
 		return 1 #echo "WORKING ON IT"
