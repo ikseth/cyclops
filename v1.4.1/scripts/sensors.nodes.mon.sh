@@ -978,14 +978,51 @@ case $_par_show in
 '
 	;;
 	"human")
-		if [ "$_opt_ia" == "yes" ]
-		then
-			echo -e "${_ia_header}"
-			echo -e "${_ia_alert}" | sed -e 's/^ //' -e 's/@/;/g' -e 's/^;//' -e 's/;$//' | column -s\; -t
-		fi
-		echo -e "${_output}" | sort -n -t\; | cut -d';' -f2- | tr '@' ';' | column -s\; -t | sed -e '/^$/d' -e '/family/ i\
-'
-		echo
+                if [ ! -z "${_ia_header}" ] && [ "$_opt_ia" == "yes" ]
+                then
+                        echo "IA ANALISIS REPORT:"
+                        echo "-------------------"
+                        echo -e "${_ia_header}" | sed 's/;//g'
+                        echo -e "${_ia_alert}" | sed -e 's/--//' -e 's/@/;/g' | column -t -s\;
+                        echo "-------------------"
+                fi
+		
+                echo -e "${_output}" | sort -n | cut -d';' -f2- | tr '@' ';' | awk -F\; -v _cg="$_sh_color_green" -v _nf="$_sh_color_nformat" -v _cm="$_sh_color_yellow" -v _cd="$_sh_color_red" -v _cc="$_sh_color_gray" -v _cu="$_sh_color_cyc" '
+                        $1 == "family" {
+                                _head="" ;
+                                _lh=split($0,hd,";")
+                                for (h=1;h<=_lh;h++) {
+                                        flong[h]=length(hd[h])
+                                        if ( flong[h] == 1 ) { flong[h]=2 }
+                                        _head=_head""sprintf("%s%"flong[h]"."flong[h]"s%s  ", _nf, hd[h], _nf )
+                                }
+                                printf "\n%s\n", _head
+                        } $1 != "family" {
+                                _line=""
+                                for (f=1;f<=NF;f++) {
+                                        _fl=flong[f]
+                                        _fn=split($f,sf," ")
+                                        if ( sf[1] ~ /OK|UP|FAIL|DOWN|MARK|CHECK|UNKN|DISABLE/ ) {
+                                                if ( sf[1] ~ /OK|UP/ ) {
+                                                        if ( _fn > 1 ) {
+                                                                gsub(sf[1]" ","",$f)
+                                                        } else {
+                                                                gsub(" ","",$f)
+                                                        } ;
+                                                        _line=_line""sprintf("%s%"_fl"."_fl"s%s  ", _cg, $f, _nf )
+                                                }
+                                                if ( sf[1] ~ /FAIL|DOWN/ ) { gsub(sf[1]" ","",$f) ; _line=_line""sprintf("%s%"_fl"."_fl"s%s  ", _cd, $f, _nf ) }
+                                                if ( sf[1] ~ /CHECKING|MARK/ ) { gsub(sf[1]" ","",$f) ; _line=_line""sprintf("%s%"_fl"."_fl"s%s  ", _cm, $f, _nf ) }
+                                                if ( sf[1] == "DISABLE" ) { gsub("DISABLE ","",$f) ; _line=_line""sprintf("%s%"_fl"."_fl"s%s  ", _cc, $f, _nf ) }
+                                                if ( sf[1] == "UNKN" ) { gsub("UNK ","",$f) ; _line=_line""sprintf("%s%"_fl"."_fl"s%s  ", _cu, $f, _nf ) }
+                                        } else {
+                                                _line=_line""sprintf("%s%"_fl"."_fl"s%s  ", _nf, $f, _nf )
+                                        }
+                                }
+                                printf "%s\n", _line
+                        } END {
+                                printf "\n"
+                        }'
 	;;
 	"hcol")
 		if [ ! -z "${_ia_header}" ] && [ "$_opt_ia" == "yes" ]
