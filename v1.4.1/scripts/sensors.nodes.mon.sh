@@ -101,7 +101,7 @@ do
 
                                 [ -z "$_par_mon" ] && echo "ERR: Don't find nodes in [$_par_node_grp] definited group(s)/family(s)" && exit 1
 			else
-				_long=$( node_ungroup $_par_mon | tr ' ' '\n' )
+				[ "$_par_mon" == "all" ] && _long=$( awk -F\; '$1 ~ "^[0-9]+$" && $7 != "ignore" { print $2 }' $_type ) || _long=$( node_ungroup $_par_mon | tr ' ' '\n' )
                         fi
 
 		;;
