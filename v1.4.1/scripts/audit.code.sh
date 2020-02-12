@@ -209,6 +209,7 @@ sel_cod_in_range()
 				_ctkt=0 ; _regc=0 ; _pbl=0  
 				for (l=1;l<=_ss;l++) { _blk=_blk" " }
 				_bpt=_ss/2
+				cip="^"cip"$"
 			} {
 				_idx="" ;
 				ldes=split($5,des,":") ; 
