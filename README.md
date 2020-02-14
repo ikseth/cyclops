@@ -1,4 +1,4 @@
-# ====== CYCLOPS HYPER-OPERATIVE MANAGEMENT SYSTEM ========
+# CYCLOPS HYPER-OPERATIVE MANAGEMENT SYSTEM
 
   - Management Suit for monitoring and control big linux systems like hpc or clusters.
     - Statitics, Reports and other customizable features for easly knows the system status.
@@ -26,7 +26,7 @@
   
   - Available screenshots at: https://www.facebook.com/pg/cyclopshms/photos/?tab=album&album_id=122818438292905
 
-====== CYCLOPS LICENSE ======
+# CYCLOPS LICENSE 
 
 This Suit has serveral program and all of them are free software: 
 you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or
