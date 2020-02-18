@@ -255,7 +255,8 @@ calc_data()
                                                 a=1 ; 
 						_reg_c="no" ;
 						_tf=split(_pf,ff,",") ;
-						_mod=_tc
+						_mod=_tc ;
+						_nctrl=0 ;
                                         } $1 > _tsb && $1 < _tse { 
                                                 if ( _dr == "year" ) { _time=strftime("%Y;%m_%b",$1) } ; 
                                                 if ( _dr == "month" ) { _time=strftime("%Y-%m_%b;%d",$1) } ; 
@@ -286,12 +287,12 @@ calc_data()
 							if ( dat[2] ~ "d$" ) { gsub("d", "", dat[2]) ; if ( _tc != "min" || _tc != "max" ) { _tc="max" } } ;
 
 							if ( dat[2] ~ "^[0-9.]+$" || dat[2] ~ "^[0-9.]+/[0-9.]+$" ) { 
-								_fld=dat[2] ; 
+								_fld=dat[2] ; _nctrl=1
 							} else {
 								if ( dat[1] ~ "^[0-9.]+$" || dat[1] ~ "^[0-9.]+/[0-9.]+$" ) { 
-									_fld=dat[1] ;	
+									_fld=dat[1] ; _nctrl=1	
 								} else {
-									_fld=0
+									if ( _nctrl == 1 ) { _fld=0 } else { _fld=1 }
 								}
 							}
 							if ( _fld ~ "/" ) {
