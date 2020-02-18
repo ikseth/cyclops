@@ -60,7 +60,7 @@ _par_src="node"
 #              PARAMETERs                 #
 ###########################################
 
-while getopts ":r:d:e:t:f:i:n:v:w:k:s:xlh:" _optname
+while getopts ":r:d:e:t:f:i:n:v:w:k:s:g:xlh:" _optname
 do
         case "$_optname" in
 		"n")
@@ -120,6 +120,10 @@ do
 		;;
 		"l")
 			_opt_loop="yes"
+		;;
+		"g")
+			_opt_tgrp="yes"
+			_par_tgrp=$OPTARG
 		;;
 		"x")
 			# DEBUG option
@@ -216,6 +220,7 @@ do
                                 echo "			Tpie:   Pie graph"
 				echo "			value:  Include values in graph"
 				echo "		-l ,Do loop with 3 mins update life"
+				echo "	-g [hour|day|month|year] optional, change default auto group date mode"
 				echo
 				echo "HELP:"
 				echo "	-h [|des] help, this help"
@@ -1029,6 +1034,15 @@ check_items()
 		do
 
 			init_date $_par_date_start $_par_date_end 
+
+			if [ "$_opt_tgrp" == "yes" ] 
+			then
+				case "$_par_tgrp" in
+				hour|day|month|year)
+					_date_filter=$_par_tgrp
+				;;
+				esac
+			fi
 
 			### LAUNCH ###
 
