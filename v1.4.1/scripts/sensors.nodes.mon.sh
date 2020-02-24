@@ -1025,61 +1025,70 @@ case $_par_show in
                         }'
 	;;
 	"hcol")
-		if [ ! -z "${_ia_header}" ] && [ "$_opt_ia" == "yes" ]
-		then
-			echo "IA ANALISIS REPORT:"
-			echo "-------------------"
-			echo -e "${_ia_header}" | sed 's/;//g'
-			echo
-			echo -e "${_ia_alert}" | sed -e 's/--//' -e 's/@/;/g' | column -t -s\;
-			echo "-------------------"
-			echo
-		fi
-		echo -e "${_output}" | sort -n | cut -d';' -f2- | tr '@' ';' | sed -e '/^$/d' | awk -F\; '
-			BEGIN { 
-				_s=0 
-			} $1 == "family" { 
-				_s=1 ; 
-				split($0,h,";") 
-			} $1 != "family" && _s=1 { 
-				for ( i in h ) { 
-					h[i]=h[i]";"$i 
-				}
-			} END { 
-				for ( a in h ) { 
-					print a";"h[a] 
-				}
-			}' | sort -n -t\; | cut -d';' -f2- | awk -F\; -v _cg="$_sh_color_green" -v _nf="$_sh_color_nformat" -v _cm="$_sh_color_yellow" -v _cd="$_sh_color_red" -v _cc="$_sh_color_gray" -v _cu="$_sh_color_cyc" '
-				NR == 1 {
-					_head=$0
-				} NR > 1  {
-					_line=_line""sprintf("%-12s\t", $1)
-					for (f=2;f<=NF;f++) {
-						_fn=split($f,sf," ")
-						if ( sf[1] ~ /OK|UP|FAIL|DOWN|MARK|CHECK|UNKN|DISABLE/ ) { 
-							if ( sf[1] ~ /OK|UP/ ) { 
-								if ( _fn > 1 ) { 
-									gsub(sf[1]" ","",$f) 
-								} else { 
-									gsub(" ","",$f) 
-								} ; 
-								_line=_line""sprintf("%s%12s%s\t", _cg, $f, _nf ) 
-							}
-							if ( sf[1] ~ /FAIL|DOWN/ ) { gsub(sf[1]" ","",$f) ; _line=_line""sprintf("%s%12s%s\t", _cd, $f, _nf ) }
-							if ( sf[1] ~ /CHECKING|MARK/ ) { gsub(sf[1]" ","",$f) ; _line=_line""sprintf("%s%12s%s\t", _cm, $f, _nf ) }
-							if ( sf[1] == "DISABLE" ) { gsub("DISABLE ","",$f) ; _line=_line""sprintf("%s%12s%s\t", _cc, $f, _nf ) }
-							if ( sf[1] == "UNKN" ) { gsub("UNK ","",$f) ; _line=_line""sprintf("%s%12s%s\t", _cu, $f, _nf ) }
-						} else {
-							_line=_line""sprintf("%s%12s%s\t", _nf, $f, _nf )	
-						}
-					}
-					_line=_line"\n"
-				} END {
-					printf "%s\n", _line
-				}
-
-			' | column -t -s\; 
-		echo
+                if [ ! -z "${_ia_header}" ] && [ "$_opt_ia" == "yes" ]
+                then
+                        echo "IA ANALISIS REPORT:"
+                        echo "-------------------"
+                        echo -e "${_ia_header}" | sed -e 's/;//g' -e 's/ \-//' | awk -v _cg="$_sh_color_green" -v _nf="$_sh_color_nformat" -v _cd="$_sh_color_red" '
+                                {
+                                        for (i=1;i<=NF;i++) {
+                                                if ( $i  == "OK") { $i=sprintf("[ %s%-6.6s%s ]", _cg, $i, _nf) } ;
+                                                if ( $i  == "OPERATIVE" ) { $i=sprintf("[ %s%10.10s%s ]", _cg, $i, _nf) } ;
+                                                if ( $i == "DOWN" ) { $i=sprintf("[ %s%-6.6s%s ]", _cd, "ALERT", _nf) }
+                                        }
+                                        printf "%s\n", $0
+                                } END {
+                                        print "-------------------"
+                                }'
+                        if [ ! -z "${_ia_alert}" ]
+                        then
+                                echo -e "${_ia_alert}" | sed -e 's/--//' -e 's/@/;/g' | column -t -s\;
+                                echo "-------------------"
+                        fi
+                fi
+                echo -e "${_output}" | sort -n | cut -d';' -f2- | tr '@' ';' | sed -e '/^$/d' | awk -F\; '
+                        BEGIN {
+                                _s=0
+                        } $1 == "family" {
+                                _s=1 ;
+                                split($0,h,";")
+                        } $1 != "family" && _s=1 {
+                                if ( $1 != _fam ) { _fam=$1 }
+                                for ( i in h ) {
+                                        fml[_fam";"i";"h[i]]=fml[_fam";"i";"h[i]]";"$i
+                                }
+                                _s=0
+                        } END {
+                                for ( a in fml ) {
+                                        print a";"fml[a]
+                                }
+                        }' | sort -t\; -k1,1 -k2,2n | cut -d';' -f1,3- | awk -F\; -v _cg="$_sh_color_green" -v _nf="$_sh_color_nformat" -v _cm="$_sh_color_yellow" -v _cd="$_sh_color_red" -v _cc="$_sh_color_gray" -v _cu="$_sh_color_cyc" '
+                                {
+                                        if ( _fam != $1 ) { _line=_line"\n" ; _fam=$1 }
+                                        _line=_line""sprintf("%-14.14s  ", $2)
+                                        for (f=3;f<=NF;f++) {
+                                                _fn=split($f,sf," ")
+                                                if ( sf[1] ~ /OK|UP|FAIL|DOWN|MARK|CHECK|UNKN|DISABLE/ ) {
+                                                        if ( sf[1] ~ /OK|UP/ ) {
+                                                                if ( _fn > 1 ) {
+                                                                        gsub(sf[1]" ","",$f)
+                                                                } else {
+                                                                        gsub(" ","",$f)
+                                                                } ;
+                                                                _line=_line""sprintf("%s%14.14s%s  ", _cg, $f, _nf )
+                                                        }
+                                                        if ( sf[1] ~ /FAIL|DOWN/ ) { gsub(sf[1]" ","",$f) ; _line=_line""sprintf("%s%14.14s%s  ", _cd, $f, _nf ) }
+                                                        if ( sf[1] ~ /CHECKING|MARK/ ) { gsub(sf[1]" ","",$f) ; _line=_line""sprintf("%s%14.14s%s  ", _cm, $f, _nf ) }
+                                                        if ( sf[1] == "DISABLE" ) { gsub("DISABLE ","",$f) ; _line=_line""sprintf("%s%14.14s%s  ", _cc, $f, _nf ) }
+                                                        if ( sf[1] == "UNKN" ) { gsub("UNK ","",$f) ; _line=_line""sprintf("%s%14.14s%s  ", _cu, $f, _nf ) }
+                                                } else {
+                                                        _line=_line""sprintf("%s%14.14s%s  ", _nf, $f, _nf )
+                                                }
+                                        }
+                                        _line=_line"\n"
+                                } END {
+                                        printf "%s\n", _line
+                                } '
 	;;
 	"wiki")
 		wiki_format
