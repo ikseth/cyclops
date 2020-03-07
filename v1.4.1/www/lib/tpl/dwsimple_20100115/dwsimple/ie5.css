@@ -1,6 +1,0 @@
-/* CSS Document */
-html, body {
-  padding : 0;					/* ??? */
-  overflow: hidden;			/* reduziert rechte scrollbar im Fenster */ 
-  height  : 100%;				/* IE6 */
-}

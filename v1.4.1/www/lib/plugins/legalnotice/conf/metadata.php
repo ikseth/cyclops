@@ -1,4 +1,0 @@
-<?php
-
-$meta['text']     = array('');
-
