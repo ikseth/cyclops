@@ -925,8 +925,8 @@ then
 					if ( msg[1] == "FAIL" ) { _err=1 ; print $1";F;"i";"_msg }
 					if ( msg[1] ~ "UNKN" )  { _err=1 ; print $1";U;"i";"_msg }
 					if ( msg[1] == "MARK" ) { _err=1 ; print $1";M;"i";"_msg }
+					if ( msg[1] == "OK" || msg[1] == "UP" ) { print $1";K;"i";"}
 				}
-				if ( _err == 0 ) { print $1";K;0;"}
 			} ' | 
 		cut -d' ' -f2- )
 	echo "${_ctrl_err}" > $_sensors_ia_tmp_path/$_pid"."$_sensors_ia_tmp_name
@@ -1066,7 +1066,7 @@ case $_par_show in
                                 {
                                         if ( _fam != $1 ) { _line=_line"\n" ; _fam=$1 }
                                         _line=_line""sprintf("%-14.14s  ", $2)
-                                        for (f=3;f<=NF;f++) {
+                                        for (f=4;f<=NF;f++) {
                                                 _fn=split($f,sf," ")
                                                 if ( sf[1] ~ /OK|UP|FAIL|DOWN|MARK|CHECK|UNKN|DISABLE/ ) {
                                                         if ( sf[1] ~ /OK|UP/ ) {
