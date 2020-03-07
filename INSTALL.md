@@ -80,9 +80,10 @@ CYCLOPS 1.4.1v INSTALL
 		- rsync -acvu /opt/git/cyclops/[version]/ /opt/cyclopsç
 	- after that add two more git repositories
 		- Cyclops WEBGUI: in /opt/git do: git clone --depth=1 https://github.com/ikseth/cyclops_web_gui
+			- Refers to sensors,razor,ia rules,audit adds for copy them in right path
 		- Cyclops Adds: in /opt/git do: git clone --depth=1 https://github.com/ikseth/cyclops_complements
-			
-
+			- Copy to /opt/cyclops/www directory version that you want
+	
 	3. CREATE necesary directories
 		cd /opt/cyclops
 		mkdir -p logs lock temp audit/data backups
