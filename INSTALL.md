@@ -77,7 +77,7 @@ CYCLOPS 1.4.1v INSTALL
 	- create link in /opt/ 
 	- EXPERIMENTAL: ln -s /opt/git/cyclops/[version] cyclops ## EXPERIMENTAL, BETTER USE NEXT OPTION
 	- STABLE OPTION: copy /opt/git/cyclops/[version] in /opt/cyclops 
-		- rsync -acvu /opt/git/cyclops/[version]/ /opt/cyclopsç
+		- rsync -acvu /opt/git/cyclops/[version]/ /opt/cyclops
 	- after that add two more git repositories
 		- Cyclops WEBGUI: in /opt/git do: git clone --depth=1 https://github.com/ikseth/cyclops_web_gui
 			- Refers to sensors,razor,ia rules,audit adds for copy them in right path
