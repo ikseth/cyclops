@@ -95,7 +95,7 @@ alerts_del()
 		_alert_family=$( awk -F\; -v _node="$_alert_ok_host" '$2 == _node { print $3 }' $_type )
 		_alert_nm_sens=$( awk -F\; -v _id="$_alert_ok_sens" '{ _line++ ; if ( _id == _line ) {  if ( $2 != "" ) { print $1"_"$2 } else { print $1 } }}' $_config_path_nod/$_alert_family.mon.cfg )
 
-		_alert_ok_status=$( awk -F\; -v _node="$_alert_ok_host" -v _sens="$_alert_nm_sens" 'BEGIN { _c=1 } $1 == "ALERT" { gsub(/ *\[.*\]| *$/,"",$5) ; if ( $4 == _node && $5 == _sens ) { _c=$NF }} END { print _c }' $_sensors_sot ) 
+		_alert_ok_status=$( awk -F\; -v _node="$_alert_ok_host" -v _sens="$_alert_nm_sens" '$1 == "ALERT" { gsub(/ *\[.*\]| *$/,"",$5) ; if ( $4 == _node && $5 == _sens ) { _c=$NF }} END { print _c }' $_sensors_sot ) 
 
 		case "$_alert_ok_status" in
 			0|1)
