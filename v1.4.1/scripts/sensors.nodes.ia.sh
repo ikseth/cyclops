@@ -67,6 +67,7 @@ alerts_gen()
 
 		[ ! -z "$_alert_sens_ms" ] && _alert_sens_ms="["$_alert_sens_ms"]"
 
+		#_alert_sens=$( awk -F\; -v _id="$_alert_sens_id" '{ if ( NR == $2 ) {  if ( $2 != "" ) { print $1"_"$2 } else { print $1 } }}' $_config_path_nod/$_alert_family.mon.cfg )
 		_alert_sens=$( awk -F\; -v _id="$_alert_sens_id" '{ _line++ ; if ( _id == _line ) {  if ( $2 != "" ) { print $1"_"$2 } else { print $1 } }}' $_config_path_nod/$_alert_family.mon.cfg )
 		_alert_id=$( awk -F\; 'BEGIN { _id=0 } $1 == "ALERT" { if ( $3 > _id ) { _id=$3 }} END { _id++ ; print _id }' $_sensors_sot )
 
@@ -87,23 +88,32 @@ alerts_gen()
 
 alerts_del()
 {
-
-
-	for _alert_ok_host in $( echo "${_nodes_ok}" | cut -d';' -f1 )
+	for _alert_ok_line in $( echo "${_nodes_ok}" )
 	do
-		_alert_ok_status=$( awk -F\; -v _node="$_alert_ok_host" 'BEGIN { _count=0 } $4 == _node { _count++ } END { print _count }' $_sensors_sot )
-	
-		if [ "$_alert_ok_status" != "0" ] 
-		then
-			awk -F\; -v _on="$_alert_ok_host" '$1 == "ALERT" && $2 == "NOD" && $4 == _on { print systime()";DELETE;"$0 }' $_sensors_sot >> $_mon_log_path/alerts.manage.log
-			sed -i -e "/^ALERT;NOD;[0-9]*;$_alert_ok_host;.*;3/d" -e "s/\(^ALERT;NOD;[0-9]*;$_alert_ok_host;.*;\)[01]$/\12/" $_sensors_sot	
-			[ "$_mail_status" == "DISABLED" ] && sed -i -e "/^ALERT;NOD;[0-9]*;$_alert_ok_host;.*;2/d" $_sensors_sot
-		fi
-		
-		# AUDIT LOG TRACERT 
-		# [ "$_audit_status" == "ENABLE" ] && echo "$( date +%s );NOD;system health;host sensors recovery;OK"  >> $_audit_data_path/$_alert_ok_host.activity.txt ### REFACTORING PLEASE
+		_alert_ok_host=$( echo "$_alert_ok_line" | cut -d';' -f1 )
+		_alert_ok_sens=$( echo "$_alert_ok_line" | cut -d';' -f3 )
+		_alert_family=$( awk -F\; -v _node="$_alert_ok_host" '$2 == _node { print $3 }' $_type )
+		_alert_nm_sens=$( awk -F\; -v _id="$_alert_ok_sens" '{ _line++ ; if ( _id == _line ) {  if ( $2 != "" ) { print $1"_"$2 } else { print $1 } }}' $_config_path_nod/$_alert_family.mon.cfg )
+
+		_alert_ok_status=$( awk -F\; -v _node="$_alert_ok_host" -v _sens="$_alert_nm_sens" 'BEGIN { _c=1 } $1 == "ALERT" { gsub(/ *\[.*\]| *$/,"",$5) ; if ( $4 == _node && $5 == _sens ) { _c=$NF }} END { print _c }' $_sensors_sot ) 
+
+		case "$_alert_ok_status" in
+			0|1)
+				sed -i -e "s/\(^ALERT;NOD;[0-9]*;$_alert_ok_host;$_alert_nm_sens.*;\)[01]$/\12/" $_sensors_sot
+			;;
+			2)
+				if [ "$_mail_status" == "DISABLED" ]
+				then
+					sed -i -e "/^ALERT;NOD;[0-9]*;$_alert_ok_host;$_alert_nm_sens.*;2$/d" $_sensors_sot 
+					$_script_path/audit.nod.sh -i event -e status -m "$_alert_nm_sens" -s OK -n $_alert_ok_host
+				fi
+			;;
+			3)
+				sed -i -e "/^ALERT;NOD;[0-9]*;$_alert_ok_host;$_alert_nm_sens.*;3$/d"
+				$_script_path/audit.nod.sh -i event -e status -m "$_alert_nm_sens" -s OK -n $_alert_ok_host
+			;;
+		esac
 	done
- 
 }
 
 ia_analisis()
@@ -235,6 +245,7 @@ fi
 
 [ "$_sot_active_alerts" -ne 0 ] && alerts_del
 
-rm -f $_sensors_ia_tmp_path"/"$_parent_pid"."$_sensors_ia_tmp_name
+##### IK RECUPERAR 
+#rm -f $_sensors_ia_tmp_path"/"$_parent_pid"."$_sensors_ia_tmp_name
 
 #### END ####
