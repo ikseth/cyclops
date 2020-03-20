@@ -1,0 +1,48 @@
+This document contain the instructions to do a manual update procedure.
+
+#### BEWARE WITH IT, BEST YOU MAKE BACKUP BEFORE ####
+
+1. Put cyclops in intervention mode first:
+  cyclops.sh -y intervention -m 'Updating cyclops' -c
+2. Disable cyclops
+  a. From cron: comment cyclops cron entries ( put # character first )
+  b. From daemon: cyc.daemon.sh stop
+3. Do backup
+  cyclops.sh -b /opt/cyclops
+4. Update local github repository or download zip from github and decompress it
+5. Copying Files:
+  1. Try check rsync first:
+    rsync --dry-run -azcv [path local github repository or github zip you decompress]/v1.4.1/ [cyclops install[/opt/cyclops]]/
+  2. Verify that origin path and destiny path are right
+  3. Verify files will be update
+    - Script files, all with .sh extension, they don't need any action.
+    - Config files, if you see files without .sh extension, or .template extension, compare with your cyclops original file ( same name or same name without .template extension )
+      1. If new file has new option, verify values in it, and change if its required
+      2. If new file (extension .template) doesn't have original file without .template, remember to change file name deleting or copying it without .template extension after update rsync will be done.
+  4. Update :
+    a. Do rsync for global update
+      rsync -azvc [path local github repository or github zip you decompress]/v1.4.1/ [cyclops install[/opt/cyclops]]/
+      - maybe you need to use --exclude rsync option to exclude sync files or directories you don't want
+    b. Do partial update, only files (beware with it)
+      copy file by file ( use cp with -pu flag )
+6. Enable cyclops:
+  a. From cron: delete cyclops comment lines with # character at firts 
+  b. From daemon: 
+    cyc.daemon.sh start
+7. verify cyclops status
+  - try sensors.node.sh -n [all|[family]|group]|[nodename|node-range]] -v [hcol|human] [-p] -i
+  - try cyc.status.sh 
+    - recomended options to try:
+      [-a audit -t alerts]
+      [-a nodes]
+      [-a cyclops]
+  - try audit.nod.sh -i issue
+  - connect to web gui and show if all data are right in monitoring options
+  - try all rest of cyclops commands.
+
+NOTE: recovery failed update.
+
+1. Disable cyclops, from daemon or cron like second update step
+2. Delete or move (best practique) our cyclops instalation [default /opt/cyclops]
+3. Recovery backup to /opt/cyclops
+  
