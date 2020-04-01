@@ -13,11 +13,11 @@
   
   - Tested in:
     - Server: 
-        - Redhat/CentOS 6,7
+        - Redhat/CentOS 6,7,8
         - Debian 6,7
         - Opensuse tumbleweed,Leap
     - EndPoint: 
-        - Redhat/CentOS 6,7
+        - Redhat/CentOS 6,7,8
         - Debian 6,7
         - Opensuse tumbleweed,Leap
         - SLES 9/10/11
