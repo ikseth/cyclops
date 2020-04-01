@@ -3,7 +3,7 @@
   - Management Suit for monitoring and control big linux systems like hpc or clusters.
     - Statitics, Reports and other customizable features for easly knows the system status.
     - Logs processing, host charts and other status modules.
-    - System audit with system and host specific logbook.
+    - System audit and inventary with system and host specific logbook.
   - Convert Huge, Big and Complicated Systems in easly manage environments.
     - Using IA capabilities for auto-repair 
     - The IA feature show different procedures to Operators to fix problems
