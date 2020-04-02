@@ -105,12 +105,12 @@ alerts_del()
 				if [ "$_mail_status" == "DISABLED" ]
 				then
 					sed -i -e "/^ALERT;NOD;[0-9]*;$_alert_ok_host;$_alert_nm_sens.*;2$/d" $_sensors_sot 
-					$_script_path/audit.nod.sh -i event -e status -m "$_alert_nm_sens" -s OK -n $_alert_ok_host
+					$_script_path/audit.nod.sh -i event -e alert -m "$_alert_nm_sens" -s OK -n $_alert_ok_host
 				fi
 			;;
 			3)
 				sed -i -e "/^ALERT;NOD;[0-9]*;$_alert_ok_host;$_alert_nm_sens.*;3$/d"
-				$_script_path/audit.nod.sh -i event -e status -m "$_alert_nm_sens" -s OK -n $_alert_ok_host
+				$_script_path/audit.nod.sh -i event -e alert -m "$_alert_nm_sens" -s OK -n $_alert_ok_host
 			;;
 		esac
 	done
