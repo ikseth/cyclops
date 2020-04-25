@@ -1,4 +1,4 @@
-This document contain the instructions to do a manual update procedure.
+This document contains the instructions to perform a manual update.
 
 #### BEWARE WITH IT, BEST YOU MAKE BACKUP BEFORE ####
 
