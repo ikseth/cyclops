@@ -5,33 +5,34 @@ CYCLOPS 1.4.1v INSTALL
     ----------------------------------------------------------------------------------------------------------
 
 	THIS HOWTO HAS BEEN TESTED WITH:
-		- REDHAT6/7
-		- DEBIAN9
+		- Red Hat Enterprise Linux 6 and 7
+		- Debian 9
 
 	PROBABLY WORKS FINE WITH:
-		- CENTOS6/7
-		- OPENSUSE LEAP
+		- CentOS 6 and 7
+		- openSUSE Leap
 
 	WE THINK IT WILL HELP TO:
-		- DEBIAN7/8
-		- OPENSUSE TUMBLEWEED
-		- SLES11/12/13
-		- FEDORA
-		- ARCHLINUX
-		- UBUNTU
+		- Debian 7 and 8
+		- openSUSE Tumbleweed
+		- SLES 11, 12 and 13
+		- Fedora
+		- ArchLinux
+		- Ubuntu
 
     1. PREPARE NECESSARY ENVIRONMENT
     ----------------------------------------------------------------------------------------------------------
 
-    - install -> git
-	- yum install git 			## REDHAT/CENTOS PACKAGE INSTALL 
-	- apt-get install git			## DEBIAN
-	- zypper install git			## OPENSUSE
-    - install -> apache + php + php gd + ssl module
-        - yum install httpd php php-gd mod_ssl 	## REDHAT/CENTOS PACKAGE INSTALL
-	- apt-get install apache2 php php-gd	## DEBIAN
+    - install git
+	- yum install git 			## Red Hat Enterprise Linux and CentOS
+	- apt-get install git			## Debian
+	- zypper install git			## openSUSE
 
-    - install -> gawk 				## IMPORTANT: FOR DEBIAN USERS!!!
+    - install apache + php + php gd + ssl module
+        - yum install httpd php php-gd mod_ssl 	## Red Hat Enterprise Linux and CentOS
+	- apt-get install apache2 php php-gd	## Debian
+
+    - install gawk 				## IMPORTANT: for Debian users!!!
 	- apt-get install gawk
     
     - Other Linux Recomended packages:
@@ -40,16 +41,16 @@ CYCLOPS 1.4.1v INSTALL
 	- sysstat
 	- rsync
 	- redhat-lsb-core
-	- mailx ( mail command - console mail client )
+	- mailx 				## Command Line mail client or MUA
 
     - Apache customization
-	1. You can use cyclops default certificates for apache if you want https cryp acces
-	2. [ONLY REDHAT USERS] you can use cyclops site template in /opt/cyclops/docs/apache.cyclops.conf
-		- [OTHER DISTROS] can use or adapt this template with right paths
-		- Use,create or change paths for ssl certs if use own certs or copy /opt/cyclops/docs certs to the right paths
-	3. IMPORTANT: disable selinux for right apache behaviour ## REDHAT/CENTOS
+	1. You can use cyclops' default SSL certificates for apache if you want https
+	2. [Red Hat USERS] you can use cyclops' template found here /opt/cyclops/docs/apache.cyclops.conf
+		- [OTHER DISTROS] you can adapt  the paths in the above mentioned template
+		- Use, create or change paths for SSL certs if you use your own certs or copy /opt/cyclops/docs certs to the correct paths
+	3. IMPORTANT: disable SElinux for a correct apache behaviour
 
-    - You have in /opt/cyclops/docs a file template ( redhat ) for configurate apache site (is usesfull with other distros)    
+    - Red Hat users can find a template in /opt/cyclops/docs to configure apache. Users of other distros can also find this template useful
 
     - Create node hostname like [NAME(string)][ID(numeric)] example: minion01, minion02, minion03, etc... 
 	We recommended to use something like [NAME][ROL(character)][ID] example: grubs01,grubs02,grubs03, etc...
