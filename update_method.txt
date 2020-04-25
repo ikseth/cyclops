@@ -9,7 +9,7 @@ This document contains the instructions to perform a manual update.
   b. From daemon: cyc.daemon.sh stop
 3. Perform a backup
   cyclops.sh -b /opt/cyclops
-4. Update local github repository or download zip from github and decompress it
+4. Update local github repository or download the zip file from github and decompress it
 5. Copying Files:
   1. Try check rsync first:
     rsync --dry-run -azcv [path local github repository or github zip you decompress]/v1.4.1/ [cyclops install[/opt/cyclops]]/
