@@ -1,6 +1,6 @@
 This document contains the instructions to perform a manual update.
 
-#### BEWARE WITH IT, BEST YOU MAKE BACKUP BEFORE ####
+#### BE CAREFUL, BACKUP BEFORE YOU PROCEED ####
 
 1. Put cyclops in intervention mode first:
   cyclops.sh -y intervention -m 'Updating cyclops' -c
