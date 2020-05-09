@@ -181,6 +181,37 @@ mon_ipmi_device()
 
 }
 
+mon_apc_device()
+{
+	_dev_output=""
+	_dev_state=$( echo $_dev_mng_state | tr '[:lower:]' '[:upper:]' )
+
+	_apc_cmd=$( which apcaccess 2>/dev/null ) 
+
+	[ ! -z "$_apc_cmd" ] && _sensor_apc_output=$( $_apc_cmd status $_dev_name 2>/dev/null ) || _dev_state="DISABLE no cmd"  
+
+	case "$_dev_state" in
+	UP)
+		if [ -z "$_sensor_apc_output" ] 
+		then
+			_dev_state="FAIL err.connect"
+			_exit_code=2
+		else
+			for _sensor_sh in $( awk -F\; '$1 !~ "#" { print $0 }' $_config_path_env/$_dev_type".env.cfg" )
+			do
+				_sensor_sh_file=$( echo $_sensor_sh | cut -d';' -f2 )
+				_dev_output=$_dev_output""$( source $_sensors_env_scripts/$_sensor_sh_file | cut -d':' -f2 )";"
+			done
+		fi
+	
+		echo "$_dev_num;$_dev_type;$_dev_name;$_dev_state;$_dev_output" | sed 's/;$//'
+	;;
+	DRAIN|REPAIR|DIAGNOSE|DISABLE)
+		echo "$_dev_num;$_dev_type;$_dev_name;$_dev_state"
+	;;
+	esac
+}
+
 mon_smcli_device()
 {
 	_dev_output=""
@@ -217,7 +248,7 @@ mon_launch()
 {
 	_dev_family_old="old"
 
-	for _dev_line in $( cat $_dev | grep $_par_mon | sort -t\; -k3,1 )
+	for _dev_line in $( awk -F\; -v _pm="$_par_mon" '$1 ~ /^[0-9]+$/ && $0 ~ _pm { print $0 }' $_dev | sort -t\; -k3,1 )
 	do
 		_dev_id=$( echo $_dev_line | cut -d';' -f1 )
 		_dev_name=$( echo $_dev_line | cut -d';' -f2 )
@@ -228,7 +259,8 @@ mon_launch()
 
 		if [ "$_dev_family" != "$_dev_family_old" ] 
 		then
-			cat $_config_path_env/$_dev_type".env.cfg"| cut -d';' -f1 | tr '\n' ';' | sed -e 's/;$//' -e "s/^/$_dev_family\_0;family;name;state;/" | sed 's/;/;@/g'
+			#cat $_config_path_env/$_dev_type".env.cfg"| cut -d';' -f1 | tr '\n' ';' | sed -e 's/;$//' -e "s/^/$_dev_family\_0;family;name;state;/" | sed 's/;/;@/g'
+			awk -F\; '$1 !~ "#" { print $1 }' $_config_path_env/$_dev_type".env.cfg" | tr '\n' ';' | sed -e 's/;$//' -e "s/^/$_dev_family\_0;family;name;state;/" | sed 's/;/;@/g' 
 			echo 
 			_dev_family_old=$_dev_family
 		fi
@@ -240,8 +272,15 @@ mon_launch()
 			mon_ipmi_device & 
 		;;
 		telnet)
+			echo "ERR: Working on it"
+		;;
+		apc)
+			let "_num++"
+			_dev_num=$_dev_family"_"$_num
+			mon_apc_device &
 		;;
 		*)
+			echo "ERR: no method available"
 		;;
 		esac
 
