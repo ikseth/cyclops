@@ -284,15 +284,14 @@ calc_data()
 							split(_of,dat," ") ;
 							if ( dat[1] ~ "%" ) { gsub("%", "", dat[1]) } ; 
 							if ( dat[2] ~ "%" ) { gsub("%", "", dat[2]) } ; 
-							if ( dat[2] ~ "d$" ) { gsub("d", "", dat[2]) ; if ( _tc != "min" || _tc != "max" ) { _tc="max" } } ;
-
+							if ( dat[2] ~ "d$" ) { gsub("d", "", dat[2]) ; if ( _tc != "min" || _tc != "max" ) { _tc="max" } } ; 
 							if ( dat[2] ~ "^[0-9.]+$" || dat[2] ~ "^[0-9.]+/[0-9.]+$" ) { 
 								_fld=dat[2] ; _nctrl=1
 							} else {
 								if ( dat[1] ~ "^[0-9.]+$" || dat[1] ~ "^[0-9.]+/[0-9.]+$" ) { 
 									_fld=dat[1] ; _nctrl=1	
 								} else {
-									if ( _nctrl == 1 ) { _fld=0 } else { _fld=1 }
+									_fld=0
 								}
 							}
 							if ( _fld ~ "/" ) {
