@@ -510,7 +510,7 @@ generate_wiki_view()
 		} ' )
 	_output_activity=$( echo "${_output_activity}" | sed -e "s/OK/$_color_ok &/" -e "s/UP/$_color_up &/" -e "s/DOWN/$_color_down &/" -e "s/FAIL/$_color_fail &/" -e "s/DRAIN/$_color_disable &/" -e "s/CONTENT/$_color_unknown &/" ) 
 	_output_activity=$( echo "${_output_activity}" | sed -e "s/ALERT/$_color_fail &/g" -e "s/INFO/$_color_up &/g" -e "s/REPAIR/$_color_mark &/" -e  "s/DIAGNOSE/$_color_check &/g" -e "s/STATUS/$_color_up &/g" -e "s/SOLVED/$_color_ok &/g" )
-	_output_activity=$( echo "${_output_activity}" | sed -e "s/UNLINK/$_color_mark KICKOUT/" -e "s/LINK/$_color_mark &/" -e "s/REACTIVE/$_color_rzr &/" -e "s/CONTENT/$_color_down &/" )
+	_output_activity=$( echo "${_output_activity}" | sed -e "s/UNLINK/$_color_mark KICKOUT/" -e "s/LINK/$_color_mark &/" -e "s/REACTIVE/$_color_rzr &/" -e "s/CONTENT/$_color_down &/" -e "s/IGNORE/$_color_disable &/" -e "s/UNKNOWN/$_color_unk &/" )
 	_output_activity=$( echo "${_output_activity}" | sed -e 's/^/|  /' -e 's/$/  |/' -e 's/;/  |  /g' )
 
 	#- BITACORA INFO

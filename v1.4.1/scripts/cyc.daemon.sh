@@ -137,6 +137,7 @@ start|stop|status|config|restart)
 					echo "	stats: statistics module"
 					echo "	razor: management module"
 					echo "	reactive: auto-repairing module ( razor dependency )"
+					echo "	backup: cyclops auto-backup system"
 					echo	
 					echo "-a [action] Cyclops daemon action"
 					echo "	enable: active module for start as service, start it if is stopped"
