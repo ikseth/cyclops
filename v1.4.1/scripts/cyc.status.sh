@@ -60,7 +60,7 @@
 
 #
 	_par_typ="status"
-	_par_act="all"
+	[ -f "$_config_path_mon/cyc.status.conf" ] && source "$_config_path_mon/cyc.status.conf" && _par_act=$_cyc_status_default_view
 
 	_cyclops_ha=$( awk -F\; '$1 == "CYC" && $2 == "0006" { print $4}' $_sensors_sot )
 
@@ -1264,7 +1264,8 @@ init_special_opts()
 
 ####====== DEFAULT GENERAL OPTS =======#### 
 
-[ "$_par_act" == "all" ] && _par_act="slurm,cyclops,audit,critical,node"
+[ -z "$_par_act" ] && _par_act="all"
+[ "$_par_act" == "all" ] && _par_act="system,cyclops,audit,critical,node"
 [ -z "$_par_typ" ] && _par_type="status"
 
 
