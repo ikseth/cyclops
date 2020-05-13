@@ -247,7 +247,7 @@ shift $((OPTIND-1))
 
 calc_data()
 {
-	_log_stats_data=$( cat $_log_file | sort -t\; -n | 
+	_log_stats_data=$( echo "${_data_file}" | sort -t\; -n | 
         			awk -F " : " -v _dr="$_date_filter" -v _tsb="$_date_tsb" -v _tse="$_date_tse" -v _sf="$_par_itm" -v _tc="$_par_typ" -v _pf="$_par_fil" '
                                         BEGIN { 
                                                 _to="START" ; 
@@ -849,7 +849,7 @@ check_items()
 	
 	case "$_par_src" in 
 	dashboard|custom)
-		_sensor_help=$(	awk -F " : " -v _tsb="$_date_tsb" -v _tse="$_date_tse" '
+		_sensor_help=$(	echo "${_data_file}" | awk -F " : " -v _tsb="$_date_tsb" -v _tse="$_date_tse" '
 					$1 > _tsb && $1 < _tse { 
 						_type="unknown"
 						for (i=4;i<=NF;i++) { 
@@ -871,10 +871,10 @@ check_items()
 						for ( b in filter ) {
 							if ( filter[b] != "" ) { printf "[ %-12s ]:%s\n", b, filter[b] } 
 						}
-					}' $_log_file )
+					}' )
 	;;
 	slurm|quota)
-		_sensor_help=$(	awk -F " : " -v _tsb="$_date_tsb" -v _tse="$_date_tse" '
+		_sensor_help=$(	echo "${_data_file}" | awk -F " : " -v _tsb="$_date_tsb" -v _tse="$_date_tse" '
 					$1 > _tsb && $1 < _tse {
 						_type="unknown"
 						for (i=5;i<=NF;i++) { 
@@ -896,10 +896,10 @@ check_items()
 						for ( b in filter ) {
 							if ( filter[b] != "" ) { printf "[ %-12s ]:%s\n", b, filter[b] } 
 						}
-					}' $_log_file )
+					}' )
 	;;
 	*)
-		_sensor_help=$(	awk -F " : " -v _tsb="$_date_tsb" -v _tse="$_date_tse" '
+		_sensor_help=$(	echo "${_data_file}" | awk -F " : " -v _tsb="$_date_tsb" -v _tse="$_date_tse" '
 					$1 > _tsb && $1 < _tse { 
 						_type="unknown"
 						for (i=4;i<=NF;i++) { 
@@ -922,7 +922,7 @@ check_items()
 						for ( b in filter ) {
 							if ( filter[b] != "" ) { printf "[ %-12s ]:%s\n", b, filter[b] } 
 						}
-					}' $_log_file )
+					}' )
 	;;
 	esac
 
@@ -933,6 +933,35 @@ check_items()
 	echo -e "Name:Data Type:Avaliable Processing Data\n-------------:---------:--------------------------\n${_sensor_help}" | column -t -s\:
 	echo
 
+}
+
+mem_load_file()
+{
+	echo -n "loading files..."
+
+	for _file in $( echo "${_log_files}" )
+	do
+		case "$_file" in
+		*log)
+			_data_file="${_data_file}"$( cat $_file )
+			echo -n "."
+		;;
+		*xz)
+			_data_file="${_data_file}"$( xzcat $_file )
+			echo -n "."
+		;;
+		*gz)
+			_data_file="${_data_file}"$( zcat $_file )
+		;;
+		*)
+			_data_load_err=$_data_load_err"\n[$_file] : UNKNOWN LOG FORMAT"
+		;;
+		esac	
+	done
+
+	[ ! -z "$_data_load_err" ] && echo -e "${_data_load_err}\n"
+
+	echo -ne "processing data...\r" 
 }
 
 ###########################################
@@ -985,38 +1014,27 @@ check_items()
 			exit 0
 		;;
 		dashboard)
-			_log_file=$_pg_dashboard_log
+			_log_files=$( ls -1 $_pg_dashboard_log* )
 		;;
 		slurm)
-			_log_file=$_srv_slurm_logs"/"$_par_nod".sl.mon.log"
+			_log_files=$( ls -1 $_srv_slurm_logs"/"$_par_nod".sl.mon.log"* )
 		;;
 		quota)
 			_quota_srv=$( echo $_par_nod | cut -d'.' -f1 )
 			_par_nod=$( echo $_par_nod | cut -d'.' -f2 )
-			_log_file=$_srv_quota_logs"/"$_par_nod".qt.mon.log"
+			_log_files=$( ls -1 $_srv_quota_logs"/"$_par_nod".qt.mon.log"* )
 		;;	
 		node|env)
-			_log_file=$_mon_log_path"/"$_par_nod".pg.mon.log"
+			_log_files=$( ls -1 $_mon_log_path"/"$_par_nod".pg.mon.log"* )
 		;;
 		custom)
-			_log_file=$_par_nod 
+			_log_files=$_par_nod 
 			[ ! -f "$_log_file" ] && echo "file: $_log_file doesn't exits" && exit
 		;;
 		*)
-			_log_file=$_mon_log_path"/"$_par_nod".pg.mon.log"
-			#_log_file=$( node_ungroup $_par_nod | tr ' ' '\n' | awk -v _p="$_mon_log_path" -v _s=".pg.mon.log" '{ print _p"/"$0 _s }' )
+			_log_files=$( ls -1 $_mon_log_path"/"$_par_nod".pg.mon.log"* )
 		;;
 		esac
-
-		if [ ! -f "$_log_file" ] && [ "$_par_src" != "cyclops" ] 
-		then
-			echo "ERR: No exist data source!"
-			echo "	source type: [$_par_src]"
-			echo "	source item: [$_par_nod]"
-			echo
-			echo "Please use -h for help"
-			exit 1
-		fi
 
 		[ -z "$_par_itm" ] && echo -e "\nNeed Log Item\nUse -h for help\n" && exit 43 
 		[ -z "$_par_date_start" ]  && _par_date_start="day" && unset _par_date_end
@@ -1045,6 +1063,8 @@ check_items()
 			fi
 
 			### LAUNCH ###
+
+			mem_load_file
 
 			if [ "$_par_itm" == "help" ]
 			then
