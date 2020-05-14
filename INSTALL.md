@@ -429,6 +429,31 @@ CYCLOPS 1.4.1v INSTALL
 	NOTE: beware with update, sometimes owner or permissions could change, use chown or/and chmod commands to recovery right file and directory status, next step detail actions.
 
 	
-	FIXES
+    12. OTHER CONFIGS
+    ----------------------------------------------------------------------------------------------------------
 	
+    a. Example for logrotate configure if you need it
+	
+	- add new logrotate file in /etc/logrotate.d with name cyclops.mon.log
+		
+	- Configure Example, change settings for your own requierements
+	
+	/opt/cyclops/logs/*.log
+	{
+    		su cyclops cyclops
+		compress
+		dateext
+		maxage 365
+		rotate 99
+		missingok
+		notifempty
+		size +4096k
+		create 640 cyclops cyclops 
+		sharedscripts
+		postrotate
+		/usr/bin/systemctl reload syslog.service > /dev/null
+		endscript
+	}
+
+	* This example is opensuse linux verified
 
