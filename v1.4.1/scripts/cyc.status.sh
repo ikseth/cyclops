@@ -60,7 +60,7 @@
 
 #
 	_par_typ="status"
-	[ -f "$_config_path_mon/cyc.status.conf" ] && source "$_config_path_mon/cyc.status.conf" && _par_act=$_cyc_status_default_view
+	[ -f "$_config_path_mon/cyc.status.conf" ] && source "$_config_path_mon/cyc.status.conf" && _par_act=$_cyc_status_default_view 
 
 	_cyclops_ha=$( awk -F\; '$1 == "CYC" && $2 == "0006" { print $4}' $_sensors_sot )
 
@@ -694,142 +694,34 @@ slurm_activity()
 
 	[ ! -f "$_pg_dashboard_log" ] && echo "ERR: Dashboard log plugin doesn't exits" >&2 && exit 1
 
-	_slurm_activity=$( cat $_pg_dashboard_log | 
-				sed -e 's/ //g'  -e 's/\%//' | 
-				awk -F\: -v _dr="$_date_filter" -v _tsb="$_date_tsb" -v _tse="$_date_tse" '
-					BEGIN { 
-						_to="START" ; 
-						t=0 ; 
-						a=1 
-					} $1 > _tsb && $1 < _tse { 
-						if ( _dr == "year" ) { _time=strftime("%Y;%m_%b",$1) } ; 
-						if ( _dr == "month" ) { _time=strftime("%Y-%m_%b;%d",$1) } ; 
-						if ( _dr == "week" ) { _time=strftime("%Y-%m;%d_%a",$1) } ; 
-						if ( _dr == "day" ) { _time=strftime("%Y-%m-%d;%Hh",$1) } ; 
-						if ( _dr == "hour" ) { _time=strftime("%Y-%m-%d;%H:%M",$1) } ;
-						split($6,d,"=") ;
-						if ( _to != _time ) { 
-							print _to"="t/a ; 
-							_to=_time ; 
-							t=d[2] ; 
-							a=1  
-						} else { 
-							t=t+d[2] ; 
-							a++ 
-						}
-					} END { 
-						print _to"="t/a 
-					}' | 
-				grep -v START ) 
+	[ "$_opt_date_end" == "yes" ] && _add_cmd_par=" -e "$_par_date_end
 
-	case "$_par_shw" in
-	commas)
-		_slurm_output=$( echo "${_slurm_activity}" | tr '=' ';' | sed -e 's/;/\-/' -e 's/_[A-Z][a-z][a-z]//' -e 's/$/\%/' )
-	;;
-	*)
-		_slurm_output=$( echo "${_slurm_activity}" | 
-				awk -F\; -v _g="$_sh_color_green" -v _r="$_sh_color_red" -v _y="$_sh_color_yellow" -v _n="$_sh_color_nformat" '
-					{ 
-						split($2,a,"=") ; 
-						split(a[2],b,".") ; 
-						if ( b[1] > 30 ) {
-							split(b[1]/1.5,y,".")
-							split(b[1]/1.02,r,".")
-						} else {
-							y[1]=20
-							r[1]=40
-						}
-						if ( b[1] <= 50 ) { _tp=_g""b[1]"%"_n ; hp=a[1] } ;
-						if ( b[1] > 50 ) { _tp=_y""b[1]"%"_n ; hp=a[1] } ; 
-						if ( b[1] > 75 ) { _tp=_r""b[1]"%"_n ; hp=_r""a[1]_n } ; 
-						for (i=1;i<=b[1];i++) { 
-							if ( i == 1 ) { _t=_g"|" } ;
-							if ( i == y[1] ) { _t=_t""_n""_y } ;
-							if ( i == r[1] ) { _t=_t""_n""_r } ;
-							_t=_t"|" ; 
-							if ( i == b[1] ) { _t=_t""_n } ;
-							} ; 
-						if ( _do != $1 ) { _do=$1 ; _pdo=_do } else { _pdo=" " } ; 
-						printf "%-12s %-3s::%-s %-s\n",_pdo, hp, _t, _tp ; 
-						_t="" 
-					}' 
-			)
-	;;
-	esac
+	_sa_output=$( $_stat_extr_path/stats.cyclops.logs.sh -n dashboard -r SLURM_LOAD -d $_date_filter $_add_cmd_par -v graph )
 
 	echo
 	echo -e $_sh_color_bolt"SLURM CLUSTER: ACTIVE NODES"$_sh_color_nformat
 	echo -e $_sh_color_bolt"---------------------------"$_sh_color_nformat
 	echo
 	echo -e "\tFILTER: DATE: $_par_date_start\n" 
-	echo "${_slurm_output}"
+	echo "${_sa_output}"
 	echo
 }
 
 system_avail()
 {
+
 	[ ! -f "$_pg_dashboard_log" ] && echo "ERR: Dashboard log plugin doesn't exits" >&2 && exit 1
 
-	_system_avail=$( cat $_pg_dashboard_log | 
-				sed -e 's/ //g'  -e 's/\%//' | 
-				awk -F\: -v _dr="$_date_filter" -v _tsb="$_date_tsb" -v _tse="$_date_tse" '
-					BEGIN { 
-						_to="START" ; 
-						t=0 ; 
-						a=1 ; 
-					} $1 > _tsb && $1 < _tse { 
-						if ( _dr == "year" ) { _time=strftime("%Y;%m_%b",$1) } ; 
-						if ( _dr == "month" ) { _time=strftime("%Y-%m_%b;%d",$1) } ; 
-						if ( _dr == "week" ) { _time=strftime("%Y-%m;%d_%a",$1) } ; 
-						if ( _dr == "day" ) { _time=strftime("%Y-%m-%d;%Hh",$1) } ; 
-						if ( _dr == "hour" ) { _time=strftime("%Y-%m-%d;%H:%M",$1) } ;
-						split($4,d,"=") ;
-						if ( _to != _time ) { 
-							print _to"="t/a ; 
-							_to=_time ; 
-							t=d[2] ; 
-							a=1  
-						} else { 
-							t=t+d[2] ; 
-							a++ 
-						}
-					} END { 
-						print _to"="t/a 
-					}' | 
-				grep -v START ) 
+	[ "$_opt_date_end" == "yes" ] && _add_cmd_par=" -e "$_par_date_end
 
-	case "$_par_shw" in
-	commas)
-		_system_output=$( echo "${_system_avail}" | tr '=' ';' | sed -e 's/;/\-/' -e 's/_[A-Z][a-z][a-z]//' -e 's/$/\%/' )
-	;;
-	*)
-		_system_output=$( echo "${_system_avail}" | 
-				awk -F\; -v _g="$_sh_color_green" -v _r="$_sh_color_red" -v _y="$_sh_color_yellow" -v _n="$_sh_color_nformat" '
-					{ 
-						split($2,a,"=") ; 
-						split(a[2],b,".") ; 
-						if ( b[1] < 90 && b[1] >= 65 ) { _tp=_y""b[1]"%"_n ; hp=a[1] ; _ln=_y } ; 
-						if ( b[1] < 65 ) { _tp=_r""b[1]"%"_n ; hp=a[1] ; _ln=_r } ;
-						if ( b[1] >= 90 ) { _tp=_g""b[1]"%"_n ; hp=a[1] ; _ln=_g } ; 
-						for (i=1;i<=b[1];i++) { 
-							if ( i == 1 ) { _t=_ln"|" } ;
-							_t=_t"|" ; 
-							if ( i == b[1] ) { _t=_t""_n } ;
-							} ; 
-						if ( _do != $1 ) { _do=$1 ; _pdo=_do } else { _pdo=" " } ; 
-						printf "%-12s %-3s::%-s %-s\n",_pdo, hp, _t, _tp ; 
-						_t="" 
-					}' 
-			)
-	;;
-	esac
+	_sa_output=$( $_stat_extr_path/stats.cyclops.logs.sh -n dashboard -r OPER_ENV -d $_date_filter $_add_cmd_par -v graph )
 
 	echo
 	echo -e $_sh_color_bolt"SYSTEM: HOST/NODE AVAILABILITY AVERAGE"$_sh_color_nformat
 	echo -e $_sh_color_bolt"--------------------------------------"$_sh_color_nformat
 	echo
 	echo -e "\tFILTER: DATE: $_par_date_start\n" 
-	echo "${_system_output}"
+	echo "${_sa_output}"
 	echo
 }
 
@@ -837,75 +729,16 @@ system_use()
 {
 	[ ! -f "$_pg_dashboard_log" ] && echo "ERR: Dashboard log plugin doesn't exits" >&2 && exit 1
 
-	_system_use=$( cat $_pg_dashboard_log | 
-				sed -e 's/ //g'  -e 's/\%//' | 
-				awk -F\: -v _dr="$_date_filter" -v _tsb="$_date_tsb" -v _tse="$_date_tse" '
-					BEGIN { 
-						_to="START" ; 
-						t=0 ; 
-						a=1 
-					} $1 > _tsb && $1 < _tse { 
-						if ( _dr == "year" ) { _time=strftime("%Y;%m_%b",$1) } ; 
-						if ( _dr == "month" ) { _time=strftime("%Y-%m_%b;%d",$1) } ; 
-						if ( _dr == "week" ) { _time=strftime("%Y-%m;%d_%a",$1) } ; 
-						if ( _dr == "day" ) { _time=strftime("%Y-%m-%d;%Hh",$1) } ; 
-						if ( _dr == "hour" ) { _time=strftime("%Y-%m-%d;%H:%M",$1) } ;
-						split($7,d,"=") ;
-						if ( _to != _time ) { 
-							print _to"="t/a ; 
-							_to=_time ; 
-							t=d[2] ; 
-							a=1  
-						} else { 
-							t=t+d[2] ; 
-							a++ 
-						}
-					} END { 
-						print _to"="t/a 
-					}' | 
-				grep -v START ) 
+	[ "$_opt_date_end" == "yes" ] && _add_cmd_par=" -e "$_par_date_end
 
-	case "$_par_shw" in
-	commas)
-		_system_output=$( echo "${_system_use}" | tr '=' ';' | sed -e 's/;/\-/' -e 's/_[A-Z][a-z][a-z]//' -e 's/$/\%/' )
-	;;
-	*)
-		_system_output=$( echo "${_system_use}" | 
-				awk -F\; -v _g="$_sh_color_green" -v _r="$_sh_color_red" -v _y="$_sh_color_yellow" -v _n="$_sh_color_nformat" '
-					{ 
-						split($2,a,"=") ; 
-						split(a[2],b,".") ; 
-						if ( b[1] > 30 ) {
-							split(b[1]/1.5,y,".")
-							split(b[1]/1.02,r,".")
-						} else {
-							y[1]=20
-							r[1]=40
-						}
-						if ( b[1] < 50 ) { _tp=_g""b[1]"%"_n ; hp=a[1] } ;
-						if ( b[1] >= 50 ) { _tp=_y""b[1]"%"_n ; hp=a[1] } ; 
-						if ( b[1] >= 75 ) { _tp=_r""b[1]"%"_n ; hp=_r""a[1]_n } ; 
-						for (i=1;i<=b[1];i++) { 
-							if ( i == 1 ) { _t=_g"|" } ;
-							if ( i == y[1] ) { _t=_t""_n""_y } ;
-							if ( i == r[1] ) { _t=_t""_n""_r } ;
-							_t=_t"|" ; 
-							if ( i == b[1] ) { _t=_t""_n } ;
-							} ; 
-						if ( _do != $1 ) { _do=$1 ; _pdo=_do } else { _pdo=" " } ; 
-						printf "%-12s %-3s::%-s %-s\n",_pdo, hp, _t, _tp ; 
-						_t="" 
-					}' 
-			)
-	;;
-	esac
+	_su_output=$( $_stat_extr_path/stats.cyclops.logs.sh -n dashboard -r NOD_LOAD -d $_date_filter $_add_cmd_par -v graph )
 
 	echo
 	echo -e $_sh_color_bolt"SYSTEM: CPU ACTIVITY AVERAGE"$_sh_color_nformat
 	echo -e $_sh_color_bolt"----------------------------"$_sh_color_nformat
 	echo
 	echo -e "\tFILTER: DATE: $_par_date_start\n" 
-	echo "${_system_output}"
+	echo "${_su_output}"
 	echo
 }
 
@@ -1265,7 +1098,7 @@ init_special_opts()
 ####====== DEFAULT GENERAL OPTS =======#### 
 
 [ -z "$_par_act" ] && _par_act="all"
-[ "$_par_act" == "all" ] && _par_act="system,cyclops,audit,critical,node"
+[ "$_par_act" == "all" ] && _par_act="slurm,cyclops,audit,critical,node"
 [ -z "$_par_typ" ] && _par_type="status"
 
 
