@@ -947,7 +947,7 @@ mem_load_file()
 			echo -n "."
 		;;
 		*xz)
-			_data_file="${_data_file}"$( xzcat $_file )
+			_data_file="${_data_file}"$( xzcat $_file | tr '\0' '\n' )
 			echo -n "."
 		;;
 		*gz)
