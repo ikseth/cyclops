@@ -47,4 +47,4 @@ NOTE: recovery failed update.
 
 1. Disable Cyclops, from daemon or cron as mentioned in the second update step
 2. Move your Cyclops instalation [default /opt/cyclops] to a new directory
-3. Recovery backup from /opt/cyclops
+3. Recover the backup from /opt/cyclops
