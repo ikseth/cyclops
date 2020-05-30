@@ -11,7 +11,7 @@
   - Completely developed in bash.
   - Versatile and easy to install or adapt to any linux distribution.
   
-  - Tested in:
+  - Tested on:
     - Server: 
         - Redhat/CentOS 6, 7, 8
         - Debian 6, 7
