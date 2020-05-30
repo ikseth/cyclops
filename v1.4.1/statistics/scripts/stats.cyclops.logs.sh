@@ -937,31 +937,33 @@ check_items()
 
 mem_load_file()
 {
-	echo -n "loading files..."
+	>&2 echo -n "loading files..." 
 
 	for _file in $( echo "${_log_files}" )
 	do
 		case "$_file" in
 		*log)
 			_data_file="${_data_file}"$( cat $_file )
-			echo -n "."
+			>&2 echo -n "."
 		;;
 		*xz)
 			_data_file="${_data_file}"$( xzcat $_file | tr '\0' '\n' )
-			echo -n "."
+			>&2 echo -n "."
 		;;
 		*gz)
 			_data_file="${_data_file}"$( zcat $_file )
+			>&2 echo -n "."
 		;;
 		*)
 			_data_load_err=$_data_load_err"\n[$_file] : UNKNOWN LOG FORMAT"
+			>&2 echo -n "_"
 		;;
 		esac	
 	done
 
-	[ ! -z "$_data_load_err" ] && echo -e "${_data_load_err}\n"
+	[ ! -z "$_data_load_err" ] && >&2 echo -e "${_data_load_err}\n"
 
-	echo -ne "processing data...\r" 
+	>&2 echo "processing data..." 
 }
 
 ###########################################
