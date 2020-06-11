@@ -24,7 +24,7 @@
               
   - Based on Dokuwiki for frontend web access which includes: statistics, documentation, etc. 
   
-  - Available screenshots at: https://www.facebook.com/pg/cyclopshms/photos/?tab=album&album_id=122818438292905
+  - Available screenshots at: https://github.com/ikseth/cyclops/tree/master/screenshots
 
 # CYCLOPS LICENSE 
 
