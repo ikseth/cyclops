@@ -1,1 +1,1 @@
-List of screenshot for your enjoin ;)
+List of screenshot for your enjoy ;)
