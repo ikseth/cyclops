@@ -245,7 +245,6 @@ fi
 
 [ "$_sot_active_alerts" -ne 0 ] && alerts_del
 
-##### IK RECUPERAR 
-#rm -f $_sensors_ia_tmp_path"/"$_parent_pid"."$_sensors_ia_tmp_name
+rm -f $_sensors_ia_tmp_path"/"$_parent_pid"."$_sensors_ia_tmp_name
 
 #### END ####
