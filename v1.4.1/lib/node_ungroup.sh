@@ -25,7 +25,7 @@
 
 node_ungroup()
 {
-	_node_u_range=$( echo $1 | sed 's/,\([a-z@]\)/;\1/g' | tr ';' '\n' | sed -e 's/\[/{/' -e 's/\]/}/' -e 's/\([0-9]\)-\([0-9]\)/\1\.\.\2/g' -re 's/([0-9]+\.\.[0-9]+)/{\1}/g' | tr '\n' ' ' )
+	_node_u_range=$( echo $1 | sed 's/,\([a-z@]\)/;\1/g' | tr ';' '\n' | sed -e 's/\[/{/g' -e 's/\]/}/g' -e 's/\([0-9]\)-\([0-9]\)/\1\.\.\2/g' -re 's/([0-9]+\.\.[0-9]+)/{\1}/g' | tr '\n' ' ' )
 	_node_u_values=$( eval echo $_node_u_range | sed -e 's/{//g' -e 's/}//g' )
 
 	echo "${_node_u_values}"
