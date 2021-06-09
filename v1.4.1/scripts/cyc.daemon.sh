@@ -178,6 +178,7 @@ check_pid()
 	# exit 0 # PID SAVED IS A RUNNING PROCESS 
 	# exit 1 # NOT PID SAVED
 	# exit 2 # PID SAVED IS NOT A RUNNING PROCESS 
+	# exit 3 # GET PID FAIL
 
 	_pid=$( get_pid $1 ) 
 
@@ -611,15 +612,37 @@ cyc_service_stop()
 		case "$_par_dae" in
 		start)
 			_dae_pid_status=$( check_pid cyclops 2>&1 >/dev/null ; echo $? )
-			if [ "$_dae_pid_status" != "0" ] 
-			then
+			case "$_dae_pid_status" in
+			0|3)
+				err_cyc_dae daemon start log 
+				echo -e $_sh_color_red"ERR:"$_sh_color_nformat" FAILED STARTING CYCLOPS DAEMON [$_dae_pid_status]"
+			;;
+			1)
 				start_cyc_dae & 
+				for _pid_file in $( ls -1 $_lock_path | grep "cyc.*pid" )
+				do
+					[ -f "$_lock_path/$_pid_file" ] && rm $_lock_path/$_pid_file
+					[ "$?" == "0" ] && echo -e "[$( date +%s )] CYCLOPS DAEMON SERVICE [$_pid_file]: [PURGE]"  >> $_mon_log_path/cyc.daemon.log 
+				done
 				echo $! > $_cyc_dae_pid_file 
 				echo -e "[$( date +%s )] CYCLOPS DAEMON STATUS: [ START ]"  >> $_mon_log_path/cyc.daemon.log 
-			else
-				err_cyc_dae daemon start log 
-				echo -e $_sh_color_red"ERR:"$_sh_color_nformat" FAILED STARTING CYCLOPS DAEMON"
-			fi
+			;;
+			2)
+				start_cyc_dae & 
+				echo $! > $_cyc_dae_pid_file 
+				echo -e "[$( date +%s )] CYCLOPS DAEMON STATUS: [ START ] [DEAD FILE]"  >> $_mon_log_path/cyc.daemon.log 
+			;;
+			esac
+
+#			if [ "$_dae_pid_status" != "0" ] 
+#			then
+#				start_cyc_dae & 
+#				echo $! > $_cyc_dae_pid_file 
+#				echo -e "[$( date +%s )] CYCLOPS DAEMON STATUS: [ START ]"  >> $_mon_log_path/cyc.daemon.log 
+#			else
+#				err_cyc_dae daemon start log 
+#				echo -e $_sh_color_red"ERR:"$_sh_color_nformat" FAILED STARTING CYCLOPS DAEMON"
+#			fi
 			status_cyc_dae
 		;;
 		stop)
