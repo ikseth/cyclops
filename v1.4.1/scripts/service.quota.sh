@@ -395,7 +395,7 @@ format_data()
 		echo
 		echo -e "quota type;filesystem;fs size;fs type;status
 ----------;----------;-------;-------;------
-${_data_head}" | column -x -t -s\;
+${_data_head}" | column -t -s\;
 		echo
 		echo -e "${_data_out}" #| column -t -s\; 
 		echo
